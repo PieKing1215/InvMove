@@ -1,0 +1,53 @@
+{
+  "config.invmove.title": "边走边拿",
+  "key.invmove.category.general": "常规设置",
+  "key.invmove.category.movement": "移动设置",
+  "key.invmove.category.background": "背景设置",
+
+  "config.invmove.enable": "启用Mod",
+  "tooltip.config.invmove.enable": "启用这个Mod",
+  "config.invmove.debugDisplay": "调试显示",
+  "tooltip.config.invmove.debugDisplay": "启用调试显示",
+
+  "config.invmove.movement.enable": "允许移动",
+  "tooltip.config.invmove.movement.enable": "允许你在打开GUI界面的时候移动\nYou can manually turn off certain inventories below.",
+  "config.invmove.movement.sneak": "允许潜行",
+  "tooltip.config.invmove.movement.sneak": "允许你在打开GUI界面的时候潜行\n(It can be distracting when shift-clicking items)",
+  "config.invmove.movement.jump": "允许跳跃",
+  "tooltip.config.invmove.movement.jump": "允许你在打开GUI界面的时候跳跃",
+  "config.invmove.movement.dismount": "Allow Dismounting",
+  "tooltip.config.invmove.movement.dismount": "Allow dismounting while inside inventories.",
+  "config.invmove.movement.textFieldDisables": "Text Field Disables Movement",
+  "tooltip.config.invmove.movement.textFieldDisables": "Disable movement in inventories when a text field is focused.",
+
+
+  "config.invmove.background.enable": "隐藏物品栏背景",
+  "tooltip.config.invmove.background.enable": "隐藏物品栏打开时的暗色效果",
+
+  "key.invmove.category.types": "Vanilla",
+
+  "config.invmove.type.inventory": "生存物品栏",
+  "config.invmove.type.creative": "创造物品栏",
+  "config.invmove.type.horse": "马匹物品栏",
+  "config.invmove.type.chest": "羊驼",
+  "config.invmove.type.crafting": "工作台",
+  "config.invmove.type.furnace": "熔炉",
+  "config.invmove.type.shulker": "潜影盒",
+  "config.invmove.type.dispenser": "发射器",
+  "config.invmove.type.hopper": "漏斗",
+  "config.invmove.type.enchantment": "附魔台",
+  "config.invmove.type.anvil": "铁砧",
+  "config.invmove.type.beacon": "信标",
+  "config.invmove.type.brewing": "酿造台",
+  "config.invmove.type.blastFurnace": "高炉",
+  "config.invmove.type.smoker": "烟熏炉",
+  "config.invmove.type.loom": "织布机",
+  "config.invmove.type.cartography": "制图台",
+  "config.invmove.type.grindstone": "砂轮",
+  "config.invmove.type.stonecutter": "切石机",
+  "config.invmove.type.villager": "村民交易",
+  "config.invmove.type.book": "讲台",
+
+  "key.invmove.category.types.unrecognized": "Unrecognized UI Types",
+  "tooltip.config.invmove.unrecognized_desc": "Unrecognized GUIs show up here once they have been interacted with."
+}
