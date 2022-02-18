@@ -1,0 +1,26 @@
+modLoader = "javafml"
+loaderVersion = "[39,)"
+#issueTrackerURL = ""
+license = "LGPLv3"
+
+[[mods]]
+modId = "invmove"
+version = "${version}"
+displayName = "InvMove"
+authors = "PieKing1215"
+logoFile = "icon.png"
+description = '''Lets you move while in inventories.'''
+
+[[dependencies.invmove]]
+modId = "forge"
+mandatory = true
+versionRange = "[39,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.invmove]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.18.1,)"
+ordering = "NONE"
+side = "BOTH"

@@ -1,0 +1,35 @@
+{
+  "config.invmove.title": "InvMove Config",
+  "key.invmove.category.general": "General",
+  "key.invmove.category.movement": "UI Movement",
+  "key.invmove.category.background": "UI Background",
+
+  "config.invmove.general.enable": "Enable Mod",
+  "tooltip.config.invmove.general.enable": "Enable the entire mod",
+  "config.invmove.general.debugDisplay": "Debug Display",
+  "tooltip.config.invmove.general.debugDisplay": "Enable debug display.",
+
+  "config.invmove.movement.enable": "Move In Inventories",
+  "tooltip.config.invmove.movement.enable": "Enable movement while inside inventories.\nYou can manually turn off certain inventories below.",
+  "config.invmove.movement.sneak": "Allow Sneaking",
+  "tooltip.config.invmove.movement.sneak": "Allow sneaking while inside inventories.\n(It can be distracting when shift-clicking items)",
+  "config.invmove.movement.jump": "Allow Jumping",
+  "tooltip.config.invmove.movement.jump": "Allow jumping while inside inventories.",
+  "config.invmove.movement.dismount": "Allow Dismounting",
+  "tooltip.config.invmove.movement.dismount": "Allow dismounting while inside inventories.",
+  "config.invmove.movement.textFieldDisables": "Text Field Disables Movement",
+  "tooltip.config.invmove.movement.textFieldDisables": "Disable movement in inventories when a text field is focused.",
+
+
+  "config.invmove.background.enable": "Hide Inventory Backgrounds",
+  "tooltip.config.invmove.background.enable": "Hides the background tint while inside inventories.\nYou can manually turn off certain inventories below.",
+
+  "key.invmove.category.types.unrecognized": "Unrecognized UI Types",
+  "tooltip.config.invmove.unrecognized_desc": "Unrecognized GUIs show up here once they have been interacted with.",
+
+
+  "key.invmove.module.vanilla": "Vanilla",
+
+  "config.invmove.vanilla.movement.horseInventory": "Horse Inventory",
+  "config.invmove.vanilla.backgroundHide.horseInventory": "Horse Inventory"
+}
