@@ -34,12 +34,12 @@ jobs:
       uses: actions/upload-artifact@v2.3.1
       with:
         # Artifact name
-        name: InvMove-forge-$SHA.jar
+        name: "InvMove-forge-$SHA.jar"
         path: ./forge/build/libs/*[0-9].jar
 
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.3.1
       with:
         # Artifact name
-        name: InvMove-fabric-$SHA.jar
+        name: "InvMove-fabric-$SHA.jar"
         path: ./forge/build/libs/*[0-9].jar
