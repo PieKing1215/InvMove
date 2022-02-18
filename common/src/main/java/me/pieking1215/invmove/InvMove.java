@@ -13,9 +13,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
 public class InvMove {
     public static final String MOD_ID = "invmove";
+
+    public static Function<Class<?>, Optional<String>> modidFromClass = c -> Optional.empty();
 
     public static void init() {
         Modules.init();
@@ -174,7 +177,7 @@ public class InvMove {
         return !show.orElse(true);
     }
 
-    public static void drawDebugOverlay() {
+    public static void drawDebugOverlay(Function<Class<?>, String> classNameFn) {
         if(InvMoveConfig.GENERAL.DEBUG_DISPLAY.get()) {
             Screen screen = Minecraft.getInstance().screen;
             if(screen == null) return;
@@ -182,8 +185,11 @@ public class InvMove {
             int i = 0;
             Class<?> cl = screen.getClass();
             while (cl.getSuperclass() != null) {
-                //String className = FabricLoader.getInstance().getMappingResolver().unmapClassName("named", cl.getName());
-                String className = cl.getName();
+                String className = classNameFn.apply(cl);
+                Optional<String> modid = modidFromClass.apply(cl);
+                if (modid.isPresent()) {
+                    className = "[" + modid.get() + "] " + className;
+                }
                 Minecraft.getInstance().font.drawShadow(new PoseStack(), className, 4, 4 + 10 * i, 0xffffffff);
 
                 i++;
