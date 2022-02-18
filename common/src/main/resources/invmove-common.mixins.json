@@ -3,10 +3,7 @@
   "minVersion": "0.8",
   "package": "me.pieking1215.invmove.mixin",
   "compatibilityLevel": "JAVA_16",
-  "client": [
-    "client.MovementMixin",
-    "client.BackgroundMixin"
-  ],
+  "client": [],
   "mixins": [],
   "injectors": {
     "defaultRequire": 1

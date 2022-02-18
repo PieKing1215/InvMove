@@ -1,4 +1,4 @@
-package me.pieking1215.invmove.mixin.client;
+package me.pieking1215.invmove.forge.mixin.client;
 
 import me.pieking1215.invmove.InvMove;
 import net.minecraft.client.player.LocalPlayer;

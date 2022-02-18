@@ -1,9 +1,11 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "me.pieking1215.invmove.mixin",
+  "package": "me.pieking1215.invmove.fabric.mixin",
   "compatibilityLevel": "JAVA_16",
   "client": [
+    "client.MovementMixin",
+    "client.BackgroundMixin"
   ],
   "mixins": [
   ],

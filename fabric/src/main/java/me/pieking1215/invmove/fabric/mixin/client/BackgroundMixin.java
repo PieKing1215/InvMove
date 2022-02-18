@@ -1,4 +1,4 @@
-package me.pieking1215.invmove.mixin.client;
+package me.pieking1215.invmove.fabric.mixin.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import me.pieking1215.invmove.InvMove;
@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Screen.class)
 public class BackgroundMixin {
     @Inject(
-            method = "Lnet/minecraft/client/gui/screens/Screen;renderBackground(Lcom/mojang/blaze3d/vertex/PoseStack;)V",
+            method = "renderBackground(Lcom/mojang/blaze3d/vertex/PoseStack;)V",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/Screen;renderBackground(Lcom/mojang/blaze3d/vertex/PoseStack;I)V"),
             cancellable = true
     )
