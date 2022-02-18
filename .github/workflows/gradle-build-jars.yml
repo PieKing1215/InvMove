@@ -10,10 +10,10 @@ jobs:
     permissions:
       contents: read
 
-    env:
-      SHORT_SHA: $(git rev-parse --short "$GITHUB_SHA")
-      
     steps:
+    - uses: benjlevesque/short-sha@v1.2
+      id: short-sha
+        
     - uses: actions/checkout@v2
     - name: Set up JDK
       uses: actions/setup-java@v2
@@ -34,12 +34,12 @@ jobs:
       uses: actions/upload-artifact@v2.3.1
       with:
         # Artifact name
-        name: "InvMove-forge-${{ env.SHORT_SHA }}.jar"
+        name: "InvMove-forge-${{ steps.short-sha.outputs.sha }}.jar"
         path: ./forge/build/libs/*[0-9].jar
 
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.3.1
       with:
         # Artifact name
-        name: "InvMove-fabric-${{ env.SHORT_SHA }}.jar"
+        name: "InvMove-fabric-${{ steps.short-sha.outputs.sha }}.jar"
         path: ./forge/build/libs/*[0-9].jar
