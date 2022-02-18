@@ -1,0 +1,33 @@
+name: Build jars
+
+on:
+  push:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Build with Gradle
+      uses: gradle/gradle-build-action@937999e9cc2425eddc7fd62d1053baf041147db7
+      with:
+        arguments: build
+        
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.3.1
+      with:
+        # Artifact name
+        name: InvMove-forge-$(git rev-parse --short "$GITHUB_SHA").jar
+        path: ./forge/build/libs/*[0-9].jar
+
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.3.1
+      with:
+        # Artifact name
+        name: InvMove-fabric-$(git rev-parse --short "$GITHUB_SHA").jar
+        path: ./forge/build/libs/*[0-9].jar
