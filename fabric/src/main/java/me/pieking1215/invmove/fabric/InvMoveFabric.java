@@ -1,15 +1,16 @@
 package me.pieking1215.invmove.fabric;
 
 import me.pieking1215.invmove.InvMove;
+import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 
 import java.util.Optional;
 
-public class InvMoveFabric implements ModInitializer {
+public class InvMoveFabric implements ClientModInitializer {
     @Override
-    public void onInitialize() {
+    public void onInitializeClient() {
         InvMove.modidFromClass = cl -> {
             for (ModContainer mod : FabricLoader.getInstance().getAllMods()) {
                 if (mod.findPath('/' + cl.getName().replace('.', '/') + ".class").isPresent()) {

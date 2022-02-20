@@ -1,12 +1,13 @@
 modLoader = "javafml"
 loaderVersion = "[39,)"
-#issueTrackerURL = ""
-license = "LGPLv3"
+license = "LGPL v3.0"
+issueTrackerURL="https://github.com/PieKing1215/InvMove/issues"
 
 [[mods]]
 modId = "invmove"
 version = "${version}"
 displayName = "InvMove"
+displayURL="https://github.com/PieKing1215/InvMove"
 authors = "PieKing1215"
 logoFile = "icon.png"
 description = '''Lets you move while in inventories.'''
@@ -30,4 +31,4 @@ modId = "cloth_config"
 mandatory = true
 versionRange = "[6,)"
 ordering = "NONE"
-side = "BOTH"
+side = "CLIENT"

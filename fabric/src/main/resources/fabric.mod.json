@@ -8,22 +8,28 @@
     "PieKing1215"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "https://github.com/PieKing1215/InvMove",
+    "sources": "https://github.com/PieKing1215/InvMove",
+    "issues": "https://github.com/PieKing1215/InvMove/issues"
   },
-  "license": "LGPLv3",
+  "license": "LGPL v3.0",
   "icon": "icon.png",
-  "environment": "*",
+
+  "environment": "client",
   "entrypoints": {
-    "main": [
+    "client": [
       "me.pieking1215.invmove.fabric.InvMoveFabric"
     ],
-    "modmenu": [ "me.pieking1215.invmove.fabric.InvMoveModMenuIntegration" ]
+    "modmenu": [
+      "me.pieking1215.invmove.fabric.InvMoveModMenuIntegration"
+    ]
   },
+
   "mixins": [
     "invmove.mixins.json",
     "invmove-common.mixins.json"
   ],
+
   "depends": {
     "fabric": "*",
     "minecraft": ">=1.18.1",
