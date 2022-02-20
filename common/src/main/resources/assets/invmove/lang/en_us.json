@@ -24,8 +24,8 @@
   "config.invmove.background.enable": "Hide Inventory Backgrounds",
   "tooltip.config.invmove.background.enable": "Hides the background tint while inside inventories.\nYou can manually turn off certain inventories below.",
 
-  "key.invmove.category.types.unrecognized": "Unrecognized UI Types",
-  "tooltip.config.invmove.unrecognized_desc": "Unrecognized GUIs show up here once they have been interacted with.",
+  "key.invmove.unrecognized": "Unrecognized UI Types",
+  "key.invmove.unrecognized.desc": "Unrecognized GUIs show up here once they have been interacted with.",
 
 
   "key.invmove.module.vanilla": "Vanilla",

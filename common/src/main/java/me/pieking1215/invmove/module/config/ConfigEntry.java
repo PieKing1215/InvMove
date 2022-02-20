@@ -1,5 +1,6 @@
 package me.pieking1215.invmove.module.config;
 
+import com.google.gson.JsonObject;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.impl.builders.SubCategoryBuilder;
@@ -27,4 +28,6 @@ public abstract class ConfigEntry<T> {
 
     abstract void addTo(ConfigCategory category, ConfigEntryBuilder eb, String id);
     abstract void addTo(SubCategoryBuilder category, ConfigEntryBuilder eb, String id);
+    abstract void write(JsonObject json, String id);
+    abstract void read(JsonObject json, String id);
 }

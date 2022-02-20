@@ -8,20 +8,26 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.player.Input;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class InvMove {
     public static final String MOD_ID = "invmove";
 
     public static Function<Class<?>, Optional<String>> modidFromClass = c -> Optional.empty();
+    public static Function<String, String> modNameFromModid = s -> s;
+    public static Supplier<File> getConfigDir = () -> null;
 
     public static void init() {
         Modules.init();
+        InvMoveConfig.load();
     }
 
     public static void onInputUpdate(Input input){
@@ -81,14 +87,21 @@ public class InvMove {
             }
         }
 
-        //		Class<? extends Screen> scr = screen.getClass();
-        //		if(Config.UI_MOVEMENT.seenScreens.containsKey(scr.getName())){
-        //			return Config.UI_MOVEMENT.seenScreens.get(scr.getName());
-        //		}else{
-        //			Config.UI_MOVEMENT.seenScreens.put(scr.getName(), true);
-        //		}
+        if (movement.isEmpty()) {
+            Class<? extends Screen> cl = screen.getClass();
+            String modid = modidFromClass.apply(cl).orElse("?unknown");
+            InvMoveConfig.MOVEMENT.unrecognizedScreensAllowMovement.putIfAbsent(modid, new HashMap<>());
+            HashMap<Class<? extends Screen>, Boolean> hm = InvMoveConfig.MOVEMENT.unrecognizedScreensAllowMovement.get(modid);
 
-        return movement.orElse(true);
+            if (!hm.containsKey(cl)) {
+                hm.put(cl, true);
+                InvMoveConfig.save();
+            }
+
+            return hm.get(cl);
+        } else {
+            return movement.get();
+        }
     }
 
     public static Field[] getDeclaredFieldsSuper(Class<?> aClass) {
@@ -174,7 +187,22 @@ public class InvMove {
         //			Config.UI_BACKGROUND.seenScreens.put(scr.getName(), true);
         //		}
 
-        return !show.orElse(true);
+
+        if (show.isEmpty()) {
+            Class<? extends Screen> cl = screen.getClass();
+            String modid = modidFromClass.apply(cl).orElse("?unknown");
+            InvMoveConfig.BACKGROUND.unrecognizedScreensHideBG.putIfAbsent(modid, new HashMap<>());
+            HashMap<Class<? extends Screen>, Boolean> hm = InvMoveConfig.BACKGROUND.unrecognizedScreensHideBG.get(modid);
+
+            if (!hm.containsKey(cl)) {
+                hm.put(cl, true);
+                InvMoveConfig.save();
+            }
+
+            return hm.get(cl);
+        } else {
+            return !show.get();
+        }
     }
 
     public static void drawDebugOverlay(Function<Class<?>, String> classNameFn) {

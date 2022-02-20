@@ -1,5 +1,6 @@
 package me.pieking1215.invmove.module.config;
 
+import com.google.gson.JsonObject;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.impl.builders.BooleanToggleBuilder;
@@ -7,6 +8,7 @@ import me.shedaniel.clothconfig2.impl.builders.SubCategoryBuilder;
 import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.util.GsonHelper;
 
 import java.util.function.Function;
 
@@ -42,5 +44,17 @@ public class ConfigBool extends ConfigEntry<Boolean> {
             b.setYesNoTextSupplier(this.textFn);
         }
         category.add(b.build());
+    }
+
+    @Override
+    void write(JsonObject json, String id) {
+        json.addProperty(id, this.value);
+    }
+
+    @Override
+    void read(JsonObject json, String id) {
+        if (GsonHelper.isBooleanValue(json, id)) {
+            this.value = json.get(id).getAsBoolean();
+        }
     }
 }

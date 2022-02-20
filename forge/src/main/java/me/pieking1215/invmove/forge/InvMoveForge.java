@@ -12,6 +12,7 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.loading.FMLPaths;
 
 import java.util.Optional;
 
@@ -20,24 +21,25 @@ public class InvMoveForge {
     public InvMoveForge() {
         DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () -> {
             MinecraftForge.EVENT_BUS.register(this);
-            InvMove.init();
             InvMove.modidFromClass = cl -> {
                 if (cl.getPackageName().startsWith("net.minecraft.")) {
                     return Optional.of("minecraft");
                 }
-//                System.out.println("A:" + cl.getName() + "|" + cl.getProtectionDomain().getCodeSource().getLocation() + "|" + '/' + cl.getName().replace('.', '/') + ".class");
+
                 return ModList.get().applyForEachModContainer(mod -> {
-//                    System.out.println("B:" + mod.getModId());
                     var src1 = cl.getProtectionDomain().getCodeSource();
                     var src2 = mod.getMod().getClass().getProtectionDomain().getCodeSource();
                     boolean eq = src1 != null && src2 != null && src1.getLocation().equals(src2.getLocation());
-//                    System.out.println(eq);
+
                     if (eq) {
                         return Optional.of(mod.getModId());
                     }
                     return Optional.<String>empty();
                 }).filter(Optional::isPresent).map(Optional::get).findFirst();
             };
+            InvMove.modNameFromModid = modid -> ModList.get().getModContainerById(modid).map(con -> con.getModInfo().getDisplayName()).orElse(modid);
+            InvMove.getConfigDir = () -> FMLPaths.CONFIGDIR.get().toFile();
+            InvMove.init();
 
             ModLoadingContext.get().registerExtensionPoint(ConfigGuiHandler.ConfigGuiFactory.class, () -> new ConfigGuiHandler.ConfigGuiFactory((mc, screen) -> InvMoveConfig.setupCloth(screen)));
         });
