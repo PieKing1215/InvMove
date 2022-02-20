@@ -38,13 +38,13 @@ For Fabric, you need [Mod Menu](https://www.curseforge.com/minecraft/mc-mods/mod
 ## Config (In-game)
 
 #### General:
-- Enable: Enable the entire mod
+- Enable Mod: Enable the entire mod
 - Debug Display: Enables a debug overlay that can help debug compatibility problems.
 
 #### UI Movement:
 - Move In Inventories: Enable movement in inventories
-- Allow Sneaking: Allow sneaking in inventories (disabled by default because it's distracting when shift-clicking)
 - Allow Jumping: Allow jumping in inventories
+- Allow Sneaking: Allow sneaking in inventories (disabled by default because it's distracting when shift-clicking)
 - Allow Dismounting: Allow dismounting from mounts in inventories (overrides "Allow Sneaking" while on a mount)
 - Text Field Disables Movement: Disable movement when a text field is focused (like search bars or in an anvil)
 
