@@ -160,12 +160,14 @@ public class InvMoveConfig {
                 if (invmoveDir.exists()) {
                     // check capitalization since `new File` is case insensitive on some platforms
                     if (invmoveDir.getCanonicalPath().endsWith("invMove")) {
+                        //noinspection ResultOfMethodCallIgnored
                         invmoveDir.renameTo(new File(invmoveDir.getParent(), "invMove_Old/"));
                     }
                 }
 
                 File invmoveConfOldForge = new File(configDir, "invmove-client.toml");
                 if (invmoveConfOldForge.exists()) {
+                    //noinspection ResultOfMethodCallIgnored
                     invmoveConfOldForge.renameTo(new File(configDir, "invmove-client_Old.toml"));
                 }
 
@@ -179,6 +181,7 @@ public class InvMoveConfig {
 
                         // we don't store this in the root any more
                         if (json.has("uiBackground")) {
+                            //noinspection ResultOfMethodCallIgnored
                             invmoveConf.renameTo(new File(configDir, "invmove_Old.json"));
                         }
                     }
@@ -202,7 +205,9 @@ public class InvMoveConfig {
                 File configFile = new File(configDir, "invmove.json");
 
                 if (!configFile.exists()) {
+                    //noinspection ResultOfMethodCallIgnored
                     configFile.getParentFile().mkdirs();
+                    //noinspection ResultOfMethodCallIgnored
                     configFile.createNewFile();
                 }
 
@@ -215,7 +220,9 @@ public class InvMoveConfig {
                 for (Module module : Modules.modules) {
                     File modFile = new File(configDir, "invmove/" + module.getId() + ".json");
                     if (!modFile.exists()) {
+                        //noinspection ResultOfMethodCallIgnored
                         modFile.getParentFile().mkdirs();
+                        //noinspection ResultOfMethodCallIgnored
                         modFile.createNewFile();
                     }
 
@@ -228,7 +235,9 @@ public class InvMoveConfig {
 
                 File unrecognizedFile = new File(configDir, "invmove/unrecognized.json");
                 if (!unrecognizedFile.exists()) {
+                    //noinspection ResultOfMethodCallIgnored
                     unrecognizedFile.getParentFile().mkdirs();
+                    //noinspection ResultOfMethodCallIgnored
                     unrecognizedFile.createNewFile();
                 }
 
@@ -253,7 +262,9 @@ public class InvMoveConfig {
                 File configFile = new File(configDir, "invmove.json");
 
                 if (!configFile.exists()) {
+                    //noinspection ResultOfMethodCallIgnored
                     configFile.getParentFile().mkdirs();
+                    //noinspection ResultOfMethodCallIgnored
                     configFile.createNewFile();
 
                     if (configFile.exists()) {
@@ -270,7 +281,9 @@ public class InvMoveConfig {
                 for (Module module : Modules.modules) {
                     File modFile = new File(configDir, "invmove/" + module.getId() + ".json");
                     if (!modFile.exists()) {
+                        //noinspection ResultOfMethodCallIgnored
                         modFile.getParentFile().mkdirs();
+                        //noinspection ResultOfMethodCallIgnored
                         modFile.createNewFile();
 
                         if (modFile.exists()) {
@@ -287,7 +300,9 @@ public class InvMoveConfig {
 
                 File unrecognizedFile = new File(configDir, "invmove/unrecognized.json");
                 if (!unrecognizedFile.exists()) {
+                    //noinspection ResultOfMethodCallIgnored
                     unrecognizedFile.getParentFile().mkdirs();
+                    //noinspection ResultOfMethodCallIgnored
                     unrecognizedFile.createNewFile();
 
                     if (unrecognizedFile.exists()) {
@@ -406,6 +421,7 @@ public class InvMoveConfig {
                                 String modid = InvMove.modidFromClass.apply(cl).orElse("?unknown");
                                 InvMoveConfig.MOVEMENT.unrecognizedScreensAllowMovement.putIfAbsent(modid, new HashMap<>());
                                 HashMap<Class<? extends Screen>, Boolean> hm = InvMoveConfig.MOVEMENT.unrecognizedScreensAllowMovement.get(modid);
+                                //noinspection unchecked
                                 hm.putIfAbsent((Class<? extends Screen>) cl, entry.getValue().getAsBoolean());
                             }
                         } catch (ClassNotFoundException ignored) {}
@@ -423,6 +439,7 @@ public class InvMoveConfig {
                                 String modid = InvMove.modidFromClass.apply(cl).orElse("?unknown");
                                 InvMoveConfig.BACKGROUND.unrecognizedScreensHideBG.putIfAbsent(modid, new HashMap<>());
                                 HashMap<Class<? extends Screen>, Boolean> hm = InvMoveConfig.BACKGROUND.unrecognizedScreensHideBG.get(modid);
+                                //noinspection unchecked
                                 hm.putIfAbsent((Class<? extends Screen>) cl, entry.getValue().getAsBoolean());
                             }
                         } catch (ClassNotFoundException ignored) {}
