@@ -5,6 +5,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
+import net.fabricmc.loader.api.metadata.ModMetadata;
 
 import java.util.Optional;
 
@@ -22,6 +23,11 @@ public class InvMoveFabric implements ClientModInitializer {
         };
         InvMove.modNameFromModid = modid -> FabricLoader.getInstance().getModContainer(modid).map(con -> con.getMetadata().getName()).orElse(modid);
         InvMove.getConfigDir = () -> FabricLoader.getInstance().getConfigDir().toFile();
+
+        FabricLoader.getInstance().getEntrypointContainers("invmove", InvMoveInitializer.class).forEach(entrypoint -> {
+            entrypoint.getEntrypoint().init();
+        });
+
         InvMove.init();
     }
 }

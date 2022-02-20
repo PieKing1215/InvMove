@@ -4,10 +4,16 @@ import me.pieking1215.invmove.InvMove;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 @Mod(InvMove.MOD_ID)
 public class InvMoveForge {
     public InvMoveForge() {
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::imProcess);
+    }
+
+    private void imProcess(InterModProcessEvent evt) {
         DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> InvMoveForgeClient::init);
     }
 }
