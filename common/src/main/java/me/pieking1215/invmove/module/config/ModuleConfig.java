@@ -41,6 +41,12 @@ public class ModuleConfig {
         return entry;
     }
 
+    public <T extends Enum<T>> ConfigEnum<T> addEnum(String id, T defaultVal) {
+        ConfigEnum<T> entry = new ConfigEnum<>(defaultVal);
+        this.entries.add(Pair.of(entry, new ConfigEntryMeta(id, null)));
+        return entry;
+    }
+
     public void label(String id) {
         class None {};
         this.entries.add(Pair.of(new ConfigEntry<>(new None()) {

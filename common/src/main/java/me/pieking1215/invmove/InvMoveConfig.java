@@ -51,17 +51,17 @@ public class InvMoveConfig {
             Off, Maintain, Pressed
         }
         public ModuleConfig cfg = new ModuleConfig("movement");
-        public final ConfigBool ENABLED = cfg.bool("config.invmove.movement.enable", "enable", true);
-        public final ConfigBool JUMP = cfg.bool("config.invmove.movement.jump", "jump", true);
-        public final ConfigEnum<SneakMode> SNEAK = cfg.addEnum("config.invmove.movement.sneak", "sneak", SneakMode.Maintain).setMigrator(element -> GsonHelper.isBooleanValue(element) ? Optional.of(element.getAsBoolean() ? SneakMode.Pressed : SneakMode.Maintain) : Optional.empty());
-        public final ConfigBool DISMOUNT = cfg.bool("config.invmove.movement.dismount", "dismount", false);
-        public final ConfigBool TEXT_FIELD_DISABLES = cfg.bool("config.invmove.movement.textFieldDisables", "textFieldDisables", true);
+        public final ConfigBool ENABLED = cfg.bool("enable", true);
+        public final ConfigBool JUMP = cfg.bool("jump", true);
+        public final ConfigEnum<SneakMode> SNEAK = cfg.addEnum("sneak", SneakMode.Maintain).setMigrator(element -> GsonHelper.isBooleanValue(element) ? Optional.of(element.getAsBoolean() ? SneakMode.Pressed : SneakMode.Maintain) : Optional.empty());
+        public final ConfigBool DISMOUNT = cfg.bool("dismount", false);
+        public final ConfigBool TEXT_FIELD_DISABLES = cfg.bool("textFieldDisables", true);
         public HashMap<String, HashMap<Class<? extends Screen>, Boolean>> unrecognizedScreensAllowMovement = new HashMap<>();
     }
 
     public static class Background {
         public ModuleConfig cfg = new ModuleConfig("background");
-        public final ConfigBool BACKGROUND_HIDE = cfg.bool("config.invmove.movement.enable", "enable", true);
+        public final ConfigBool BACKGROUND_HIDE = cfg.bool("enable", true);
         public HashMap<String, HashMap<Class<? extends Screen>, Boolean>> unrecognizedScreensHideBG = new HashMap<>();
     }
 
