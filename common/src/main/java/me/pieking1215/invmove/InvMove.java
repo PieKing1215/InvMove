@@ -190,11 +190,21 @@ public class InvMove {
 
         if(screen == null) return false;
 
-        if(screen.isPauseScreen() && Minecraft.getInstance().hasSingleplayerServer()){
-            if(Minecraft.getInstance().getSingleplayerServer() != null) {
-                if (!Minecraft.getInstance().getSingleplayerServer().isPublished()) return false;
-            } else {
-                return false;
+        if(screen.isPauseScreen()){
+            switch (InvMoveConfig.BACKGROUND.HIDE_ON_PAUSE.get()) {
+                case Show -> {
+                    return false;
+                }
+                case AllowHide -> {}
+                case ShowSP -> {
+                    if (Minecraft.getInstance().hasSingleplayerServer()) {
+                        if(Minecraft.getInstance().getSingleplayerServer() != null) {
+                            if (!Minecraft.getInstance().getSingleplayerServer().isPublished()) return false;
+                        } else {
+                            return false;
+                        }
+                    }
+                }
             }
         }
 

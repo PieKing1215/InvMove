@@ -47,21 +47,34 @@ public class InvMoveConfig {
     }
 
     public static class Movement {
+        public ModuleConfig cfg = new ModuleConfig("movement");
+
+        public final ConfigBool ENABLED = cfg.bool("enable", true);
+
+        public final ConfigBool JUMP = cfg.bool("jump", true);
+
         public enum SneakMode {
             Off, Maintain, Pressed
         }
-        public ModuleConfig cfg = new ModuleConfig("movement");
-        public final ConfigBool ENABLED = cfg.bool("enable", true);
-        public final ConfigBool JUMP = cfg.bool("jump", true);
         public final ConfigEnum<SneakMode> SNEAK = cfg.addEnum("sneak", SneakMode.Maintain).setMigrator(element -> GsonHelper.isBooleanValue(element) ? Optional.of(element.getAsBoolean() ? SneakMode.Pressed : SneakMode.Maintain) : Optional.empty());
+
         public final ConfigBool DISMOUNT = cfg.bool("dismount", false);
+
         public final ConfigBool TEXT_FIELD_DISABLES = cfg.bool("textFieldDisables", true);
+
         public HashMap<String, HashMap<Class<? extends Screen>, Boolean>> unrecognizedScreensAllowMovement = new HashMap<>();
     }
 
     public static class Background {
         public ModuleConfig cfg = new ModuleConfig("background");
+
         public final ConfigBool BACKGROUND_HIDE = cfg.bool("enable", true);
+
+        public enum PauseScreenMode {
+            Show, ShowSP, AllowHide
+        }
+        public final ConfigEnum<PauseScreenMode> HIDE_ON_PAUSE = cfg.addEnum("hideOnPause", PauseScreenMode.Show);
+
         public HashMap<String, HashMap<Class<? extends Screen>, Boolean>> unrecognizedScreensHideBG = new HashMap<>();
     }
 

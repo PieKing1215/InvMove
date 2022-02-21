@@ -28,7 +28,10 @@ public class ConfigBool extends ConfigEntry<Boolean> {
 
     @Override
     public void addTo(ConfigCategory category, ConfigEntryBuilder eb, String id) {
-        BooleanToggleBuilder b = eb.startBooleanToggle(new TranslatableComponent(id), get()).setDefaultValue(getDefault()).setSaveConsumer(this::set).setTooltip(new TranslatableComponent("tooltip." + id));
+        BooleanToggleBuilder b = eb.startBooleanToggle(new TranslatableComponent(id), get()).setDefaultValue(getDefault()).setSaveConsumer(this::set);
+        if (Language.getInstance().has("tooltip." + id)) {
+            b.setTooltip(new TranslatableComponent("tooltip." + id));
+        }
         if (this.textFn != null) {
             b.setYesNoTextSupplier(this.textFn);
         }
