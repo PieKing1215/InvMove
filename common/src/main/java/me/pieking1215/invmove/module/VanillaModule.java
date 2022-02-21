@@ -77,6 +77,7 @@ public class VanillaModule implements Module {
     ConfigBool m_stonecutter    = m_config.bool("container.stonecutter", "stonecutter", true).textFn(InvMoveConfig.MOVEMENT_YES_NO_TEXT);
     ConfigBool m_villager       = m_config.bool("entity.minecraft.villager", "villager", true).textFn(InvMoveConfig.MOVEMENT_YES_NO_TEXT);
     ConfigBool m_book           = m_config.bool("item.minecraft.book", "book", true).textFn(InvMoveConfig.MOVEMENT_YES_NO_TEXT);
+    ConfigBool m_advancements   = m_config.bool("gui.advancements", "advancements", true).textFn(InvMoveConfig.MOVEMENT_YES_NO_TEXT);
 
     ModuleConfig bg_config = new ModuleConfig("backgroundHide");
     ConfigBool b_inventory      = bg_config.bool("container.inventory", "inventory", true).textFn(InvMoveConfig.BACKGROUND_YES_NO_TEXT);
@@ -100,6 +101,7 @@ public class VanillaModule implements Module {
     ConfigBool b_stonecutter    = bg_config.bool("container.stonecutter", "stonecutter", true).textFn(InvMoveConfig.BACKGROUND_YES_NO_TEXT);
     ConfigBool b_villager       = bg_config.bool("entity.minecraft.villager", "villager", true).textFn(InvMoveConfig.BACKGROUND_YES_NO_TEXT);
     ConfigBool b_book           = bg_config.bool("item.minecraft.book", "book", true).textFn(InvMoveConfig.BACKGROUND_YES_NO_TEXT);
+    ConfigBool b_advancements   = bg_config.bool("gui.advancements", "advancements", true).textFn(InvMoveConfig.BACKGROUND_YES_NO_TEXT);
 
     @Override
     public String getId() {
@@ -117,7 +119,6 @@ public class VanillaModule implements Module {
         if(screen instanceof WinScreen)                      return Movement.SUGGEST_DISABLE;
         if(screen instanceof ProgressScreen)                 return Movement.SUGGEST_DISABLE;
         if(screen instanceof LevelLoadingScreen)             return Movement.SUGGEST_DISABLE;
-        if(screen instanceof AdvancementsScreen)             return Movement.SUGGEST_DISABLE; // config?
         if(screen instanceof ChatScreen)                     return Movement.SUGGEST_DISABLE;
         if(screen instanceof CommandBlockEditScreen)         return Movement.SUGGEST_DISABLE;
         if(screen instanceof BookEditScreen)                 return Movement.SUGGEST_DISABLE;
@@ -183,6 +184,7 @@ public class VanillaModule implements Module {
         if(screen instanceof StonecutterScreen)           return m_stonecutter.get()    ? Movement.SUGGEST_ENABLE : Movement.SUGGEST_DISABLE;
         if(screen instanceof MerchantScreen)              return m_villager.get()       ? Movement.SUGGEST_ENABLE : Movement.SUGGEST_DISABLE;
         if(screen instanceof BookViewScreen)              return m_book.get()           ? Movement.SUGGEST_ENABLE : Movement.SUGGEST_DISABLE;
+        if(screen instanceof AdvancementsScreen)          return m_advancements.get()   ? Movement.SUGGEST_ENABLE : Movement.SUGGEST_DISABLE;
 
         return Movement.PASS;
     }
@@ -199,7 +201,6 @@ public class VanillaModule implements Module {
         if(screen instanceof WinScreen)                      return Background.SUGGEST_SHOW;
         if(screen instanceof ProgressScreen)                 return Background.SUGGEST_SHOW;
         if(screen instanceof LevelLoadingScreen)             return Background.SUGGEST_SHOW;
-        if(screen instanceof AdvancementsScreen)             return Background.SUGGEST_SHOW; // config?
         if(screen instanceof ChatScreen)                     return Background.SUGGEST_SHOW;
         if(screen instanceof CommandBlockEditScreen)         return Background.SUGGEST_SHOW;
         if(screen instanceof MinecartCommandBlockEditScreen) return Background.SUGGEST_SHOW;
@@ -230,6 +231,7 @@ public class VanillaModule implements Module {
         if(screen instanceof MerchantScreen)              return b_villager.get()       ? Background.SUGGEST_HIDE : Background.SUGGEST_SHOW;
         if(screen instanceof BookViewScreen)              return b_book.get()           ? Background.SUGGEST_HIDE : Background.SUGGEST_SHOW;
         if(screen instanceof BookEditScreen)              return b_book.get()           ? Background.SUGGEST_HIDE : Background.SUGGEST_SHOW;
+        if(screen instanceof AdvancementsScreen)          return b_advancements.get()   ? Background.SUGGEST_HIDE : Background.SUGGEST_SHOW;
 
         
         return Background.PASS;

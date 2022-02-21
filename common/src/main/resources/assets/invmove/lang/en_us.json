@@ -20,7 +20,6 @@
   "config.invmove.movement.textFieldDisables": "Text Field Disables Movement",
   "tooltip.config.invmove.movement.textFieldDisables": "Disable movement in inventories when a text field is focused.",
 
-
   "config.invmove.background.enable": "Hide Inventory Backgrounds",
   "tooltip.config.invmove.background.enable": "Hides the background tint while inside inventories.\nYou can manually turn off certain inventories below.",
   "config.invmove.background.hideOnPause": "Pause Screens Background",
@@ -29,9 +28,9 @@
   "key.invmove.unrecognized": "Unrecognized UI Types",
   "key.invmove.unrecognized.desc": "Unrecognized GUIs show up here once they have been interacted with.",
 
-
   "key.invmove.module.vanilla": "Vanilla",
 
   "config.invmove.vanilla.movement.horseInventory": "Horse Inventory",
-  "config.invmove.vanilla.backgroundHide.horseInventory": "Horse Inventory"
+  "config.invmove.vanilla.backgroundHide.horseInventory": "Horse Inventory",
+  "tooltip.gui.advancements": "This menu is a pause screen so this option may be overridden."
 }
