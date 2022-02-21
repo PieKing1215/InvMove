@@ -25,6 +25,8 @@ public class InvMove {
     public static Function<String, String> modNameFromModid = s -> s;
     public static Supplier<File> getConfigDir = () -> null;
 
+    private static boolean wasSneaking = false;
+
     public static void init() {
         Modules.init();
         InvMoveConfig.load();
@@ -32,6 +34,11 @@ public class InvMove {
 
     public static void onInputUpdate(Input input){
         if(Minecraft.getInstance().player == null) return;
+
+        if(Minecraft.getInstance().screen == null) {
+            wasSneaking = input.shiftKeyDown;
+        }
+
         if(allowMovementInScreen(Minecraft.getInstance().screen)){
 
             // tick keybinds (since opening the ui unpresses all keys)
@@ -40,16 +47,49 @@ public class InvMove {
             // this is needed for compatibility with ItemPhysic
             Minecraft.getInstance().options.keyDrop.setDown(false);
 
+            if (Minecraft.getInstance().player != null && Minecraft.getInstance().player.isPassenger()) {
+                Minecraft.getInstance().options.keyShift.setDown(InvMoveConfig.MOVEMENT.DISMOUNT.get() && Minecraft.getInstance().options.keyShift.isDown);
+            } else {
+                boolean sneakKey = false;
+                switch (InvMoveConfig.MOVEMENT.SNEAK.get()) {
+                    case Off -> {
+                    }
+                    case Maintain -> {
+                        sneakKey = wasSneaking;
+                    }
+                    case Pressed -> {
+                        // update wasSneaking so we know what to do when allowMovementInScreen -> false
+                        sneakKey = wasSneaking = Minecraft.getInstance().options.keyShift.isDown;
+                    }
+                }
+
+                Minecraft.getInstance().options.keyShift.setDown(sneakKey);
+            }
+
             // tick movement
             manualTickMovement(input, Minecraft.getInstance().player.isMovingSlowly(), Minecraft.getInstance().player.isSpectator());
 
             // set sprinting using raw keybind data
-            if(!Minecraft.getInstance().player.isSprinting()) {
+            if(!Minecraft.getInstance().player.isSprinting() && !Minecraft.getInstance().player.isCrouching()) {
                 Minecraft.getInstance().player.setSprinting(rawIsKeyDown(Minecraft.getInstance().options.keySprint));
             }
 
         }else if(Minecraft.getInstance().screen != null){
             KeyMapping.releaseAll();
+
+            // special handling for sneaking
+            if (InvMoveConfig.GENERAL.ENABLED.get()) {
+                if (Minecraft.getInstance().player == null || !Minecraft.getInstance().player.isPassenger()) {
+                    boolean sneakKey = false;
+                    switch (InvMoveConfig.MOVEMENT.SNEAK.get()) {
+                        case Off -> {}
+                        case Maintain, Pressed -> sneakKey = wasSneaking;
+                    }
+
+                    Minecraft.getInstance().options.keyShift.setDown(sneakKey);
+                    input.shiftKeyDown = sneakKey;
+                }
+            }
         }
     }
 
@@ -127,11 +167,7 @@ public class InvMove {
         input.leftImpulse = input.left == input.right ? 0.0F : (float)(input.left ? 1 : -1);
         input.jumping = rawIsKeyDown(Minecraft.getInstance().options.keyJump) && InvMoveConfig.MOVEMENT.JUMP.get();
 
-        boolean allowSneak = InvMoveConfig.MOVEMENT.SNEAK.get();
-        if(Minecraft.getInstance().player != null && Minecraft.getInstance().player.isPassenger()){
-            allowSneak = InvMoveConfig.MOVEMENT.DISMOUNT.get();
-        }
-        input.shiftKeyDown = rawIsKeyDown(Minecraft.getInstance().options.keyShift) && allowSneak;
+        input.shiftKeyDown = rawIsKeyDown(Minecraft.getInstance().options.keyShift);
         if (!noDampening && (input.shiftKeyDown || slow)) {
             input.leftImpulse = (float)((double)input.leftImpulse * 0.3D);
             input.forwardImpulse = (float)((double)input.forwardImpulse * 0.3D);
@@ -217,6 +253,12 @@ public class InvMove {
                 Optional<String> modid = modidFromClass.apply(cl);
                 if (modid.isPresent()) {
                     className = "[" + modid.get() + "] " + className;
+                }
+                if (shouldDisableScreenBackground(screen)) {
+                    className = "B" + className;
+                }
+                if (allowMovementInScreen(screen)) {
+                    className = "M" + className;
                 }
                 Minecraft.getInstance().font.drawShadow(new PoseStack(), className, 4, 4 + 10 * i, 0xffffffff);
 

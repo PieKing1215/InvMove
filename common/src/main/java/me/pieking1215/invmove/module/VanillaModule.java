@@ -6,6 +6,7 @@ import me.pieking1215.invmove.module.config.ModuleConfig;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.gui.screens.DeathScreen;
+import net.minecraft.client.gui.screens.GenericDirtMessageScreen;
 import net.minecraft.client.gui.screens.LevelLoadingScreen;
 import net.minecraft.client.gui.screens.OptionsScreen;
 import net.minecraft.client.gui.screens.OptionsSubScreen;
@@ -15,6 +16,7 @@ import net.minecraft.client.gui.screens.ShareToLanScreen;
 import net.minecraft.client.gui.screens.WinScreen;
 import net.minecraft.client.gui.screens.achievement.StatsScreen;
 import net.minecraft.client.gui.screens.advancements.AdvancementsScreen;
+import net.minecraft.client.gui.screens.debug.GameModeSwitcherScreen;
 import net.minecraft.client.gui.screens.inventory.AnvilScreen;
 import net.minecraft.client.gui.screens.inventory.BeaconScreen;
 import net.minecraft.client.gui.screens.inventory.BlastFurnaceScreen;
@@ -106,6 +108,7 @@ public class VanillaModule implements Module {
 
     @Override
     public Movement shouldAllowMovement(Screen screen) {
+        if(screen instanceof GenericDirtMessageScreen)       return Movement.SUGGEST_DISABLE;
         if(screen instanceof DeathScreen)                    return Movement.SUGGEST_DISABLE;
         if(screen instanceof OptionsScreen)                  return Movement.SUGGEST_DISABLE;
         if(screen instanceof OptionsSubScreen)               return Movement.SUGGEST_DISABLE;
@@ -157,6 +160,8 @@ public class VanillaModule implements Module {
             }
         }
 
+        if(screen instanceof GameModeSwitcherScreen)      return Movement.SUGGEST_ENABLE;
+
         if(screen instanceof InventoryScreen)             return m_inventory.get()      ? Movement.SUGGEST_ENABLE : Movement.SUGGEST_DISABLE;
         if(screen instanceof HorseInventoryScreen)   	  return m_horseInventory.get() ? Movement.SUGGEST_ENABLE : Movement.SUGGEST_DISABLE;
         if(screen instanceof CreativeModeInventoryScreen) return m_creative.get()       ? Movement.SUGGEST_ENABLE : Movement.SUGGEST_DISABLE;
@@ -185,6 +190,7 @@ public class VanillaModule implements Module {
     @Override
     public Background shouldHideBackground(Screen screen) {
 
+        if(screen instanceof GenericDirtMessageScreen)       return Background.SUGGEST_SHOW;
         if(screen instanceof DeathScreen)                    return Background.SUGGEST_SHOW;
         if(screen instanceof OptionsScreen)                  return Background.SUGGEST_SHOW;
         if(screen instanceof OptionsSubScreen)               return Background.SUGGEST_SHOW;

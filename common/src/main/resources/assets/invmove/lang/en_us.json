@@ -11,8 +11,8 @@
 
   "config.invmove.movement.enable": "Move In Inventories",
   "tooltip.config.invmove.movement.enable": "Enable movement while inside inventories.\nYou can manually turn off certain inventories below.",
-  "config.invmove.movement.sneak": "Allow Sneaking",
-  "tooltip.config.invmove.movement.sneak": "Allow sneaking while inside inventories.\n(It can be distracting when shift-clicking items)",
+  "config.invmove.movement.sneak": "Sneak Mode",
+  "tooltip.config.invmove.movement.sneak": "How to handle sneaking while inside inventories:\nOff = No sneaking\nMaintain = Keep sneaking if you were when the inventory opened\nPressed = Sneak only while holding the sneak button\n(Pressed can be distracting when shift-clicking)",
   "config.invmove.movement.jump": "Allow Jumping",
   "tooltip.config.invmove.movement.jump": "Allow jumping while inside inventories.",
   "config.invmove.movement.dismount": "Allow Dismounting",

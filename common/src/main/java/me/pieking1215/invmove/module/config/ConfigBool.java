@@ -10,6 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.util.GsonHelper;
 
+import java.util.Optional;
 import java.util.function.Function;
 
 public class ConfigBool extends ConfigEntry<Boolean> {

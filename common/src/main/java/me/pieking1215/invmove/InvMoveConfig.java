@@ -8,6 +8,7 @@ import com.google.gson.stream.JsonWriter;
 import me.pieking1215.invmove.module.Module;
 import me.pieking1215.invmove.module.Modules;
 import me.pieking1215.invmove.module.config.ConfigBool;
+import me.pieking1215.invmove.module.config.ConfigEnum;
 import me.pieking1215.invmove.module.config.ModuleConfig;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
@@ -27,6 +28,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 
 public class InvMoveConfig {
@@ -45,10 +47,13 @@ public class InvMoveConfig {
     }
 
     public static class Movement {
+        public enum SneakMode {
+            Off, Maintain, Pressed
+        }
         public ModuleConfig cfg = new ModuleConfig("movement");
         public final ConfigBool ENABLED = cfg.bool("config.invmove.movement.enable", "enable", true);
         public final ConfigBool JUMP = cfg.bool("config.invmove.movement.jump", "jump", true);
-        public final ConfigBool SNEAK = cfg.bool("config.invmove.movement.sneak", "sneak", false);
+        public final ConfigEnum<SneakMode> SNEAK = cfg.addEnum("config.invmove.movement.sneak", "sneak", SneakMode.Maintain).setMigrator(element -> GsonHelper.isBooleanValue(element) ? Optional.of(element.getAsBoolean() ? SneakMode.Pressed : SneakMode.Maintain) : Optional.empty());
         public final ConfigBool DISMOUNT = cfg.bool("config.invmove.movement.dismount", "dismount", false);
         public final ConfigBool TEXT_FIELD_DISABLES = cfg.bool("config.invmove.movement.textFieldDisables", "textFieldDisables", true);
         public HashMap<String, HashMap<Class<? extends Screen>, Boolean>> unrecognizedScreensAllowMovement = new HashMap<>();
