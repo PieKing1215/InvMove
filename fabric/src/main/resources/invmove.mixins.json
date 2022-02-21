@@ -6,7 +6,8 @@
   "client": [
     "client.MovementMixin",
     "client.BackgroundMixin",
-    "client.OverlayMixin"
+    "client.OverlayMixin",
+    "client.ButtonJumpKeyFixMixin"
   ],
   "mixins": [
   ],
