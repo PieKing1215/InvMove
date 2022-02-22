@@ -19,4 +19,4 @@ jobs:
         run: |
           sed 's/"/\\"/g' README.md > README_work.md
           sed -E ':a;N;$!ba;s/\r{0,1}\n/\\n/g' README_work.md > README_work2.md
-          curl -i -s -X PATCH -H "Content-type: application/json" -H "Authorization:$MODRINTH_TOKEN" --data-raw "{\"body\": \"$(cat README_work2.md)\" }" https://api.modrinth.com/api/v2/mod/REfW2AEX
+          curl -i -s -X PATCH -H "Content-type: application/json" -H "Authorization:$MODRINTH_TOKEN" --data-raw "{\"body\": \"$(cat README_work2.md)\" }" https://api.modrinth.com/v2/project/REfW2AEX
