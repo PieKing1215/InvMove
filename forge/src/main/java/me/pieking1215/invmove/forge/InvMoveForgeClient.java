@@ -2,13 +2,16 @@ package me.pieking1215.invmove.forge;
 
 import me.pieking1215.invmove.InvMove;
 import me.pieking1215.invmove.InvMoveConfig;
+import net.minecraftforge.client.ClientRegistry;
 import net.minecraftforge.client.event.ScreenEvent;
+import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.IExtensionPoint;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.loading.FMLPaths;
 
 import java.util.Optional;
@@ -44,13 +47,11 @@ public class InvMoveForgeClient {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onGUIDrawPost(ScreenEvent.DrawScreenEvent.Post event){
-        InvMove.drawDebugOverlay(cl -> {
-            String str = cl.getName();
-            if (str.startsWith("net.minecraft.")) {
-                str = str.substring("net.minecraft.".length());
-            }
+        InvMove.drawDebugOverlay();
+    }
 
-            return str;
-        });
+    static void clientSetup(final FMLClientSetupEvent event) {
+        InvMove.TOGGLE_MOVEMENT_KEY.setKeyConflictContext(KeyConflictContext.UNIVERSAL);
+        ClientRegistry.registerKeyBinding(InvMove.TOGGLE_MOVEMENT_KEY);
     }
 }

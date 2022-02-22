@@ -11,13 +11,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class OverlayMixin {
     @Inject(method = "render", at = @At("TAIL"))
     public void render(CallbackInfo callbackInfo) {
-        InvMove.drawDebugOverlay(cl -> {
-            String str = cl.getName();
-            if (str.startsWith("net.minecraft.")) {
-                str = str.substring("net.minecraft.".length());
-            }
-
-            return str;
-        });
+        InvMove.drawDebugOverlay();
     }
 }

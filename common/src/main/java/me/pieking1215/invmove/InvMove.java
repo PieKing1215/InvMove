@@ -1,5 +1,6 @@
 package me.pieking1215.invmove;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.vertex.PoseStack;
 import me.pieking1215.invmove.module.Module;
 import me.pieking1215.invmove.module.Modules;
@@ -27,9 +28,68 @@ public class InvMove {
 
     private static boolean wasSneaking = false;
 
+    public static KeyMapping TOGGLE_MOVEMENT_KEY = new KeyMapping(
+            "keybind.invmove.toggleMove",
+            InputConstants.Type.KEYSYM,
+            InputConstants.UNKNOWN.getValue(),
+            "keycategory.invmove"
+    );
+
+    private static boolean wasToggleMovementPressed = false;
+
     public static void init() {
         Modules.init();
         InvMoveConfig.load();
+    }
+
+    /**
+     * Handles updating and applying effects of the toggle movement key.
+     * This is more complicated than you might expect because we want to toggle the config value
+     *   only if it actually has an effect.
+     * So for example, pressing it while in a text field won't do anything
+     * @param screen The current screen
+     * @param couldMove Whether we could move in this Screen before
+     * @return Whether we can move in this Screen now
+     */
+    private static boolean handleToggleMovementKey(Screen screen, boolean couldMove) {
+        if (TOGGLE_MOVEMENT_KEY.isUnbound()) return couldMove;
+
+        // .key here is accessWidened
+        TOGGLE_MOVEMENT_KEY.setDown(InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), TOGGLE_MOVEMENT_KEY.key.getValue()));
+        boolean before = wasToggleMovementPressed;
+        wasToggleMovementPressed = TOGGLE_MOVEMENT_KEY.isDown;
+
+        // if button pressed
+        if (TOGGLE_MOVEMENT_KEY.isDown && !before) {
+
+            if (screen == null) {
+                InvMoveConfig.MOVEMENT.ENABLED.set(!InvMoveConfig.MOVEMENT.ENABLED.get());
+                return couldMove;
+            }
+
+            // if we could move before
+            if (couldMove && InvMoveConfig.MOVEMENT.ENABLED.get()) {
+                // toggle movement off
+                InvMoveConfig.MOVEMENT.ENABLED.set(false);
+                return false;
+            }
+
+            // if we couldn't move before
+            if (!couldMove && !InvMoveConfig.MOVEMENT.ENABLED.get()) {
+                // try turning movement on and see if that makes us able to move
+                InvMoveConfig.MOVEMENT.ENABLED.set(true);
+                if (allowMovementInScreen(screen)) {
+                    // if we are allowed to move now, keep the change
+                    return true;
+                } else{
+                    // if we are still not allowed to move, revert the change
+                    InvMoveConfig.MOVEMENT.ENABLED.set(false);
+                    return false;
+                }
+            }
+        }
+
+        return couldMove;
     }
 
     public static void onInputUpdate(Input input){
@@ -39,7 +99,10 @@ public class InvMove {
             wasSneaking = input.shiftKeyDown;
         }
 
-        if(allowMovementInScreen(Minecraft.getInstance().screen)){
+        boolean canMove = allowMovementInScreen(Minecraft.getInstance().screen);
+        canMove = handleToggleMovementKey(Minecraft.getInstance().screen, canMove);
+
+        if(canMove){
 
             // tick keybinds (since opening the ui unpresses all keys)
             KeyMapping.setAll();
@@ -52,8 +115,7 @@ public class InvMove {
             } else {
                 boolean sneakKey = false;
                 switch (InvMoveConfig.MOVEMENT.SNEAK.get()) {
-                    case Off -> {
-                    }
+                    case Off -> {}
                     case Maintain -> {
                         sneakKey = wasSneaking;
                     }
@@ -75,6 +137,8 @@ public class InvMove {
             }
 
         }else if(Minecraft.getInstance().screen != null){
+            // we are in a screen that we can't move in
+
             KeyMapping.releaseAll();
 
             // special handling for sneaking
@@ -93,6 +157,9 @@ public class InvMove {
         }
     }
 
+    /**
+     * Returns `true` if the local player is allowed to move in this `Screen`, `false` otherwise.
+     */
     public static boolean allowMovementInScreen(Screen screen) {
         if(screen == null) return false;
 
@@ -180,6 +247,9 @@ public class InvMove {
         return key.isDown;
     }
 
+    /**
+     * Returns `true` if this `Screen` should have its background tint hidden, `false` otherwise.
+     */
     public static boolean shouldDisableScreenBackground(Screen screen) {
 
         if(Minecraft.getInstance().player == null) return false;
@@ -251,7 +321,11 @@ public class InvMove {
         }
     }
 
-    public static void drawDebugOverlay(Function<Class<?>, String> classNameFn) {
+    /**
+     * Draws the class name of the current `Screen` and its superclasses, along with their
+     *   modid and their movement and background state.
+     */
+    public static void drawDebugOverlay() {
         if(InvMoveConfig.GENERAL.DEBUG_DISPLAY.get()) {
             Screen screen = Minecraft.getInstance().screen;
             if(screen == null) return;
@@ -259,7 +333,11 @@ public class InvMove {
             int i = 0;
             Class<?> cl = screen.getClass();
             while (cl.getSuperclass() != null) {
-                String className = classNameFn.apply(cl);
+                String className = cl.getName();
+                if (className.startsWith("net.minecraft.")) {
+                    className = className.substring("net.minecraft.".length());
+                }
+
                 Optional<String> modid = modidFromClass.apply(cl);
                 if (modid.isPresent()) {
                     className = "[" + modid.get() + "] " + className;

@@ -10,7 +10,7 @@
   "tooltip.config.invmove.general.debugDisplay": "Enable debug display.",
 
   "config.invmove.movement.enable": "Move In Inventories",
-  "tooltip.config.invmove.movement.enable": "Enable movement while inside inventories.\nYou can manually turn off certain inventories below.",
+  "tooltip.config.invmove.movement.enable": "Enable movement while inside inventories.\nYou can manually turn off certain inventories below.\nThere is a keybind you can set to toggle this.",
   "config.invmove.movement.sneak": "Sneak Mode",
   "tooltip.config.invmove.movement.sneak": "How to handle sneaking while inside inventories:\nOff = No sneaking\nMaintain = Keep sneaking if you were when the inventory opened\nPressed = Sneak only while holding the sneak button\n(Pressed can be distracting when shift-clicking)",
   "config.invmove.movement.jump": "Allow Jumping",
@@ -27,6 +27,9 @@
 
   "key.invmove.unrecognized": "Unrecognized UI Types",
   "key.invmove.unrecognized.desc": "Unrecognized GUIs show up here once they have been interacted with.",
+
+  "keycategory.invmove": "InvMove",
+  "keybind.invmove.toggleMove": "Toggle UI Movement",
 
   "key.invmove.module.vanilla": "Vanilla",
 

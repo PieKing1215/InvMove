@@ -11,6 +11,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 public class InvMoveForge {
     public InvMoveForge() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::imProcess);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(InvMoveForgeClient::clientSetup);
     }
 
     private void imProcess(InterModProcessEvent evt) {

@@ -22,7 +22,7 @@ public abstract class ConfigEntry<T> {
         return value;
     }
 
-    void set(T v) {
+    public void set(T v) {
         this.value = v;
     }
 
