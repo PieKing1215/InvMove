@@ -42,14 +42,22 @@ For Fabric, you need [Mod Menu](https://www.curseforge.com/minecraft/mc-mods/mod
 - Debug Display: Enables a debug overlay that can help debug compatibility problems.
 
 #### UI Movement:
-- Move In Inventories: Enable movement in inventories
+- Move In Inventories: Enable movement in inventories<br>
+  There is a keybind you can set to toggle this setting (unbound by default)
 - Allow Jumping: Allow jumping in inventories
-- Allow Sneaking: Allow sneaking in inventories (disabled by default because it's distracting when shift-clicking)
+- Sneak Mode: How to handle sneaking in inventories:
+  - Off = No sneaking
+  - Maintain = Keep sneaking if you were when the inventory opened (default)
+  - Pressed = Sneak only while holding the sneak button (can be distracting when shift-clicking)
 - Allow Dismounting: Allow dismounting from mounts in inventories (overrides "Allow Sneaking" while on a mount)
 - Text Field Disables Movement: Disable movement when a text field is focused (like search bars or in an anvil)
 
 #### UI Background:
 - Hide Inventory Backgrounds: Hides the background tint while in inventories.
+- Pause Screens Background: How to handle screens that pause the game:
+  - Show = Always show background
+  - ShowSP = Show background in singleplayer, otherwise allow hide
+  - AllowHide = Allow background to be hidden
 
 The Movement and Background pages also have expandable categories containing toggles for individual inventory types.<br>
 The base mod only has a category for vanilla inventories. For more mod compatibilities, see [InvMoveCompats](https://github.com/PieKing1215/InvMoveCompats)<br>
