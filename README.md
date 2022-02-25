@@ -49,7 +49,7 @@ For Fabric, you need [Mod Menu](https://www.curseforge.com/minecraft/mc-mods/mod
   - Off = No sneaking
   - Maintain = Keep sneaking if you were when the inventory opened (default)
   - Pressed = Sneak only while holding the sneak button (can be distracting when shift-clicking)
-- Allow Dismounting: Allow dismounting from mounts in inventories (overrides "Allow Sneaking" while on a mount)
+- Allow Dismounting: Allow dismounting from mounts in inventories (overrides "Sneak Mode" while on a mount)
 - Text Field Disables Movement: Disable movement when a text field is focused (like search bars or in an anvil)
 
 #### UI Background:
