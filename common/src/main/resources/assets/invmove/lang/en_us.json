@@ -35,5 +35,6 @@
 
   "config.invmove.vanilla.movement.horseInventory": "Horse Inventory",
   "config.invmove.vanilla.backgroundHide.horseInventory": "Horse Inventory",
-  "tooltip.gui.advancements": "This menu is a pause screen so this option may be overridden."
+  "tooltip.gui.advancements": "This menu is a pause screen so this option may be overridden.",
+  "tooltip.item.minecraft.book": "This menu is a pause screen so this option may be overridden."
 }
