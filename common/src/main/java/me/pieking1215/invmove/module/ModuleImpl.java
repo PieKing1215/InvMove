@@ -36,29 +36,29 @@ public abstract class ModuleImpl implements Module {
             this.clazz = clazz;
         }
 
-        protected Registering movement(Movement movement) {
+        public Registering movement(Movement movement) {
             for (Class<?> aClass : clazz) {
                 classMovementHardcoded.put(aClass, movement);
             }
             return this;
         }
 
-        protected Registering background(Background background) {
+        public Registering background(Background background) {
             for (Class<?> aClass : clazz) {
                 classBackgroundHideHardcoded.put(aClass, background);
             }
             return this;
         }
 
-        protected ConfigMovement cfgMovement(String id) {
+        public ConfigMovement cfgMovement(String id) {
             return new ConfigMovement(this, id);
         }
 
-        protected ConfigBackgroundHide cfgBackground(String id) {
+        public ConfigBackgroundHide cfgBackground(String id) {
             return new ConfigBackgroundHide(this, id);
         }
 
-        protected ConfigBoth cfg(String id) {
+        public ConfigBoth cfg(String id) {
             return new ConfigBoth(this, id);
         }
     }
@@ -75,7 +75,7 @@ public abstract class ModuleImpl implements Module {
             this.id = id;
         }
 
-        protected Registering submit() {
+        public Registering submit() {
             if (this.display != null) {
                 ConfigBool b = m_config.bool(this.display, this.id, this.def).textFn(textFn);
                 for (Class<?> clazz : reg.clazz) {
@@ -90,17 +90,17 @@ public abstract class ModuleImpl implements Module {
             return this.reg;
         }
 
-        protected ConfigMovement display(String display) {
+        public ConfigMovement display(String display) {
             this.display = display;
             return this;
         }
 
-        protected ConfigMovement setDefault(boolean def) {
+        public ConfigMovement setDefault(boolean def) {
             this.def = def;
             return this;
         }
 
-        protected ConfigMovement textFn(Function<Boolean, Component> textFn) {
+        public ConfigMovement textFn(Function<Boolean, Component> textFn) {
             this.textFn = textFn;
             return this;
         }
@@ -118,7 +118,7 @@ public abstract class ModuleImpl implements Module {
             this.id = id;
         }
 
-        protected Registering submit() {
+        public Registering submit() {
             if (this.display != null) {
                 ConfigBool b = m_config.bool(this.display, this.id, this.def).textFn(textFn);
                 for (Class<?> clazz : reg.clazz) {
@@ -133,17 +133,17 @@ public abstract class ModuleImpl implements Module {
             return this.reg;
         }
 
-        protected ConfigBackgroundHide display(String display) {
+        public ConfigBackgroundHide display(String display) {
             this.display = display;
             return this;
         }
 
-        protected ConfigBackgroundHide setDefault(boolean def) {
+        public ConfigBackgroundHide setDefault(boolean def) {
             this.def = def;
             return this;
         }
 
-        protected ConfigBackgroundHide textFn(Function<Boolean, Component> textFn) {
+        public ConfigBackgroundHide textFn(Function<Boolean, Component> textFn) {
             this.textFn = textFn;
             return this;
         }
@@ -163,7 +163,7 @@ public abstract class ModuleImpl implements Module {
             this.id = id;
         }
 
-        protected Registering submit() {
+        public Registering submit() {
             if (this.display != null) {
                 ConfigBool mv = m_config.bool(this.display, this.id, this.defMv).textFn(textFnMv);
                 ConfigBool bg = bg_config.bool(this.display, this.id, this.defBg).textFn(textFnBg);
@@ -182,18 +182,18 @@ public abstract class ModuleImpl implements Module {
             return this.reg;
         }
 
-        protected ConfigBoth display(String display) {
+        public ConfigBoth display(String display) {
             this.display = display;
             return this;
         }
 
-        protected ConfigBoth setDefaults(boolean defMv, boolean defBg) {
+        public ConfigBoth setDefaults(boolean defMv, boolean defBg) {
             this.defMv = defMv;
             this.defBg = defBg;
             return this;
         }
 
-        protected ConfigBoth textFns(Function<Boolean, Component> textFnMv, Function<Boolean, Component> textFnBg) {
+        public ConfigBoth textFns(Function<Boolean, Component> textFnMv, Function<Boolean, Component> textFnBg) {
             this.textFnMv = textFnMv;
             this.textFnBg = textFnBg;
             return this;

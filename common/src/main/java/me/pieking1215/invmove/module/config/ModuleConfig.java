@@ -6,6 +6,7 @@ import me.pieking1215.invmove.InvMoveConfig;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.impl.builders.SubCategoryBuilder;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.util.GsonHelper;
 
@@ -74,6 +75,9 @@ public class ModuleConfig {
             ConfigEntryMeta meta = pair.getSecond();
             entry.addTo(category, eb, (id.isEmpty() ? "" : (id + ".")) + this.id + "." + meta.id);
         }
+        if (entries.isEmpty()) {
+            category.addEntry(eb.startTextDescription(new TranslatableComponent("key.invmove.module.nooptions").withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC)).build());
+        }
     }
 
     public void addTo(ConfigCategory category, ConfigEntryBuilder eb) {
@@ -85,6 +89,9 @@ public class ModuleConfig {
             ConfigEntry<?> entry = pair.getFirst();
             ConfigEntryMeta meta = pair.getSecond();
             entry.addTo(category, eb, meta.display == null ? ((id.isEmpty() ? "" : (id + ".")) + this.id + "." + meta.id) : meta.display);
+        }
+        if (entries.isEmpty()) {
+            category.add(eb.startTextDescription(new TranslatableComponent("key.invmove.module.nooptions").withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC)).build());
         }
     }
 
