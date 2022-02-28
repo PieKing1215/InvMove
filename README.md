@@ -71,4 +71,4 @@ The only official downloads are from the InvMove GitHub, Curseforge, or Modrinth
 Be careful downloading them from elsewhere, as unauthorized reposts are not monitored and could contain malware.<br>
 (If you are interested in the mod being added to another platform, please open an issue!)
 
-The mod is licensed under the [GNU Lesser General Public License v3.0](https://github.com/PieKing1215/InvMove-Fabric/blob/master/COPYING)
+The mod is licensed under the [GNU Lesser General Public License v3.0](https://github.com/PieKing1215/InvMove/blob/master/COPYING)
