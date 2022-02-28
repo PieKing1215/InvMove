@@ -6,7 +6,8 @@
   "client": [
     "client.MovementMixin",
     "client.BackgroundMixin",
-    "client.ButtonJumpKeyFixMixin"
+    "client.ButtonJumpKeyFixMixin",
+    "client.SprintKeyDownMixin"
   ],
   "mixins": [
   ],

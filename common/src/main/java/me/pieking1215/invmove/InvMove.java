@@ -132,9 +132,11 @@ public class InvMove {
             manualTickMovement(input, Minecraft.getInstance().player.isMovingSlowly(), Minecraft.getInstance().player.isSpectator());
 
             // set sprinting using raw keybind data
-            if(!Minecraft.getInstance().player.isSprinting() && !Minecraft.getInstance().player.isCrouching()) {
-                Minecraft.getInstance().player.setSprinting(rawIsKeyDown(Minecraft.getInstance().options.keySprint));
-            }
+            // edit: this is commented out to let vanilla handle it (requires an extra mixin on forge)
+            //       letting vanilla do it might fix some bugs with other mods that affect sprinting
+//            if(!Minecraft.getInstance().player.isSprinting() && !Minecraft.getInstance().player.isCrouching()) {
+//                Minecraft.getInstance().player.setSprinting(rawIsKeyDown(Minecraft.getInstance().options.keySprint));
+//            }
 
         }else if(Minecraft.getInstance().screen != null){
             // we are in a screen that we can't move in
