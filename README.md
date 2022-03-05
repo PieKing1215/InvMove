@@ -12,14 +12,14 @@
 <tr>
   <td>InvMove</td>
   <td><a href="https://github.com/PieKing1215/InvMove">GitHub</a></td>
-  <td><a href="https://www.curseforge.com/minecraft/mc-mods/invmove">CurseForge</a></td>
   <td><a href="https://modrinth.com/mod/invmove">Modrinth</a></td>
+  <td><a href="https://www.curseforge.com/minecraft/mc-mods/invmove">CurseForge</a></td>
 </tr>
 <tr>
   <td>InvMoveCompats</td>
   <td><a href="https://github.com/PieKing1215/InvMoveCompats">GitHub</a></td>
-  <td><a href="https://www.curseforge.com/minecraft/mc-mods/invmovecompats">CurseForge</a></td>
   <td><a href="https://modrinth.com/mod/invmovecompats">Modrinth</a></td>
+  <td><a href="https://www.curseforge.com/minecraft/mc-mods/invmovecompats">CurseForge</a></td>
 </tr>
 </table>
 
