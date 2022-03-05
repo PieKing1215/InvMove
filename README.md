@@ -74,7 +74,7 @@ Any screens not handled by installed mod compatibilities are added to the "Unrec
 
 Feel free to use in packs if you wish.
 
-The only official downloads are from the InvMove GitHub, Curseforge, or Modrinth page.<br>
+The only official downloads are from the InvMove GitHub, Modrinth, or CurseForge page.<br>
 Be careful downloading them from elsewhere, as unauthorized reposts are not monitored and could contain malware.<br>
 (If you are interested in the mod being added to another platform, please open an issue!)
 
