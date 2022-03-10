@@ -27,6 +27,7 @@ public class InvMove {
     public static Supplier<File> getConfigDir = () -> null;
 
     private static boolean wasSneaking = false;
+    private static boolean wasShiftDown = false;
 
     public static KeyMapping TOGGLE_MOVEMENT_KEY = new KeyMapping(
             "keybind.invmove.toggleMove",
@@ -105,27 +106,54 @@ public class InvMove {
         if(canMove){
 
             // tick keybinds (since opening the ui unpresses all keys)
-            KeyMapping.setAll();
+
+            if (Minecraft.getInstance().options.toggleCrouch) {
+                // TODO: think about doing this a better way
+
+                // save whether it was toggled
+                boolean wasCrouchToggle = Minecraft.getInstance().options.keyShift.isDown;
+
+                // make it not toggle, and see if the key was pressed
+                Minecraft.getInstance().options.toggleCrouch = false;
+                KeyMapping.setAll();
+                Minecraft.getInstance().options.toggleCrouch = true;
+
+                // manually toggle crouch
+                boolean nowShift = Minecraft.getInstance().options.keyShift.isDown;
+                if (InvMoveConfig.MOVEMENT.SNEAK.get() == InvMoveConfig.Movement.SneakMode.Pressed && !wasShiftDown && nowShift) {
+                    Minecraft.getInstance().options.keyShift.isDown = !wasCrouchToggle;
+                } else {
+                    Minecraft.getInstance().options.keyShift.isDown = wasCrouchToggle;
+                }
+                wasShiftDown = nowShift;
+            } else {
+                KeyMapping.setAll();
+            }
+//            Minecraft.getInstance().screen.passEvents = true;
+//            System.out.println(input.up + " " + Minecraft.getInstance().options.keyUp.isDown);
 
             // this is needed for compatibility with ItemPhysic
             Minecraft.getInstance().options.keyDrop.setDown(false);
 
-            if (Minecraft.getInstance().player != null && Minecraft.getInstance().player.isPassenger()) {
-                Minecraft.getInstance().options.keyShift.setDown(InvMoveConfig.MOVEMENT.DISMOUNT.get() && Minecraft.getInstance().options.keyShift.isDown);
-            } else {
-                boolean sneakKey = false;
-                switch (InvMoveConfig.MOVEMENT.SNEAK.get()) {
-                    case Off -> {}
-                    case Maintain -> {
-                        sneakKey = wasSneaking;
+            if (!Minecraft.getInstance().options.toggleCrouch) {
+                if (Minecraft.getInstance().player != null && Minecraft.getInstance().player.isPassenger()) {
+                    Minecraft.getInstance().options.keyShift.setDown(InvMoveConfig.MOVEMENT.DISMOUNT.get() && Minecraft.getInstance().options.keyShift.isDown);
+                } else {
+                    boolean sneakKey = false;
+                    switch (InvMoveConfig.MOVEMENT.SNEAK.get()) {
+                        case Off -> {
+                        }
+                        case Maintain -> {
+                            sneakKey = wasSneaking;
+                        }
+                        case Pressed -> {
+                            // update wasSneaking so we know what to do when allowMovementInScreen -> false
+                            sneakKey = wasSneaking = Minecraft.getInstance().options.keyShift.isDown;
+                        }
                     }
-                    case Pressed -> {
-                        // update wasSneaking so we know what to do when allowMovementInScreen -> false
-                        sneakKey = wasSneaking = Minecraft.getInstance().options.keyShift.isDown;
-                    }
-                }
 
-                Minecraft.getInstance().options.keyShift.setDown(sneakKey);
+                    Minecraft.getInstance().options.keyShift.setDown(sneakKey);
+                }
             }
 
             // tick movement
@@ -144,7 +172,7 @@ public class InvMove {
             KeyMapping.releaseAll();
 
             // special handling for sneaking
-            if (InvMoveConfig.GENERAL.ENABLED.get()) {
+            if (InvMoveConfig.GENERAL.ENABLED.get() && !Minecraft.getInstance().options.toggleCrouch) {
                 if (Minecraft.getInstance().player == null || !Minecraft.getInstance().player.isPassenger()) {
                     boolean sneakKey = false;
                     switch (InvMoveConfig.MOVEMENT.SNEAK.get()) {
