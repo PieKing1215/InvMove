@@ -231,7 +231,7 @@ public class InvMove {
             HashMap<Class<? extends Screen>, Boolean> hm = InvMoveConfig.MOVEMENT.unrecognizedScreensAllowMovement.get(modid);
 
             if (!hm.containsKey(cl)) {
-                hm.put(cl, true);
+                hm.put(cl, InvMoveConfig.MOVEMENT.UNRECOGNIZED_SCREEN_DEFAULT.get());
                 InvMoveConfig.save();
             }
 
@@ -341,7 +341,7 @@ public class InvMove {
             HashMap<Class<? extends Screen>, Boolean> hm = InvMoveConfig.BACKGROUND.unrecognizedScreensHideBG.get(modid);
 
             if (!hm.containsKey(cl)) {
-                hm.put(cl, true);
+                hm.put(cl, InvMoveConfig.BACKGROUND.UNRECOGNIZED_SCREEN_DEFAULT.get());
                 InvMoveConfig.save();
             }
 

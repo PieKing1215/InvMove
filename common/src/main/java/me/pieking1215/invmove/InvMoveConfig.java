@@ -33,12 +33,12 @@ import java.util.function.Function;
 
 public class InvMoveConfig {
 
+    public static final Function<Boolean, Component> MOVEMENT_YES_NO_TEXT = b -> new TextComponent(b ? ChatFormatting.GREEN + "Allow Movement" : ChatFormatting.RED + "Disallow Movement");
+    public static final Function<Boolean, Component> BACKGROUND_YES_NO_TEXT = b -> new TextComponent(b ? ChatFormatting.GREEN + "Hide Background" : ChatFormatting.RED + "Show Background");
+
     public static General GENERAL = new General();
     public static Movement MOVEMENT = new Movement();
     public static Background BACKGROUND = new Background();
-
-    public static final Function<Boolean, Component> MOVEMENT_YES_NO_TEXT = b -> new TextComponent(b ? ChatFormatting.GREEN + "Allow Movement" : ChatFormatting.RED + "Disallow Movement");
-    public static final Function<Boolean, Component> BACKGROUND_YES_NO_TEXT = b -> new TextComponent(b ? ChatFormatting.GREEN + "Hide Background" : ChatFormatting.RED + "Show Background");
 
     public static class General {
         public ModuleConfig cfg = new ModuleConfig("general");
@@ -62,6 +62,8 @@ public class InvMoveConfig {
 
         public final ConfigBool TEXT_FIELD_DISABLES = cfg.bool("textFieldDisables", true);
 
+        public final ConfigBool UNRECOGNIZED_SCREEN_DEFAULT = cfg.bool("unrecognizedScreenDefault", true).textFn(MOVEMENT_YES_NO_TEXT);
+
         public HashMap<String, HashMap<Class<? extends Screen>, Boolean>> unrecognizedScreensAllowMovement = new HashMap<>();
     }
 
@@ -74,6 +76,8 @@ public class InvMoveConfig {
             Show, ShowSP, AllowHide
         }
         public final ConfigEnum<PauseScreenMode> HIDE_ON_PAUSE = cfg.addEnum("hideOnPause", PauseScreenMode.Show);
+
+        public final ConfigBool UNRECOGNIZED_SCREEN_DEFAULT = cfg.bool("unrecognizedScreenDefault", true).textFn(BACKGROUND_YES_NO_TEXT);
 
         public HashMap<String, HashMap<Class<? extends Screen>, Boolean>> unrecognizedScreensHideBG = new HashMap<>();
     }

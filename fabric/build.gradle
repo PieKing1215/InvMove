@@ -35,6 +35,9 @@ dependencies {
         exclude(group: "net.fabricmc.fabric-api")
     }
 
+    // for testing some unrecognized UIs
+//    modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:7.3.432"
+
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 }
