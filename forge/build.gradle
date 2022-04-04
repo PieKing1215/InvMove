@@ -36,6 +36,9 @@ dependencies {
 //    modApi "dev.architectury:architectury-forge:${rootProject.architectury_version}"
     modApi "me.shedaniel.cloth:cloth-config-forge:${rootProject.cloth_version}"
 
+    // for testing some unrecognized UIs
+//    modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-forge:7.3.443"
+
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
 }
