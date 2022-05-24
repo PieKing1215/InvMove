@@ -438,7 +438,7 @@ public class InvMoveConfig {
                 for (Map.Entry<String, JsonElement> entry : movement.entrySet()) {
                     if (GsonHelper.isBooleanValue(entry.getValue())) {
                         try {
-                            Class<?> cl = Class.forName(entry.getKey());
+                            Class<?> cl = Class.forName(entry.getKey(), false, InvMoveConfig.class.getClassLoader());
                             if (Screen.class.isAssignableFrom(cl)) {
                                 String modid = InvMove.modidFromClass.apply(cl).orElse("?unknown");
                                 InvMoveConfig.MOVEMENT.unrecognizedScreensAllowMovement.putIfAbsent(modid, new HashMap<>());
