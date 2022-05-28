@@ -21,12 +21,13 @@
       "me.pieking1215.invmove.fabric.InvMoveFabric"
     ],
     "modmenu": [
-      "me.pieking1215.invmove.fabric.InvMoveModMenuIntegration"
+      "me.pieking1215.invmove.fabric_like.InvMoveModMenuIntegration"
     ]
   },
 
   "mixins": [
     "invmove.mixins.json",
+    "invmove-fabric-like.mixins.json",
     "invmove-common.mixins.json"
   ],
 

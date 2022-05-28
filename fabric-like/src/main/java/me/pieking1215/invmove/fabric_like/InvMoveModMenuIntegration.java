@@ -1,4 +1,4 @@
-package me.pieking1215.invmove.fabric;
+package me.pieking1215.invmove.fabric_like;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;

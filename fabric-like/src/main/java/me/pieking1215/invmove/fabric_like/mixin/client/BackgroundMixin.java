@@ -1,4 +1,4 @@
-package me.pieking1215.invmove.fabric.mixin.client;
+package me.pieking1215.invmove.fabric_like.mixin.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import me.pieking1215.invmove.InvMove;

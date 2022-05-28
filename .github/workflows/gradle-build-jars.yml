@@ -34,6 +34,7 @@ jobs:
       run: |
         mv ./forge/build/libs/*[0-9].jar "./InvMove-forge-${{ steps.short-sha.outputs.sha }}.jar"
         mv ./fabric/build/libs/*[0-9].jar "./InvMove-fabric-${{ steps.short-sha.outputs.sha }}.jar"
+        mv ./quilt/build/libs/*[0-9].jar "./InvMove-quilt-${{ steps.short-sha.outputs.sha }}.jar"
         
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.3.1
@@ -48,3 +49,10 @@ jobs:
         # Artifact name
         name: "InvMove-fabric-${{ steps.short-sha.outputs.sha }}"
         path: ./*fabric*.jar
+
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.3.1
+      with:
+        # Artifact name
+        name: "InvMove-quilt-${{ steps.short-sha.outputs.sha }}"
+        path: ./*quilt*.jar

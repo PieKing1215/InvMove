@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "me.pieking1215.invmove.fabric.mixin",
+  "package": "me.pieking1215.invmove.quilt.mixin",
   "compatibilityLevel": "JAVA_16",
   "client": [
   ],
