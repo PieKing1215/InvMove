@@ -1,6 +1,7 @@
 package me.pieking1215.invmove.quilt;
 
 import me.pieking1215.invmove.InvMove;
+import me.pieking1215.invmove.fabric_like.InvMoveInitializer;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.loader.api.QuiltLoader;
@@ -24,9 +25,7 @@ public class InvMoveQuilt implements ClientModInitializer {
         InvMove.modNameFromModid = modid -> QuiltLoader.getModContainer(modid).map(con -> con.metadata().name()).orElse(modid);
         InvMove.getConfigDir = () -> QuiltLoader.getConfigDir().toFile();
 
-        QuiltLoader.getEntrypointContainers("invmove", InvMoveInitializer.class).forEach(entrypoint -> {
-            entrypoint.getEntrypoint().init();
-        });
+        QuiltLoader.getEntrypointContainers("invmove", InvMoveInitializer.class).forEach(entrypoint -> entrypoint.getEntrypoint().init());
 
         InvMove.init();
 

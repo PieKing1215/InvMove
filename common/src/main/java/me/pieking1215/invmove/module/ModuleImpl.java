@@ -17,20 +17,21 @@ import java.util.function.Function;
  */
 public abstract class ModuleImpl implements Module {
 
-    protected ModuleConfig m_config = new ModuleConfig("movement");
-    protected Map<Class<?>, ConfigBool> classMovementConfig = new HashMap<>();
-    protected Map<Class<?>, Movement> classMovementHardcoded = new HashMap<>();
+    protected final ModuleConfig m_config = new ModuleConfig("movement");
+    protected final Map<Class<?>, ConfigBool> classMovementConfig = new HashMap<>();
+    protected final Map<Class<?>, Movement> classMovementHardcoded = new HashMap<>();
 
-    protected ModuleConfig bg_config = new ModuleConfig("backgroundHide");
-    protected Map<Class<?>, ConfigBool> classBackgroundHideConfig = new HashMap<>();
-    protected Map<Class<?>, Background> classBackgroundHideHardcoded = new HashMap<>();
+    protected final ModuleConfig bg_config = new ModuleConfig("backgroundHide");
+    protected final Map<Class<?>, ConfigBool> classBackgroundHideConfig = new HashMap<>();
+    protected final Map<Class<?>, Background> classBackgroundHideHardcoded = new HashMap<>();
 
     protected Registering register(Class<?>... clazz) {
         return new Registering(clazz);
     }
 
+    @SuppressWarnings("unused")
     protected class Registering {
-        Class<?>[] clazz;
+        final Class<?>[] clazz;
 
         protected Registering(Class<?>... clazz) {
             this.clazz = clazz;
@@ -43,6 +44,7 @@ public abstract class ModuleImpl implements Module {
             return this;
         }
 
+        @SuppressWarnings("UnusedReturnValue")
         public Registering background(Background background) {
             for (Class<?> aClass : clazz) {
                 classBackgroundHideHardcoded.put(aClass, background);
@@ -63,9 +65,10 @@ public abstract class ModuleImpl implements Module {
         }
     }
 
+    @SuppressWarnings("unused")
     protected class ConfigMovement {
-        Registering reg;
-        String id;
+        final Registering reg;
+        final String id;
         boolean def = true;
         Function<Boolean, Component> textFn = InvMoveConfig.MOVEMENT_YES_NO_TEXT;
         String display = null;
@@ -106,9 +109,10 @@ public abstract class ModuleImpl implements Module {
         }
     }
 
+    @SuppressWarnings("unused")
     protected class ConfigBackgroundHide {
-        Registering reg;
-        String id;
+        final Registering reg;
+        final String id;
         boolean def = true;
         Function<Boolean, Component> textFn = InvMoveConfig.BACKGROUND_YES_NO_TEXT;
         String display = null;
@@ -149,9 +153,10 @@ public abstract class ModuleImpl implements Module {
         }
     }
 
+    @SuppressWarnings("unused")
     protected class ConfigBoth {
-        Registering reg;
-        String id;
+        final Registering reg;
+        final String id;
         boolean defMv = true;
         boolean defBg = true;
         Function<Boolean, Component> textFnMv = InvMoveConfig.MOVEMENT_YES_NO_TEXT;
@@ -163,6 +168,7 @@ public abstract class ModuleImpl implements Module {
             this.id = id;
         }
 
+        @SuppressWarnings("UnusedReturnValue")
         public Registering submit() {
             if (this.display != null) {
                 ConfigBool mv = m_config.bool(this.display, this.id, this.defMv).textFn(textFnMv);

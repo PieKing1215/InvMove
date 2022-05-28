@@ -1,17 +1,13 @@
 package me.pieking1215.invmove.module.config;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.impl.builders.SubCategoryBuilder;
 
-import java.util.Optional;
-import java.util.function.Function;
-
 public abstract class ConfigEntry<T> {
 
-    T defaultValue;
+    final T defaultValue;
     T value;
 
     public ConfigEntry(T defaultValue) {
@@ -30,8 +26,12 @@ public abstract class ConfigEntry<T> {
         return defaultValue;
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     abstract void addTo(ConfigCategory category, ConfigEntryBuilder eb, String id);
+    @SuppressWarnings("UnusedReturnValue")
     abstract void addTo(SubCategoryBuilder category, ConfigEntryBuilder eb, String id);
+    @SuppressWarnings("UnusedReturnValue")
     abstract void write(JsonObject json, String id);
+    @SuppressWarnings("UnusedReturnValue")
     abstract void read(JsonObject json, String id);
 }

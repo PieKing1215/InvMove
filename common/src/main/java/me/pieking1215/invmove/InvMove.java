@@ -29,7 +29,7 @@ public class InvMove {
     private static boolean wasSneaking = false;
     private static boolean wasShiftDown = false;
 
-    public static KeyMapping TOGGLE_MOVEMENT_KEY = new KeyMapping(
+    public static final KeyMapping TOGGLE_MOVEMENT_KEY = new KeyMapping(
             "keybind.invmove.toggleMove",
             InputConstants.Type.KEYSYM,
             InputConstants.UNKNOWN.getValue(),
@@ -141,15 +141,10 @@ public class InvMove {
                 } else {
                     boolean sneakKey = false;
                     switch (InvMoveConfig.MOVEMENT.SNEAK.get()) {
-                        case Off -> {
-                        }
-                        case Maintain -> {
-                            sneakKey = wasSneaking;
-                        }
-                        case Pressed -> {
-                            // update wasSneaking so we know what to do when allowMovementInScreen -> false
-                            sneakKey = wasSneaking = Minecraft.getInstance().options.keyShift.isDown;
-                        }
+                        case Off -> {}
+                        case Maintain -> sneakKey = wasSneaking;
+                        // update wasSneaking so we know what to do when allowMovementInScreen -> false
+                        case Pressed -> sneakKey = wasSneaking = Minecraft.getInstance().options.keyShift.isDown;
                     }
 
                     Minecraft.getInstance().options.keyShift.setDown(sneakKey);
@@ -325,14 +320,6 @@ public class InvMove {
                 case SUGGEST_HIDE -> show = Optional.of(false);
             }
         }
-
-        //		Class<? extends Screen> scr = screen.getClass();
-        //		if(Config.UI_BACKGROUND.seenScreens.containsKey(scr.getName())){
-        //			return !Config.UI_BACKGROUND.seenScreens.get(scr.getName());
-        //		}else{
-        //			Config.UI_BACKGROUND.seenScreens.put(scr.getName(), true);
-        //		}
-
 
         if (show.isEmpty()) {
             Class<? extends Screen> cl = screen.getClass();

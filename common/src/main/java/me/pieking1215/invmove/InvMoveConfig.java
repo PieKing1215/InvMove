@@ -36,18 +36,18 @@ public class InvMoveConfig {
     public static final Function<Boolean, Component> MOVEMENT_YES_NO_TEXT = b -> new TextComponent(b ? ChatFormatting.GREEN + "Allow Movement" : ChatFormatting.RED + "Disallow Movement");
     public static final Function<Boolean, Component> BACKGROUND_YES_NO_TEXT = b -> new TextComponent(b ? ChatFormatting.GREEN + "Hide Background" : ChatFormatting.RED + "Show Background");
 
-    public static General GENERAL = new General();
-    public static Movement MOVEMENT = new Movement();
-    public static Background BACKGROUND = new Background();
+    public static final General GENERAL = new General();
+    public static final Movement MOVEMENT = new Movement();
+    public static final Background BACKGROUND = new Background();
 
     public static class General {
-        public ModuleConfig cfg = new ModuleConfig("general");
+        public final ModuleConfig cfg = new ModuleConfig("general");
         public final ConfigBool ENABLED = cfg.bool("config.invmove.enable", "enable", true);
         public final ConfigBool DEBUG_DISPLAY = cfg.bool("config.invmove.debugDisplay", "debugDisplay", false);
     }
 
     public static class Movement {
-        public ModuleConfig cfg = new ModuleConfig("movement");
+        public final ModuleConfig cfg = new ModuleConfig("movement");
 
         public final ConfigBool ENABLED = cfg.bool("enable", true);
 
@@ -64,11 +64,11 @@ public class InvMoveConfig {
 
         public final ConfigBool UNRECOGNIZED_SCREEN_DEFAULT = cfg.bool("unrecognizedScreenDefault", true).textFn(MOVEMENT_YES_NO_TEXT);
 
-        public HashMap<String, HashMap<Class<? extends Screen>, Boolean>> unrecognizedScreensAllowMovement = new HashMap<>();
+        public final HashMap<String, HashMap<Class<? extends Screen>, Boolean>> unrecognizedScreensAllowMovement = new HashMap<>();
     }
 
     public static class Background {
-        public ModuleConfig cfg = new ModuleConfig("background");
+        public final ModuleConfig cfg = new ModuleConfig("background");
 
         public final ConfigBool BACKGROUND_HIDE = cfg.bool("enable", true);
 
@@ -79,7 +79,7 @@ public class InvMoveConfig {
 
         public final ConfigBool UNRECOGNIZED_SCREEN_DEFAULT = cfg.bool("unrecognizedScreenDefault", true).textFn(BACKGROUND_YES_NO_TEXT);
 
-        public HashMap<String, HashMap<Class<? extends Screen>, Boolean>> unrecognizedScreensHideBG = new HashMap<>();
+        public final HashMap<String, HashMap<Class<? extends Screen>, Boolean>> unrecognizedScreensHideBG = new HashMap<>();
     }
 
     public static Screen setupCloth(Screen parent){

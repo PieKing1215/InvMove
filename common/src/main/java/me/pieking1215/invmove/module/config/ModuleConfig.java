@@ -8,14 +8,13 @@ import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.impl.builders.SubCategoryBuilder;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.util.GsonHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ModuleConfig {
-    String id;
-    List<Pair<ConfigEntry<?>, ConfigEntryMeta>> entries;
+    final String id;
+    final List<Pair<ConfigEntry<?>, ConfigEntryMeta>> entries;
 
     public record ConfigEntryMeta(String id, String display) {}
 
@@ -49,7 +48,9 @@ public class ModuleConfig {
     }
 
     public void label(String id) {
-        class None {};
+        class None {}
+
+        //noinspection EmptyMethod
         this.entries.add(Pair.of(new ConfigEntry<>(new None()) {
             @Override
             void addTo(ConfigCategory category, ConfigEntryBuilder eb, String id) {
@@ -61,9 +62,11 @@ public class ModuleConfig {
                 category.add(eb.startTextDescription(new TranslatableComponent(id)).build());
             }
 
+            @SuppressWarnings("EmptyMethod")
             @Override
             void write(JsonObject json, String id) {}
 
+            @SuppressWarnings("EmptyMethod")
             @Override
             void read(JsonObject json, String id) {}
         }, new ConfigEntryMeta(id, null)));

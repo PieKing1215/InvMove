@@ -4,6 +4,7 @@ import me.pieking1215.invmove.module.config.ModuleConfig;
 import net.minecraft.client.gui.screens.Screen;
 
 public interface Module {
+    @SuppressWarnings("SameReturnValue")
     String getId();
     Movement shouldAllowMovement(Screen screen);
     Background shouldHideBackground(Screen screen);

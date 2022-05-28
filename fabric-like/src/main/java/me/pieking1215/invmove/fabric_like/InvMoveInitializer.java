@@ -1,4 +1,4 @@
-package me.pieking1215.invmove.quilt;
+package me.pieking1215.invmove.fabric_like;
 
 public interface InvMoveInitializer {
 

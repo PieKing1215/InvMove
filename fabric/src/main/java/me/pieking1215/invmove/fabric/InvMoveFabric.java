@@ -1,15 +1,11 @@
 package me.pieking1215.invmove.fabric;
 
-import com.mojang.blaze3d.platform.InputConstants;
 import me.pieking1215.invmove.InvMove;
+import me.pieking1215.invmove.fabric_like.InvMoveInitializer;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
-import net.fabricmc.loader.api.metadata.ModMetadata;
-import net.minecraft.client.KeyMapping;
-import org.lwjgl.glfw.GLFW;
 
 import java.util.Optional;
 
@@ -28,9 +24,7 @@ public class InvMoveFabric implements ClientModInitializer {
         InvMove.modNameFromModid = modid -> FabricLoader.getInstance().getModContainer(modid).map(con -> con.getMetadata().getName()).orElse(modid);
         InvMove.getConfigDir = () -> FabricLoader.getInstance().getConfigDir().toFile();
 
-        FabricLoader.getInstance().getEntrypointContainers("invmove", InvMoveInitializer.class).forEach(entrypoint -> {
-            entrypoint.getEntrypoint().init();
-        });
+        FabricLoader.getInstance().getEntrypointContainers("invmove", InvMoveInitializer.class).forEach(entrypoint -> entrypoint.getEntrypoint().init());
 
         InvMove.init();
 

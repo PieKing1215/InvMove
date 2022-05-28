@@ -14,6 +14,7 @@ public class MovementMixin {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/tutorial/Tutorial;onInput(Lnet/minecraft/client/player/Input;)V")
     )
     private void onInput(CallbackInfo info) {
+        //noinspection ConstantConditions
         InvMove.onInputUpdate(((LocalPlayer)(Object)this).input);
     }
 }
