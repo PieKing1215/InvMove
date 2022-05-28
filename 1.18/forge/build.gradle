@@ -14,7 +14,7 @@ architectury {
 }
 
 loom {
-    accessWidenerPath = project(":common").loom.accessWidenerPath
+    accessWidenerPath = project("${parent.path}:common").loom.accessWidenerPath
 
     forge {
         convertAccessWideners = true
@@ -31,16 +31,16 @@ configurations {
 }
 
 dependencies {
-    forge "net.minecraftforge:forge:${rootProject.forge_version}"
+    forge "net.minecraftforge:forge:${forge_version}"
     // Remove the next line if you don't want to depend on the API
-//    modApi "dev.architectury:architectury-forge:${rootProject.architectury_version}"
-    modApi "me.shedaniel.cloth:cloth-config-forge:${rootProject.cloth_version}"
+//    modApi "dev.architectury:architectury-forge:${architectury_version}"
+    modApi "me.shedaniel.cloth:cloth-config-forge:${cloth_version}"
 
     // for testing some unrecognized UIs
 //    modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-forge:7.3.443"
 
-    common(project(path: ":common", configuration: "namedElements")) { transitive false }
-    shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
+    common(project(path: "${parent.path}:common", configuration: "namedElements")) { transitive false }
+    shadowCommon(project(path: "${parent.path}:common", configuration: "transformProductionForge")) { transitive = false }
 }
 
 processResources {
@@ -50,7 +50,7 @@ processResources {
         expand "version": project.version
     }
 
-    from project(':common').sourceSets.main.resources
+    from project("${parent.path}:common").sourceSets.main.resources
 }
 
 shadowJar {
@@ -72,7 +72,7 @@ jar {
 }
 
 sourcesJar {
-    def commonSources = project(":common").sourcesJar
+    def commonSources = project("${parent.path}:common").sourcesJar
     dependsOn commonSources
     from commonSources.archiveFile.map { zipTree(it) }
 }
@@ -86,7 +86,7 @@ components.java {
 publishing {
     publications {
         mavenForge(MavenPublication) {
-            artifactId = rootProject.maven_artifact_id + "-" + project.name
+            artifactId = maven_artifact_id + "-" + project.name
             from components.java
         }
     }

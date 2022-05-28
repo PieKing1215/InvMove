@@ -7,10 +7,10 @@ pluginManagement {
     }
 }
 
-include("common")
-include("fabric-like")
-include("fabric")
-include("quilt")
-include("forge")
+include("1.18:common")
+include("1.18:fabric-like")
+include("1.18:fabric")
+include("1.18:quilt")
+include("1.18:forge")
 
 rootProject.name = "InvMove"
