@@ -13,4 +13,8 @@ include("1.18:fabric")
 include("1.18:quilt")
 include("1.18:forge")
 
+include("1.16:common")
+include("1.16:fabric")
+include("1.16:forge")
+
 rootProject.name = "InvMove"
