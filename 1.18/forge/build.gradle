@@ -41,6 +41,8 @@ dependencies {
 
     common(project(path: "${parent.path}:common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: "${parent.path}:common", configuration: "transformProductionForge")) { transitive = false }
+    common(project(path: ":crossversion:common", configuration: "namedElements")) { transitive false }
+    shadowCommon(project(path: ":crossversion:common", configuration: "namedElements")) { transitive false }
 }
 
 processResources {
@@ -51,6 +53,7 @@ processResources {
     }
 
     from project("${parent.path}:common").sourceSets.main.resources
+    from project(":crossversion:common").sourceSets.main.resources
 }
 
 shadowJar {

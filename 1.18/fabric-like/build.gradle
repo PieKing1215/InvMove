@@ -22,4 +22,5 @@ dependencies {
     }
 
     compileClasspath(project(path: "${parent.path}:common", configuration: "namedElements")) { transitive false }
+    compileClasspath(project(path: ":crossversion:common", configuration: "namedElements")) { transitive false }
 }

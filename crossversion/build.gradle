@@ -1,10 +1,17 @@
 plugins {
-    id "architectury-plugin" version "3.4-SNAPSHOT"
+//    id "architectury-plugin" version "3.4-SNAPSHOT"
     id "dev.architectury.loom" version "0.11.0-SNAPSHOT" apply false
 }
 
-architectury {
-    minecraft = minecraft_version
+apply plugin: 'java'
+
+//architectury {
+//    minecraft = minecraft_version
+//}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 subprojects {
@@ -20,14 +27,16 @@ subprojects {
         mappings loom.officialMojangMappings()
         // The following line declares the yarn mappings you may select this one as well.
         // mappings "net.fabricmc:yarn:1.18.1+build.22:v2"
-//        project(":crossversion:common").ext.set("abc", 321)
-        implementation project(path: ":crossversion:common", configuration: "namedElements")
     }
+}
+
+ext {
+    abc = 666
 }
 
 allprojects {
     apply plugin: "java"
-    apply plugin: "architectury-plugin"
+//    apply plugin: "architectury-plugin"
     apply plugin: "maven-publish"
 
     archivesBaseName = archives_base_name
@@ -44,17 +53,19 @@ allprojects {
 
     tasks.withType(JavaCompile) {
         options.encoding = "UTF-8"
-//        options.compilerArgs.addAll(arrayOf("--release", "8"))
-        
+//        options.release = 17
+        project.logger.lifecycle("JavaVersion.current() = ${JavaVersion.current()} ${project.ext.properties} ${project.ext.has("abc")} {$options.release}")
         def targetVersion = 8
         if (JavaVersion.current().isJava9Compatible()) {
             options.release = targetVersion
         }
-
-        project.logger.lifecycle("16/JavaVersion.current() = ${JavaVersion.current()} {$options.release}")
     }
 
-    java {
-        withSourcesJar()
+    compileJava {
+        project.logger.lifecycle("compileJava")
     }
+
+//    java {
+//        withSourcesJar()
+//    }
 }

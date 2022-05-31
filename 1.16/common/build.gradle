@@ -3,6 +3,11 @@ repositories {
     maven { url "https://maven.shedaniel.me/" }
 }
 
+//configurations {
+//    common
+//    shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
+//}
+
 dependencies {
     // We depend on fabric loader here to use the fabric @Environment annotations and get the mixin dependencies
     // Do NOT use other classes from fabric loader
@@ -10,6 +15,13 @@ dependencies {
     // Remove the next line if you don't want to depend on the API
 //    modApi "dev.architectury:architectury:${architectury_version}"
     modApi "me.shedaniel.cloth:cloth-config:${cloth_version}"
+
+//    shadowCommon(project(path: ":crossversion:common", configuration: "transformProductionFabric")) { transitive false }
+//    shadowCommon(project(path: ":crossversion:common", configuration: "transformProductionFabric")) { transitive = false }
+}
+
+processResources {
+    from project(":crossversion:common").sourceSets.main.resources
 }
 
 architectury {
@@ -17,7 +29,7 @@ architectury {
 }
 
 loom {
-    accessWidenerPath = file("src/main/resources/invmove.accesswidener")
+    accessWidenerPath = project(":crossversion:common").file("src/main/resources/invmove.accesswidener")
 }
 
 publishing {

@@ -40,6 +40,8 @@ dependencies {
 
     common(project(path: "${parent.path}:common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: "${parent.path}:common", configuration: "transformProductionFabric")) { transitive false }
+    shadowCommon(project(path: ":crossversion:common", configuration: "namedElements")) { transitive false }
+//    shadowCommon(project(path: ":crossversion:common", configuration: "transformProductionFabric")) { transitive false }
     common(project(path: "${parent.path}:fabric-like", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: "${parent.path}:fabric-like", configuration: "transformProductionFabric")) { transitive false }
 }
@@ -53,6 +55,7 @@ processResources {
 
     from project("${parent.path}:common").sourceSets.main.resources
     from project("${parent.path}:fabric-like").sourceSets.main.resources
+    from project(":crossversion:common").sourceSets.main.resources
 }
 
 shadowJar {

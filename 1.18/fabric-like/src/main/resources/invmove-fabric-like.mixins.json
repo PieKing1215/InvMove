@@ -13,5 +13,6 @@
   ],
   "injectors": {
     "defaultRequire": 1
-  }
+  },
+  "refmap": "InvMove-1.18_fabric-like-refmap.json"
 }

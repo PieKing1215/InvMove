@@ -7,6 +7,8 @@ pluginManagement {
     }
 }
 
+include("crossversion:common")
+
 include("1.18:common")
 include("1.18:fabric-like")
 include("1.18:fabric")

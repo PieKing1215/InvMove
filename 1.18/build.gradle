@@ -20,6 +20,7 @@ subprojects {
         mappings loom.officialMojangMappings()
         // The following line declares the yarn mappings you may select this one as well.
         // mappings "net.fabricmc:yarn:1.18.1+build.22:v2"
+        implementation project(path: ":crossversion:common", configuration: "namedElements")
     }
 }
 
@@ -43,6 +44,7 @@ allprojects {
     tasks.withType(JavaCompile) {
         options.encoding = "UTF-8"
         options.release = 17
+        project.logger.lifecycle("18/JavaVersion.current() = ${JavaVersion.current()} {$options.release}")
     }
 
     java {
