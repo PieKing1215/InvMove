@@ -3,7 +3,7 @@ package me.pieking1215.invmove;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.vertex.PoseStack;
 import me.pieking1215.invmove.module.Module;
-import me.pieking1215.invmove.module.Modules;
+import me.pieking1215.invmove.module.VanillaModule16;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
@@ -16,30 +16,56 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
-import java.util.function.Supplier;
 
-public class InvMove {
+public abstract class InvMove {
+
+    public static InvMove instance;
+
     public static final String MOD_ID = "invmove";
 
-    public static Function<Class<?>, Optional<String>> modidFromClass = c -> Optional.empty();
-    public static Function<String, String> modNameFromModid = s -> s;
-    public static Supplier<File> getConfigDir = () -> null;
-
-    private static boolean wasSneaking = false;
-    private static boolean wasShiftDown = false;
-
-    public static final KeyMapping TOGGLE_MOVEMENT_KEY = new KeyMapping(
+    private static final KeyMapping TOGGLE_MOVEMENT_KEY = new KeyMapping(
             "keybind.invmove.toggleMove",
             InputConstants.Type.KEYSYM,
             InputConstants.UNKNOWN.getValue(),
             "keycategory.invmove"
     );
 
-    private static boolean wasToggleMovementPressed = false;
+    private static List<Module> addonModules = new ArrayList<>();
 
-    public static void init() {
-        Modules.init();
+    /**
+     * Use this function to register addon `Module`s.
+     * This should be done during `InterModEnqueueEvent` on forge or the "invmove" entrypoint on fabric/quilt
+     */
+    public static void registerModule(Module module) {
+        (instance != null ? instance.modules : addonModules).add(module);
+    }
+
+    //
+
+    public abstract Optional<String> modidFromClass(Class<?> c);
+    public abstract String modNameFromModid(String modid);
+    public abstract File configDir();
+    protected abstract void registerKeybind(KeyMapping key);
+
+    protected boolean wasSneaking = false;
+    protected boolean wasShiftDown = false;
+    protected boolean wasToggleMovementPressed = false;
+
+    public List<Module> modules = new ArrayList<>();
+
+    public InvMove() {
+        this.modules.addAll(addonModules);
+        addonModules.clear();
+        this.modules.add(0, this.getVanillaModule());
+
+        this.registerKeybind(TOGGLE_MOVEMENT_KEY);
+    }
+
+    public Module getVanillaModule() {
+        return new VanillaModule16();
+    }
+
+    public void finishInit(){
         InvMoveConfig.load();
     }
 
@@ -52,7 +78,7 @@ public class InvMove {
      * @param couldMove Whether we could move in this Screen before
      * @return Whether we can move in this Screen now
      */
-    private static boolean handleToggleMovementKey(Screen screen, boolean couldMove) {
+    private boolean handleToggleMovementKey(Screen screen, boolean couldMove) {
         if (TOGGLE_MOVEMENT_KEY.isUnbound()) return couldMove;
 
         // .key here is accessWidened
@@ -93,7 +119,7 @@ public class InvMove {
         return couldMove;
     }
 
-    public static void onInputUpdate(Input input){
+    public void onInputUpdate(Input input){
         if(Minecraft.getInstance().player == null) return;
 
         if(Minecraft.getInstance().screen == null) {
@@ -194,7 +220,7 @@ public class InvMove {
     /**
      * Returns `true` if the local player is allowed to move in this `Screen`, `false` otherwise.
      */
-    public static boolean allowMovementInScreen(Screen screen) {
+    public boolean allowMovementInScreen(Screen screen) {
         if(screen == null) return false;
 
         if(Minecraft.getInstance().player == null) return false;
@@ -211,7 +237,7 @@ public class InvMove {
         }
 
         Optional<Boolean> movement = Optional.empty();
-        modules: for (Module mod : Modules.modules) {
+        modules: for (Module mod : this.modules) {
             Module.Movement res = mod.shouldAllowMovement(screen);
             switch (res) {
                 case PASS:
@@ -233,7 +259,7 @@ public class InvMove {
 
         if (!movement.isPresent()) {
             Class<? extends Screen> cl = screen.getClass();
-            String modid = modidFromClass.apply(cl).orElse("?unknown");
+            String modid = modidFromClass(cl).orElse("?unknown");
             InvMoveConfig.MOVEMENT.unrecognizedScreensAllowMovement.putIfAbsent(modid, new HashMap<>());
             HashMap<Class<? extends Screen>, Boolean> hm = InvMoveConfig.MOVEMENT.unrecognizedScreensAllowMovement.get(modid);
 
@@ -261,7 +287,7 @@ public class InvMove {
     /**
      * Clone of Input.tick but uses raw keybind data
      */
-    public static void manualTickMovement(Input input, boolean slow, boolean noDampening) {
+    public void manualTickMovement(Input input, boolean slow, boolean noDampening) {
 
         input.up = rawIsKeyDown(Minecraft.getInstance().options.keyUp);
         input.down = rawIsKeyDown(Minecraft.getInstance().options.keyDown);
@@ -287,7 +313,7 @@ public class InvMove {
     /**
      * Returns `true` if this `Screen` should have its background tint hidden, `false` otherwise.
      */
-    public static boolean shouldDisableScreenBackground(Screen screen) {
+    public boolean shouldDisableScreenBackground(Screen screen) {
 
         if(Minecraft.getInstance().player == null) return false;
 
@@ -316,7 +342,7 @@ public class InvMove {
         }
 
         Optional<Boolean> show = Optional.empty();
-        modules: for (Module mod : Modules.modules) {
+        modules: for (Module mod : this.modules) {
             Module.Background res = mod.shouldHideBackground(screen);
             switch (res) {
                 case PASS:
@@ -338,7 +364,7 @@ public class InvMove {
 
         if (!show.isPresent()) {
             Class<? extends Screen> cl = screen.getClass();
-            String modid = modidFromClass.apply(cl).orElse("?unknown");
+            String modid = modidFromClass(cl).orElse("?unknown");
             InvMoveConfig.BACKGROUND.unrecognizedScreensHideBG.putIfAbsent(modid, new HashMap<>());
             HashMap<Class<? extends Screen>, Boolean> hm = InvMoveConfig.BACKGROUND.unrecognizedScreensHideBG.get(modid);
 
@@ -357,7 +383,7 @@ public class InvMove {
      * Draws the class name of the current `Screen` and its superclasses, along with their
      *   modid and their movement and background state.
      */
-    public static void drawDebugOverlay() {
+    public void drawDebugOverlay() {
         if(InvMoveConfig.GENERAL.DEBUG_DISPLAY.get()) {
             Screen screen = Minecraft.getInstance().screen;
             if(screen == null) return;
@@ -370,7 +396,7 @@ public class InvMove {
                     className = className.substring("net.minecraft.".length());
                 }
 
-                Optional<String> modid = modidFromClass.apply(cl);
+                Optional<String> modid = this.modidFromClass(cl);
                 if (modid.isPresent()) {
                     className = "[" + modid.get() + "] " + className;
                 }

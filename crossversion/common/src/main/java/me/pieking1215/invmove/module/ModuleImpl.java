@@ -13,7 +13,7 @@ import java.util.function.Function;
 
 /**
  * Basic implementation helper for Modules.
- * See {@link me.pieking1215.invmove.module.VanillaModule} for a usage example
+ * See {@link VanillaModule16} for a usage example
  */
 public abstract class ModuleImpl implements Module {
 

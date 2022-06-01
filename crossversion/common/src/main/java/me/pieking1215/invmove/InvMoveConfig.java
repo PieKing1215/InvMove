@@ -6,7 +6,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import me.pieking1215.invmove.module.Module;
-import me.pieking1215.invmove.module.Modules;
 import me.pieking1215.invmove.module.config.ConfigBool;
 import me.pieking1215.invmove.module.config.ConfigEnum;
 import me.pieking1215.invmove.module.config.ModuleConfig;
@@ -20,7 +19,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
 
 import java.io.File;
 import java.io.FileReader;
@@ -96,7 +94,7 @@ public class InvMoveConfig {
         ConfigCategory movement = builder.getOrCreateCategory(new TranslatableComponent("key.invmove.category.movement"));
         MOVEMENT.cfg.addTo(movement, eb, "config.invmove");
 
-        for (Module module : Modules.modules) {
+        for (Module module : InvMove.instance.modules) {
             SubCategoryBuilder cat = eb.startSubCategory(new TranslatableComponent("key.invmove.module." + module.getId()));
             module.getMovementConfig().addTo(cat, eb, "config.invmove." + module.getId() + "");
             movement.addEntry(cat.build());
@@ -111,7 +109,7 @@ public class InvMoveConfig {
         for (String modid : MOVEMENT.unrecognizedScreensAllowMovement.keySet()) {
             HashMap<Class<? extends Screen>, Boolean> screens = MOVEMENT.unrecognizedScreensAllowMovement.get(modid);
 
-            SubCategoryBuilder cat = eb.startSubCategory(modid.equals("?unknown") ? new TranslatableComponent("key.invmove.unrecognized.nomod") : new TextComponent(InvMove.modNameFromModid.apply(modid)));
+            SubCategoryBuilder cat = eb.startSubCategory(modid.equals("?unknown") ? new TranslatableComponent("key.invmove.unrecognized.nomod") : new TextComponent(InvMove.instance.modNameFromModid(modid)));
             cat.setTooltip(new TextComponent(ChatFormatting.GRAY + "modid: " + modid));
 
             for (Class<? extends Screen> cl : screens.keySet()) {
@@ -133,7 +131,7 @@ public class InvMoveConfig {
         ConfigCategory background = builder.getOrCreateCategory(new TranslatableComponent("key.invmove.category.background"));
         BACKGROUND.cfg.addTo(background, eb, "config.invmove");
 
-        for (Module module : Modules.modules) {
+        for (Module module : InvMove.instance.modules) {
             SubCategoryBuilder cat = eb.startSubCategory(new TranslatableComponent("key.invmove.module." + module.getId()));
             module.getBackgroundConfig().addTo(cat, eb, "config.invmove." + module.getId() + "");
             background.addEntry(cat.build());
@@ -148,7 +146,7 @@ public class InvMoveConfig {
         for (String modid : BACKGROUND.unrecognizedScreensHideBG.keySet()) {
             HashMap<Class<? extends Screen>, Boolean> screens = BACKGROUND.unrecognizedScreensHideBG.get(modid);
 
-            SubCategoryBuilder cat = eb.startSubCategory(modid.equals("?unknown") ? new TranslatableComponent("key.invmove.unrecognized.nomod") : new TextComponent(InvMove.modNameFromModid.apply(modid)));
+            SubCategoryBuilder cat = eb.startSubCategory(modid.equals("?unknown") ? new TranslatableComponent("key.invmove.unrecognized.nomod") : new TextComponent(InvMove.instance.modNameFromModid(modid)));
             cat.setTooltip(new TextComponent(ChatFormatting.GRAY + "modid: " + modid));
 
             for (Class<? extends Screen> cl : screens.keySet()) {
@@ -176,7 +174,7 @@ public class InvMoveConfig {
      */
     private static void moveOldConfig() {
         try {
-            File configDir = InvMove.getConfigDir.get();
+            File configDir = InvMove.instance.configDir();
             if (configDir != null) {
                 File invmoveDir = new File(configDir, "invMove/");
                 if (invmoveDir.exists()) {
@@ -217,7 +215,7 @@ public class InvMoveConfig {
 
     public static void save() {
         try {
-            File configDir = InvMove.getConfigDir.get();
+            File configDir = InvMove.instance.configDir();
             if (configDir != null) {
 
                 moveOldConfig();
@@ -239,7 +237,7 @@ public class InvMoveConfig {
 
                 // module configs
 
-                for (Module module : Modules.modules) {
+                for (Module module : InvMove.instance.modules) {
                     File modFile = new File(configDir, "invmove/" + module.getId() + ".json");
                     if (!modFile.exists()) {
                         //noinspection ResultOfMethodCallIgnored
@@ -274,7 +272,7 @@ public class InvMoveConfig {
 
     public static void load() {
         try {
-            File configDir = InvMove.getConfigDir.get();
+            File configDir = InvMove.instance.configDir();
             if (configDir != null) {
 
                 moveOldConfig();
@@ -300,7 +298,7 @@ public class InvMoveConfig {
 
                 // module configs
 
-                for (Module module : Modules.modules) {
+                for (Module module : InvMove.instance.modules) {
                     File modFile = new File(configDir, "invmove/" + module.getId() + ".json");
                     if (!modFile.exists()) {
                         //noinspection ResultOfMethodCallIgnored
@@ -440,7 +438,7 @@ public class InvMoveConfig {
                         try {
                             Class<?> cl = Class.forName(entry.getKey(), false, InvMoveConfig.class.getClassLoader());
                             if (Screen.class.isAssignableFrom(cl)) {
-                                String modid = InvMove.modidFromClass.apply(cl).orElse("?unknown");
+                                String modid = InvMove.instance.modidFromClass(cl).orElse("?unknown");
                                 InvMoveConfig.MOVEMENT.unrecognizedScreensAllowMovement.putIfAbsent(modid, new HashMap<>());
                                 HashMap<Class<? extends Screen>, Boolean> hm = InvMoveConfig.MOVEMENT.unrecognizedScreensAllowMovement.get(modid);
                                 //noinspection unchecked
@@ -458,7 +456,7 @@ public class InvMoveConfig {
                         try {
                             Class<?> cl = Class.forName(entry.getKey());
                             if (Screen.class.isAssignableFrom(cl)) {
-                                String modid = InvMove.modidFromClass.apply(cl).orElse("?unknown");
+                                String modid = InvMove.instance.modidFromClass(cl).orElse("?unknown");
                                 InvMoveConfig.BACKGROUND.unrecognizedScreensHideBG.putIfAbsent(modid, new HashMap<>());
                                 HashMap<Class<? extends Screen>, Boolean> hm = InvMoveConfig.BACKGROUND.unrecognizedScreensHideBG.get(modid);
                                 //noinspection unchecked

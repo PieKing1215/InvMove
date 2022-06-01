@@ -9,14 +9,14 @@ pluginManagement {
 
 include("crossversion:common")
 
-include("1.18:common")
-include("1.18:fabric-like")
-include("1.18:fabric")
-include("1.18:quilt")
-include("1.18:forge")
+include("mc1.18:common")
+include("mc1.18:fabric-like")
+include("mc1.18:fabric")
+include("mc1.18:quilt")
+include("mc1.18:forge")
 
-include("1.16:common")
-include("1.16:fabric")
-include("1.16:forge")
+include("mc1.16:common")
+include("mc1.16:fabric")
+include("mc1.16:forge")
 
 rootProject.name = "InvMove"
