@@ -24,7 +24,8 @@
 </table>
 
 This is a rewrite of the previously separate Forge and Fabric versions.<br>
-Mod compatibilities have been moved into an addon mod: [InvMoveCompats](https://github.com/PieKing1215/InvMoveCompats)
+Mod compatibilities have been moved into an addon mod: [InvMoveCompats](https://github.com/PieKing1215/InvMoveCompats)<br>
+This rewrite is currently 1.18 only, backports for 1.16 and maybe 1.17 coming soon (tm) utilizing the magic of semi-cursed build scripts.
 
 ![demo.gif](https://raw.githubusercontent.com/PieKing1215/InvMove/media/demo.gif)
 
