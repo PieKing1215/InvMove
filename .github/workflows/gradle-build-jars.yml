@@ -31,7 +31,9 @@ jobs:
         timeout_minutes: 30
         max_attempts: 3
         retry_on: error
-        command: ./gradlew buildJars --stacktrace
+        command: |
+          ./gradlew --stop
+          ./gradlew buildJars --stacktrace
         
     - name: Prep files
       run: |
