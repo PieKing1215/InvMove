@@ -14,12 +14,21 @@ task buildAll {
 }
 
 buildAll.configure {
+    mustRunAfter buildCrossversion
+}
+
+task cleanBuildAll {
+    dependsOn buildCrossversion
+    dependsOn project(':mc1.16').subprojects.collect { it.tasks.matching { it.name == 'build' } }
+    dependsOn project(':mc1.18').subprojects.collect { it.tasks.matching { it.name == 'build' } }
+}
+
+cleanBuildAll.configure {
     mustRunAfter cleanAll
     mustRunAfter buildCrossversion
 }
 
 task buildJars {
-    dependsOn cleanAll
     dependsOn buildAll
 
     doLast {
@@ -42,5 +51,32 @@ task buildJars {
 }
 
 configure(buildJars) {
+    group = 'aaa'
+}
+
+task cleanBuildJars {
+    dependsOn cleanAll
+    dependsOn buildAll
+
+    doLast {
+        project.subprojects.forEach {
+            def mcproj = it
+            if(mcproj.name.startsWith("mc")) {
+                mcproj.subprojects.forEach {
+                    def platproj = it
+                    if(platproj.name.matches("fabric|forge|quilt")) {
+                        copy {
+                            from platproj.file("build/libs/${archives_base_name}-${mod_version}.jar")
+                            into "${buildDir}/"
+                            rename(".+", "${archives_base_name}-${mcproj.name.substring(2)}-${mod_version}-${platproj.name.capitalize()}.jar")
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+configure(cleanBuildJars) {
     group = 'aaa'
 }

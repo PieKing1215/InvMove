@@ -42,5 +42,5 @@ jobs:
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.3.1
       with:
-        name: "build-${{ steps.short-sha.outputs.sha }}"
+        name: "InvMove-build-${{ steps.short-sha.outputs.sha }}"
         path: ./build/
