@@ -26,9 +26,11 @@ jobs:
     - run: chmod +x ./gradlew
 
     - name: Build with Gradle
-      uses: gradle/gradle-build-action@937999e9cc2425eddc7fd62d1053baf041147db7
+      uses: nick-fields/retry@v2
       with:
-        arguments: buildJars --stacktrace --debug
+        max_attempts: 3
+        retry_on: error
+        command: ./gradlew buildJars --stacktrace
         
     - name: Prep files
       run: |
