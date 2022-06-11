@@ -1,13 +1,13 @@
 package me.pieking1215.invmove.module.config;
 
 import com.google.gson.JsonObject;
+import me.pieking1215.invmove.InvMove;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.impl.builders.BooleanToggleBuilder;
 import me.shedaniel.clothconfig2.impl.builders.SubCategoryBuilder;
 import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.util.GsonHelper;
 
 import java.util.function.Function;
@@ -27,9 +27,9 @@ public class ConfigBool extends ConfigEntry<Boolean> {
 
     @Override
     public void addTo(ConfigCategory category, ConfigEntryBuilder eb, String id) {
-        BooleanToggleBuilder b = eb.startBooleanToggle(new TranslatableComponent(id), get()).setDefaultValue(getDefault()).setSaveConsumer(this::set);
+        BooleanToggleBuilder b = eb.startBooleanToggle(InvMove.instance.translatableComponent(id), get()).setDefaultValue(getDefault()).setSaveConsumer(this::set);
         if (Language.getInstance().has("tooltip." + id)) {
-            b.setTooltip(new TranslatableComponent("tooltip." + id));
+            b.setTooltip(InvMove.instance.translatableComponent("tooltip." + id));
         }
         if (this.textFn != null) {
             b.setYesNoTextSupplier(this.textFn);
@@ -39,9 +39,9 @@ public class ConfigBool extends ConfigEntry<Boolean> {
 
     @Override
     public void addTo(SubCategoryBuilder category, ConfigEntryBuilder eb, String id) {
-        BooleanToggleBuilder b = eb.startBooleanToggle(new TranslatableComponent(id), get()).setDefaultValue(getDefault()).setSaveConsumer(this::set);
+        BooleanToggleBuilder b = eb.startBooleanToggle(InvMove.instance.translatableComponent(id), get()).setDefaultValue(getDefault()).setSaveConsumer(this::set);
         if (Language.getInstance().has("tooltip." + id)) {
-            b.setTooltip(new TranslatableComponent("tooltip." + id));
+            b.setTooltip(InvMove.instance.translatableComponent("tooltip." + id));
         }
         if (this.textFn != null) {
             b.setYesNoTextSupplier(this.textFn);

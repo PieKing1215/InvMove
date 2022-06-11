@@ -1,0 +1,123 @@
+plugins {
+    id "com.github.johnrengelman.shadow" version "7.1.2"
+}
+
+repositories {
+    maven { url "https://maven.quiltmc.org/repository/release/" }
+}
+
+architectury {
+    platformSetupLoomIde()
+    loader("quilt")
+}
+
+repositories {
+    maven { url "https://maven.terraformersmc.com" }
+}
+
+loom {
+    accessWidenerPath = project("${parent.path}:common").loom.accessWidenerPath
+}
+
+configurations {
+    common
+    shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
+    compileClasspath.extendsFrom common
+    runtimeClasspath.extendsFrom common
+    developmentQuilt.extendsFrom common
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir "${project(":crossversion:common").projectDir}/src/main/java"
+        }
+        resources {
+            srcDir "${project(":crossversion:common").projectDir}/src/main/resources"
+        }
+    }
+}
+
+dependencies {
+    modImplementation "org.quiltmc:quilt-loader:${quilt_loader_version}"
+    modApi "org.quiltmc.quilted-fabric-api:quilted-fabric-api:${quilt_fabric_api_version}"
+    // Remove the next few lines if you don't want to depend on the API
+//    modApi("dev.architectury:architectury-fabric:${architectury_version}") {
+//        // We must not pull Fabric Loader from Architectury Fabric
+//        exclude group: "net.fabricmc"
+//        exclude group: "net.fabricmc.fabric-api"
+//    }
+
+    modImplementation("com.terraformersmc:modmenu:4.0.0") {
+        exclude(group: "net.fabricmc")
+        exclude(group: "net.fabricmc.fabric-api")
+    }
+
+    modApi("me.shedaniel.cloth:cloth-config-fabric:${cloth_version}") {
+        exclude(group: "net.fabricmc")
+        exclude(group: "net.fabricmc.fabric-api")
+    }
+
+    common(project(path: "${parent.path}:common", configuration: "namedElements")) { transitive false }
+    shadowCommon(project(path: "${parent.path}:common", configuration: "transformProductionQuilt")) { transitive false }
+
+    common(project(path: "${parent.path}:fabric-like", configuration: "namedElements")) { transitive false }
+    shadowCommon(project(path: "${parent.path}:fabric-like", configuration: "transformProductionQuilt")) { transitive false }
+}
+
+processResources {
+    inputs.property "group", maven_group
+    inputs.property "version", project.version
+
+    filesMatching("quilt.mod.json") {
+        expand "group": maven_group,
+                "version": project.version
+    }
+
+    from project("${parent.path}:common").sourceSets.main.resources
+    from project("${parent.path}:fabric-like").sourceSets.main.resources
+}
+
+shadowJar {
+    exclude "architectury.common.json"
+
+    configurations = [project.configurations.shadowCommon]
+    classifier "dev-shadow"
+}
+
+remapJar {
+    injectAccessWidener = true
+    input.set shadowJar.archiveFile
+    dependsOn shadowJar
+    classifier null
+}
+
+jar {
+    classifier "dev"
+}
+
+sourcesJar {
+    def commonSources = project("${parent.path}:common").sourcesJar
+    dependsOn commonSources
+    from commonSources.archiveFile.map { zipTree(it) }
+}
+
+components.java {
+    withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
+        skip()
+    }
+}
+
+publishing {
+    publications {
+        mavenQuilt(MavenPublication) {
+            artifactId = archives_base_name + "-" + project.name
+            from components.java
+        }
+    }
+
+    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
+    repositories {
+        // Add repositories to publish to here.
+    }
+}

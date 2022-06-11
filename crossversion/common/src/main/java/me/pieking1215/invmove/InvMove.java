@@ -8,6 +8,7 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.player.Input;
+import net.minecraft.network.chat.MutableComponent;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -40,12 +41,20 @@ public abstract class InvMove {
         (instance != null ? instance.modules : addonModules).add(module);
     }
 
-    //
+    // crossversion compatibility layer
 
     public abstract Optional<String> modidFromClass(Class<?> c);
     public abstract String modNameFromModid(String modid);
     public abstract File configDir();
     protected abstract void registerKeybind(KeyMapping key);
+
+    public abstract MutableComponent translatableComponent(String key);
+    public abstract MutableComponent literalComponent(String text);
+
+    public abstract boolean optionToggleCrouch();
+    public abstract void setOptionToggleCrouch(boolean toggleCrouch);
+
+    // implementation
 
     protected boolean wasSneaking = false;
     protected boolean wasShiftDown = false;
@@ -133,16 +142,16 @@ public abstract class InvMove {
 
             // tick keybinds (since opening the ui unpresses all keys)
 
-            if (Minecraft.getInstance().options.toggleCrouch) {
+            if (optionToggleCrouch()) {
                 // TODO: think about doing this a better way
 
                 // save whether it was toggled
                 boolean wasCrouchToggle = Minecraft.getInstance().options.keyShift.isDown;
 
                 // make it not toggle, and see if the key was pressed
-                Minecraft.getInstance().options.toggleCrouch = false;
+                setOptionToggleCrouch(false);
                 KeyMapping.setAll();
-                Minecraft.getInstance().options.toggleCrouch = true;
+                setOptionToggleCrouch(true);
 
                 // manually toggle crouch
                 boolean nowShift = Minecraft.getInstance().options.keyShift.isDown;
@@ -161,7 +170,7 @@ public abstract class InvMove {
             // this is needed for compatibility with ItemPhysic
             Minecraft.getInstance().options.keyDrop.setDown(false);
 
-            if (!Minecraft.getInstance().options.toggleCrouch) {
+            if (!optionToggleCrouch()) {
                 if (Minecraft.getInstance().player != null && Minecraft.getInstance().player.isPassenger()) {
                     Minecraft.getInstance().options.keyShift.setDown(InvMoveConfig.MOVEMENT.DISMOUNT.get() && Minecraft.getInstance().options.keyShift.isDown);
                 } else {
@@ -198,7 +207,7 @@ public abstract class InvMove {
             KeyMapping.releaseAll();
 
             // special handling for sneaking
-            if (InvMoveConfig.GENERAL.ENABLED.get() && !Minecraft.getInstance().options.toggleCrouch) {
+            if (InvMoveConfig.GENERAL.ENABLED.get() && !optionToggleCrouch()) {
                 if (Minecraft.getInstance().player == null || !Minecraft.getInstance().player.isPassenger()) {
                     boolean sneakKey = false;
                     switch (InvMoveConfig.MOVEMENT.SNEAK.get()) {

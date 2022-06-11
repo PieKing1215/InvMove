@@ -1,5 +1,6 @@
 package me.pieking1215.invmove.module;
 
+import me.pieking1215.invmove.InvMove;
 import me.pieking1215.invmove.InvMoveConfig;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.ChatScreen;
@@ -44,7 +45,6 @@ import net.minecraft.client.gui.screens.inventory.StonecutterScreen;
 import net.minecraft.client.gui.screens.inventory.StructureBlockEditScreen;
 import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
 import net.minecraft.client.gui.screens.recipebook.RecipeUpdateListener;
-import net.minecraft.network.chat.TranslatableComponent;
 
 import java.lang.reflect.Field;
 import java.util.stream.Stream;
@@ -108,7 +108,7 @@ public class VanillaModule16 extends ModuleImpl {
 
     @Override
     public Movement shouldAllowMovement(Screen screen) {
-        if(screen.getTitle() != null && screen.getTitle().equals(new TranslatableComponent("sign.edit", new Object[0]))) return Movement.SUGGEST_DISABLE;
+        if(screen.getTitle() != null && screen.getTitle().equals(InvMove.instance.translatableComponent("sign.edit"))) return Movement.SUGGEST_DISABLE;
 
         if(InvMoveConfig.MOVEMENT.TEXT_FIELD_DISABLES.get()) {
             // don't allow movement when focused on an active textfield
@@ -149,7 +149,7 @@ public class VanillaModule16 extends ModuleImpl {
     @Override
     public Background shouldHideBackground(Screen screen) {
 
-        if(screen.getTitle() != null && screen.getTitle().equals(new TranslatableComponent("sign.edit", new Object[0]))) return Background.SUGGEST_SHOW;
+        if(screen.getTitle() != null && screen.getTitle().equals(InvMove.instance.translatableComponent("sign.edit"))) return Background.SUGGEST_SHOW;
 
         return super.shouldHideBackground(screen);
     }

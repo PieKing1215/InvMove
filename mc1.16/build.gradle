@@ -51,10 +51,27 @@ allprojects {
             options.release = targetVersion
         }
 
-        project.logger.lifecycle("16/JavaVersion.current() = ${JavaVersion.current()} {$options.release}")
+//        project.logger.lifecycle("16/JavaVersion.current() = ${JavaVersion.current()} {$options.release}")
     }
 
     java {
         withSourcesJar()
+    }
+}
+
+task buildAll {
+    dependsOn subprojects.collect { it.tasks.matching { it.name == 'build' } }
+
+    doLast {
+        subprojects.forEach {
+            def platproj = it
+            if(platproj.name.matches("fabric|forge|quilt")) {
+                copy {
+                    from platproj.file("build/libs/${archives_base_name}-${mod_version}.jar")
+                    into "${buildDir}/"
+                    rename(".+", "${archives_base_name}-${project.name.substring(2)}-${mod_version}-${platproj.name.capitalize()}.jar")
+                }
+            }
+        }
     }
 }

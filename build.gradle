@@ -3,80 +3,110 @@ task cleanAll {
     dependsOn allprojects.collect { it.tasks.matching { it.name == 'clean' } }
 }
 
-task buildCrossversion {
-    dependsOn project(':crossversion').subprojects.collect { it.tasks.matching { it.name == 'build' } }
-}
-
-task buildAll {
-    dependsOn buildCrossversion
-    dependsOn project(':mc1.16').subprojects.collect { it.tasks.matching { it.name == 'build' } }
-    dependsOn project(':mc1.18').subprojects.collect { it.tasks.matching { it.name == 'build' } }
-}
-
-buildAll.configure {
-    mustRunAfter buildCrossversion
-}
-
-task cleanBuildAll {
-    dependsOn buildCrossversion
-    dependsOn project(':mc1.16').subprojects.collect { it.tasks.matching { it.name == 'build' } }
-    dependsOn project(':mc1.18').subprojects.collect { it.tasks.matching { it.name == 'build' } }
-}
-
-cleanBuildAll.configure {
-    mustRunAfter cleanAll
-    mustRunAfter buildCrossversion
-}
-
-task buildJars {
-    dependsOn buildAll
-
-    doLast {
-        project.subprojects.forEach {
-            def mcproj = it
-            if(mcproj.name.startsWith("mc")) {
-                mcproj.subprojects.forEach {
-                    def platproj = it
-                    if(platproj.name.matches("fabric|forge|quilt")) {
-                        copy {
-                            from platproj.file("build/libs/${archives_base_name}-${mod_version}.jar")
-                            into "${buildDir}/"
-                            rename(".+", "${archives_base_name}-${mcproj.name.substring(2)}-${mod_version}-${platproj.name.capitalize()}.jar")
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-configure(buildJars) {
-    group = 'aaa'
-}
-
-task cleanBuildJars {
-    dependsOn cleanAll
-    dependsOn buildAll
-
-    doLast {
-        project.subprojects.forEach {
-            def mcproj = it
-            if(mcproj.name.startsWith("mc")) {
-                mcproj.subprojects.forEach {
-                    def platproj = it
-                    if(platproj.name.matches("fabric|forge|quilt")) {
-                        copy {
-                            from platproj.file("build/libs/${archives_base_name}-${mod_version}.jar")
-                            into "${buildDir}/"
-                            rename(".+", "${archives_base_name}-${mcproj.name.substring(2)}-${mod_version}-${platproj.name.capitalize()}.jar")
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-configure(cleanBuildJars) {
-    group = 'aaa'
-}
+//task buildCrossversion {
+//    dependsOn project(':crossversion').subprojects.collect { it.tasks.matching { it.name == 'build' } }
+//}
+//
+//task buildAll {
+//    dependsOn buildCrossversion
+//    dependsOn project(':mc1.16').subprojects.collect { it.tasks.matching { it.name == 'remapJar' } }
+//    dependsOn project(':mc1.18').subprojects.collect { it.tasks.matching { it.name == 'remapJar' } }
+//    dependsOn project(':mc1.19').subprojects.collect { it.tasks.matching { it.name == 'remapJar' } }
+//}
+//
+//buildAll.configure {
+//    mustRunAfter buildCrossversion
+//}
+//
+//task cleanBuildAll {
+//    dependsOn buildCrossversion
+//    dependsOn project(':mc1.16').subprojects.collect { it.tasks.matching { it.name == 'remapJar' } }
+//    dependsOn project(':mc1.18').subprojects.collect { it.tasks.matching { it.name == 'remapJar' } }
+//    dependsOn project(':mc1.19').subprojects.collect { it.tasks.matching { it.name == 'remapJar' } }
+//}
+//
+//cleanBuildAll.configure {
+//    mustRunAfter cleanAll
+//    mustRunAfter buildCrossversion
+//}
+//
+//task buildJars {
+//    dependsOn buildAll
+//
+//    doLast {
+//        project.subprojects.forEach {
+//            def mcproj = it
+//            if(mcproj.name.startsWith("mc")) {
+//                mcproj.subprojects.forEach {
+//                    def platproj = it
+//                    if(platproj.name.matches("fabric|forge|quilt")) {
+//                        copy {
+//                            from platproj.file("build/libs/${archives_base_name}-${mod_version}.jar")
+//                            into "${buildDir}/"
+//                            rename(".+", "${archives_base_name}-${mcproj.name.substring(2)}-${mod_version}-${platproj.name.capitalize()}.jar")
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
+//}
+//
+//configure(buildJars) {
+//    group = 'aaa'
+//}
+//
+//task cleanBuildJars {
+//    dependsOn cleanAll
+//    dependsOn buildAll
+//
+//    doLast {
+//        project.subprojects.forEach {
+//            def mcproj = it
+//            if(mcproj.name.startsWith("mc")) {
+//                mcproj.subprojects.forEach {
+//                    def platproj = it
+//                    if(platproj.name.matches("fabric|forge|quilt")) {
+//                        copy {
+//                            from platproj.file("build/libs/${archives_base_name}-${mod_version}.jar")
+//                            into "${buildDir}/"
+//                            rename(".+", "${archives_base_name}-${mcproj.name.substring(2)}-${mod_version}-${platproj.name.capitalize()}.jar")
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
+//}
+//
+//configure(cleanBuildJars) {
+//    group = 'aaa'
+//}
+//
+//task test2 {
+//    project.subprojects.forEach {
+//        def mcproj = it
+//        if(mcproj.name.startsWith("mc")) {
+//            mcproj.subprojects.forEach {
+//                def platproj = it
+//                if(platproj.name.matches("fabric|forge|quilt")) {
+//                    project.logger.lifecycle("-> ${platproj.name}")
+//                    def forge = platproj.name.startsWith("forge")
+//                    def taskName = forge ? "shadowJar" : "remapJar"
+//                    project.logger.lifecycle("-> ${taskName} ${mcproj.tasks} ${platproj.tasks}")
+////                    def jarTask = platproj.tasks.named(taskName)
+////                    dependsOn(jarTask)
+////                    if (forge) {
+////                        dependsOn(platproj.tasks.named("reobfJar"))
+////                    }
+////
+////                    copy {
+////                        from platproj.file("build/libs/${archives_base_name}-${mod_version}.jar")
+////                        into "${buildDir}/"
+////                        rename(".+", "${archives_base_name}-${mcproj.name.substring(2)}-${mod_version}-${platproj.name.capitalize()}.jar")
+////                    }
+//                }
+//            }
+//        }
+//    }
+//}

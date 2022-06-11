@@ -2,12 +2,12 @@ package me.pieking1215.invmove.module.config;
 
 import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
+import me.pieking1215.invmove.InvMove;
 import me.pieking1215.invmove.InvMoveConfig;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.impl.builders.SubCategoryBuilder;
 import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.TranslatableComponent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,12 +62,12 @@ public class ModuleConfig {
         this.entries.add(Pair.of(new ConfigEntry<None>(new None()) {
             @Override
             void addTo(ConfigCategory category, ConfigEntryBuilder eb, String id) {
-                category.addEntry(eb.startTextDescription(new TranslatableComponent(id)).build());
+                category.addEntry(eb.startTextDescription(InvMove.instance.translatableComponent(id)).build());
             }
 
             @Override
             void addTo(SubCategoryBuilder category, ConfigEntryBuilder eb, String id) {
-                category.add(eb.startTextDescription(new TranslatableComponent(id)).build());
+                category.add(eb.startTextDescription(InvMove.instance.translatableComponent(id)).build());
             }
 
             @SuppressWarnings("EmptyMethod")
@@ -87,7 +87,7 @@ public class ModuleConfig {
             entry.addTo(category, eb, (id.isEmpty() ? "" : (id + ".")) + this.id + "." + meta.id);
         }
         if (entries.isEmpty()) {
-            category.addEntry(eb.startTextDescription(new TranslatableComponent("key.invmove.module.nooptions").withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC)).build());
+            category.addEntry(eb.startTextDescription(InvMove.instance.translatableComponent("key.invmove.module.nooptions").withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC)).build());
         }
     }
 
@@ -102,7 +102,7 @@ public class ModuleConfig {
             entry.addTo(category, eb, meta.display == null ? ((id.isEmpty() ? "" : (id + ".")) + this.id + "." + meta.id) : meta.display);
         }
         if (entries.isEmpty()) {
-            category.add(eb.startTextDescription(new TranslatableComponent("key.invmove.module.nooptions").withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC)).build());
+            category.add(eb.startTextDescription(InvMove.instance.translatableComponent("key.invmove.module.nooptions").withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC)).build());
         }
     }
 

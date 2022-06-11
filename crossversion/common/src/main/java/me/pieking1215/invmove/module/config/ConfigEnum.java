@@ -2,12 +2,12 @@ package me.pieking1215.invmove.module.config;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import me.pieking1215.invmove.InvMove;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.impl.builders.EnumSelectorBuilder;
 import me.shedaniel.clothconfig2.impl.builders.SubCategoryBuilder;
 import net.minecraft.locale.Language;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.util.GsonHelper;
 
 import javax.annotation.Nonnull;
@@ -31,10 +31,10 @@ public class ConfigEnum<T extends Enum<T>> extends ConfigEntry<T> {
     @Override
     void addTo(ConfigCategory category, ConfigEntryBuilder eb, String id) {
         //noinspection unchecked
-        EnumSelectorBuilder<T> esb = eb.startEnumSelector(new TranslatableComponent(id), (Class<T>) this.defaultValue.getClass(), this.value)
+        EnumSelectorBuilder<T> esb = eb.startEnumSelector(InvMove.instance.translatableComponent(id), (Class<T>) this.defaultValue.getClass(), this.value)
             .setDefaultValue(this.getDefault())
             .setSaveConsumer(this::set)
-            .setTooltip(new TranslatableComponent("tooltip." + id));
+            .setTooltip(InvMove.instance.translatableComponent("tooltip." + id));
 
         category.addEntry(esb.build());
     }
@@ -42,12 +42,12 @@ public class ConfigEnum<T extends Enum<T>> extends ConfigEntry<T> {
     @Override
     void addTo(SubCategoryBuilder category, ConfigEntryBuilder eb, String id) {
         //noinspection unchecked
-        EnumSelectorBuilder<T> esb = eb.startEnumSelector(new TranslatableComponent(id), (Class<T>) this.defaultValue.getClass(), this.value)
+        EnumSelectorBuilder<T> esb = eb.startEnumSelector(InvMove.instance.translatableComponent(id), (Class<T>) this.defaultValue.getClass(), this.value)
                 .setDefaultValue(this.getDefault())
                 .setSaveConsumer(this::set)
-                .setTooltip(new TranslatableComponent("tooltip." + id));
+                .setTooltip(InvMove.instance.translatableComponent("tooltip." + id));
         if (Language.getInstance().has("tooltip." + id)) {
-            esb.setTooltip(new TranslatableComponent("tooltip." + id));
+            esb.setTooltip(InvMove.instance.translatableComponent("tooltip." + id));
         }
         category.add(esb.build());
     }

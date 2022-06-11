@@ -1,6 +1,6 @@
 plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
-    id "dev.architectury.loom" version "0.11.0-SNAPSHOT" apply false
+    id "dev.architectury.loom" version "0.12.0-SNAPSHOT" apply false
 }
 
 architectury {
@@ -12,6 +12,7 @@ subprojects {
 
     loom {
         silentMojangMappingsLicense()
+        clientOnlyMinecraftJar()
     }
 
     dependencies {
@@ -44,10 +45,27 @@ allprojects {
     tasks.withType(JavaCompile) {
         options.encoding = "UTF-8"
         options.release = 17
-        project.logger.lifecycle("18/JavaVersion.current() = ${JavaVersion.current()} {$options.release}")
+        //project.logger.lifecycle("18/JavaVersion.current() = ${JavaVersion.current()} {$options.release}")
     }
 
     java {
         withSourcesJar()
+    }
+}
+
+task buildAll {
+    dependsOn subprojects.collect { it.tasks.matching { it.name == 'build' } }
+
+    doLast {
+        subprojects.forEach {
+            def platproj = it
+            if(platproj.name.matches("fabric|forge|quilt")) {
+                copy {
+                    from platproj.file("build/libs/${archives_base_name}-${mod_version}.jar")
+                    into "${buildDir}/"
+                    rename(".+", "${archives_base_name}-${project.name.substring(2)}-${mod_version}-${platproj.name.capitalize()}.jar")
+                }
+            }
+        }
     }
 }

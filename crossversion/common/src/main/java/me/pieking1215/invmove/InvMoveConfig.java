@@ -16,8 +16,6 @@ import me.shedaniel.clothconfig2.impl.builders.SubCategoryBuilder;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 
 import java.io.File;
@@ -31,8 +29,8 @@ import java.util.function.Function;
 
 public class InvMoveConfig {
 
-    public static final Function<Boolean, Component> MOVEMENT_YES_NO_TEXT = b -> new TextComponent(b ? ChatFormatting.GREEN + "Allow Movement" : ChatFormatting.RED + "Disallow Movement");
-    public static final Function<Boolean, Component> BACKGROUND_YES_NO_TEXT = b -> new TextComponent(b ? ChatFormatting.GREEN + "Hide Background" : ChatFormatting.RED + "Show Background");
+    public static final Function<Boolean, Component> MOVEMENT_YES_NO_TEXT = b -> InvMove.instance.literalComponent(b ? ChatFormatting.GREEN + "Allow Movement" : ChatFormatting.RED + "Disallow Movement");
+    public static final Function<Boolean, Component> BACKGROUND_YES_NO_TEXT = b -> InvMove.instance.literalComponent(b ? ChatFormatting.GREEN + "Hide Background" : ChatFormatting.RED + "Show Background");
 
     public static final General GENERAL = new General();
     public static final Movement MOVEMENT = new Movement();
@@ -81,43 +79,43 @@ public class InvMoveConfig {
     }
 
     public static Screen setupCloth(Screen parent){
-        ConfigBuilder builder = ConfigBuilder.create().setParentScreen(parent).setTitle(new TranslatableComponent("config.invmove.title"));
+        ConfigBuilder builder = ConfigBuilder.create().setParentScreen(parent).setTitle(InvMove.instance.translatableComponent("config.invmove.title"));
         builder.setDefaultBackgroundTexture(new ResourceLocation("minecraft:textures/block/spruce_planks.png"));
         builder.transparentBackground();
 
         ConfigEntryBuilder eb = builder.entryBuilder();
-        ConfigCategory general = builder.getOrCreateCategory(new TranslatableComponent("key.invmove.category.general"));
+        ConfigCategory general = builder.getOrCreateCategory(InvMove.instance.translatableComponent("key.invmove.category.general"));
         GENERAL.cfg.addTo(general, eb, "config.invmove");
 
         // movement
         
-        ConfigCategory movement = builder.getOrCreateCategory(new TranslatableComponent("key.invmove.category.movement"));
+        ConfigCategory movement = builder.getOrCreateCategory(InvMove.instance.translatableComponent("key.invmove.category.movement"));
         MOVEMENT.cfg.addTo(movement, eb, "config.invmove");
 
         for (Module module : InvMove.instance.modules) {
-            SubCategoryBuilder cat = eb.startSubCategory(new TranslatableComponent("key.invmove.module." + module.getId()));
+            SubCategoryBuilder cat = eb.startSubCategory(InvMove.instance.translatableComponent("key.invmove.module." + module.getId()));
             module.getMovementConfig().addTo(cat, eb, "config.invmove." + module.getId() + "");
             movement.addEntry(cat.build());
         }
 
         // unrecognized
 
-        movement.addEntry(eb.startTextDescription(new TranslatableComponent("key.invmove.unrecognized").withStyle(ChatFormatting.UNDERLINE)).build());
+        movement.addEntry(eb.startTextDescription(InvMove.instance.translatableComponent("key.invmove.unrecognized").withStyle(ChatFormatting.UNDERLINE)).build());
         if (MOVEMENT.unrecognizedScreensAllowMovement.isEmpty())
-            movement.addEntry(eb.startTextDescription(new TranslatableComponent("key.invmove.unrecognized.desc").withStyle(ChatFormatting.GRAY)).build());
+            movement.addEntry(eb.startTextDescription(InvMove.instance.translatableComponent("key.invmove.unrecognized.desc").withStyle(ChatFormatting.GRAY)).build());
 
         for (String modid : MOVEMENT.unrecognizedScreensAllowMovement.keySet()) {
             HashMap<Class<? extends Screen>, Boolean> screens = MOVEMENT.unrecognizedScreensAllowMovement.get(modid);
 
-            SubCategoryBuilder cat = eb.startSubCategory(modid.equals("?unknown") ? new TranslatableComponent("key.invmove.unrecognized.nomod") : new TextComponent(InvMove.instance.modNameFromModid(modid)));
-            cat.setTooltip(new TextComponent(ChatFormatting.GRAY + "modid: " + modid));
+            SubCategoryBuilder cat = eb.startSubCategory(modid.equals("?unknown") ? InvMove.instance.translatableComponent("key.invmove.unrecognized.nomod") : InvMove.instance.literalComponent(InvMove.instance.modNameFromModid(modid)));
+            cat.setTooltip(InvMove.instance.literalComponent(ChatFormatting.GRAY + "modid: " + modid));
 
             for (Class<? extends Screen> cl : screens.keySet()) {
                 cat.add(eb.startBooleanToggle(
-                        new TextComponent(cl.getSimpleName()),
+                        InvMove.instance.literalComponent(cl.getSimpleName()),
                         screens.get(cl)
                     )
-                    .setTooltip(new TextComponent(ChatFormatting.GRAY + cl.getName()))
+                    .setTooltip(InvMove.instance.literalComponent(ChatFormatting.GRAY + cl.getName()))
                     .setYesNoTextSupplier(MOVEMENT_YES_NO_TEXT)
                     .setSaveConsumer(v -> screens.put(cl, v))
                 .build());
@@ -128,33 +126,33 @@ public class InvMoveConfig {
 
         // background
         
-        ConfigCategory background = builder.getOrCreateCategory(new TranslatableComponent("key.invmove.category.background"));
+        ConfigCategory background = builder.getOrCreateCategory(InvMove.instance.translatableComponent("key.invmove.category.background"));
         BACKGROUND.cfg.addTo(background, eb, "config.invmove");
 
         for (Module module : InvMove.instance.modules) {
-            SubCategoryBuilder cat = eb.startSubCategory(new TranslatableComponent("key.invmove.module." + module.getId()));
+            SubCategoryBuilder cat = eb.startSubCategory(InvMove.instance.translatableComponent("key.invmove.module." + module.getId()));
             module.getBackgroundConfig().addTo(cat, eb, "config.invmove." + module.getId() + "");
             background.addEntry(cat.build());
         }
 
         // unrecognized
 
-        background.addEntry(eb.startTextDescription(new TranslatableComponent("key.invmove.unrecognized").withStyle(ChatFormatting.UNDERLINE)).build());
+        background.addEntry(eb.startTextDescription(InvMove.instance.translatableComponent("key.invmove.unrecognized").withStyle(ChatFormatting.UNDERLINE)).build());
         if (BACKGROUND.unrecognizedScreensHideBG.isEmpty())
-            background.addEntry(eb.startTextDescription(new TranslatableComponent("key.invmove.unrecognized.desc").withStyle(ChatFormatting.GRAY)).build());
+            background.addEntry(eb.startTextDescription(InvMove.instance.translatableComponent("key.invmove.unrecognized.desc").withStyle(ChatFormatting.GRAY)).build());
 
         for (String modid : BACKGROUND.unrecognizedScreensHideBG.keySet()) {
             HashMap<Class<? extends Screen>, Boolean> screens = BACKGROUND.unrecognizedScreensHideBG.get(modid);
 
-            SubCategoryBuilder cat = eb.startSubCategory(modid.equals("?unknown") ? new TranslatableComponent("key.invmove.unrecognized.nomod") : new TextComponent(InvMove.instance.modNameFromModid(modid)));
-            cat.setTooltip(new TextComponent(ChatFormatting.GRAY + "modid: " + modid));
+            SubCategoryBuilder cat = eb.startSubCategory(modid.equals("?unknown") ? InvMove.instance.translatableComponent("key.invmove.unrecognized.nomod") : InvMove.instance.literalComponent(InvMove.instance.modNameFromModid(modid)));
+            cat.setTooltip(InvMove.instance.literalComponent(ChatFormatting.GRAY + "modid: " + modid));
 
             for (Class<? extends Screen> cl : screens.keySet()) {
                 cat.add(eb.startBooleanToggle(
-                        new TextComponent(cl.getSimpleName()),
+                        InvMove.instance.literalComponent(cl.getSimpleName()),
                         screens.get(cl)
                     )
-                    .setTooltip(new TextComponent(ChatFormatting.GRAY + cl.getName()))
+                    .setTooltip(InvMove.instance.literalComponent(ChatFormatting.GRAY + cl.getName()))
                     .setSaveConsumer(v -> screens.put(cl, v))
                     .setYesNoTextSupplier(BACKGROUND_YES_NO_TEXT)
                     .build());

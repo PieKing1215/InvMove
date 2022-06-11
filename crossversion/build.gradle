@@ -54,16 +54,16 @@ allprojects {
     tasks.withType(JavaCompile) {
         options.encoding = "UTF-8"
 //        options.release = 17
-        project.logger.lifecycle("JavaVersion.current() = ${JavaVersion.current()} ${project.ext.properties} ${project.ext.has("abc")} {$options.release}")
+//        project.logger.lifecycle("JavaVersion.current() = ${JavaVersion.current()} ${project.ext.properties} ${project.ext.has("abc")} {$options.release}")
         def targetVersion = 8
         if (JavaVersion.current().isJava9Compatible()) {
             options.release = targetVersion
         }
     }
 
-    compileJava {
-        project.logger.lifecycle("compileJava")
-    }
+//    compileJava {
+//        project.logger.lifecycle("compileJava")
+//    }
 
 //    java {
 //        withSourcesJar()
