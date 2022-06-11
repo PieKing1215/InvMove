@@ -12,6 +12,7 @@ start=$(date +%s)
 end=$(date +%s)
 
 rm ./build/*
+mkdir ./build/
 
 for i in "${versions[@]}"
 do
