@@ -33,7 +33,7 @@ jobs:
         timeout_minutes: 30
         max_attempts: 3
         retry_on: error
-        command: sh ./buildAllJars.sh
+        command: ./buildAllJars.sh
         
     - name: Prep files
       run: |
