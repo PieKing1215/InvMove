@@ -30,10 +30,6 @@ subprojects {
     }
 }
 
-ext {
-    abc = 666
-}
-
 allprojects {
     apply plugin: "java"
 //    apply plugin: "architectury-plugin"

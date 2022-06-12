@@ -1,7 +1,7 @@
 package me.pieking1215.invmove;
 
 import me.pieking1215.invmove.module.Module;
-import me.pieking1215.invmove.module.VanillaModule18;
+import me.pieking1215.invmove.module.VanillaModule19;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -14,7 +14,7 @@ public abstract class InvMove19 extends InvMove {
 
     @Override
     public Module getVanillaModule() {
-        return new VanillaModule18();
+        return new VanillaModule19();
     }
 
     @Override

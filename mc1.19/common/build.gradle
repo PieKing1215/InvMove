@@ -16,7 +16,7 @@ dependencies {
 }
 
 processResources {
-//    from project(":crossversion:common").sourceSets.main.resources
+    from project(":crossversion:common").sourceSets.main.resources
 }
 
 architectury {
