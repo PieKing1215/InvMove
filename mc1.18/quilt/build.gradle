@@ -27,17 +27,6 @@ configurations {
     developmentQuilt.extendsFrom common
 }
 
-sourceSets {
-    main {
-        java {
-            srcDir "${project(":crossversion:common").projectDir}/src/main/java"
-        }
-        resources {
-            srcDir "${project(":crossversion:common").projectDir}/src/main/resources"
-        }
-    }
-}
-
 dependencies {
     modImplementation "org.quiltmc:quilt-loader:${quilt_loader_version}"
     modApi "org.quiltmc.quilted-fabric-api:quilted-fabric-api:${quilt_fabric_api_version}"
@@ -68,10 +57,15 @@ dependencies {
 processResources {
     inputs.property "group", maven_group
     inputs.property "version", project.version
+    inputs.property "crossversionRefmap", "${archives_base_name}-${project.parent.name}_common-refmap.json"
 
     filesMatching("quilt.mod.json") {
         expand "group": maven_group,
                 "version": project.version
+    }
+
+    filesMatching("invmove.mixins.json") {
+        expand "crossversionRefmap": "${archives_base_name}-${project.parent.name}_common-refmap.json"
     }
 
     from project("${parent.path}:common").sourceSets.main.resources

@@ -18,7 +18,7 @@ import net.minecraftforge.fml.loading.FMLPaths;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.File;
-import java.security.CodeSource;
+import java.net.URL;
 import java.util.Optional;
 
 public class InvMoveForgeClient {
@@ -30,6 +30,13 @@ public class InvMoveForgeClient {
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onGUIDrawPost(GuiScreenEvent.DrawScreenEvent.Post event){
         InvMove.instance.drawDebugOverlay();
+    }
+
+    static String modidFromModJarURL(URL url) {
+        String path = url.toString(); // modjar://invmove/me/pieking1215/invmove/forge/
+        path = path.substring("modjar://".length()); // invmove/me/pieking1215/invmove/forge/
+        path = path.split("/")[0]; // invmove
+        return path;
     }
 
     static void clientSetup(final FMLClientSetupEvent event) {
@@ -45,9 +52,9 @@ public class InvMoveForgeClient {
                 }
 
                 return ModList.get().applyForEachModContainer(mod -> {
-                    CodeSource src1 = c.getProtectionDomain().getCodeSource();
-                    CodeSource src2 = mod.getMod().getClass().getProtectionDomain().getCodeSource();
-                    boolean eq = src1 != null && src2 != null && src1.getLocation().equals(src2.getLocation());
+                    URL src1 = c.getResource(".");
+                    URL src2 = mod.getMod().getClass().getResource(".");
+                    boolean eq = src1 != null && src2 != null && modidFromModJarURL(src1).equals(modidFromModJarURL(src2));
 
                     if (eq) {
                         return Optional.of(mod.getModId());

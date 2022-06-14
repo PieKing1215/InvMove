@@ -30,17 +30,6 @@ configurations {
     developmentForge.extendsFrom common
 }
 
-sourceSets {
-    main {
-        java {
-            srcDir "${project(":crossversion:common").projectDir}/src/main/java"
-        }
-        resources {
-            srcDir "${project(":crossversion:common").projectDir}/src/main/resources"
-        }
-    }
-}
-
 dependencies {
     forge "net.minecraftforge:forge:${forge_version}"
     // Remove the next line if you don't want to depend on the API
@@ -61,9 +50,14 @@ dependencies {
 
 processResources {
     inputs.property "version", project.version
+    inputs.property "crossversionRefmap", "${archives_base_name}-${project.parent.name}_common-refmap.json"
 
     filesMatching("META-INF/mods.toml") {
         expand "version": project.version
+    }
+
+    filesMatching("invmove.mixins.json") {
+        expand "crossversionRefmap": "${archives_base_name}-${project.parent.name}_common-refmap.json"
     }
 
     from project("${parent.path}:common").sourceSets.main.resources

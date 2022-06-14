@@ -3,6 +3,17 @@ repositories {
     maven { url "https://maven.shedaniel.me/" }
 }
 
+sourceSets {
+    main {
+        java {
+            srcDir "${project(":crossversion:common").projectDir}/src/main/java"
+        }
+        resources {
+            srcDir "${project(":crossversion:common").projectDir}/src/main/resources"
+        }
+    }
+}
+
 dependencies {
     // We depend on fabric loader here to use the fabric @Environment annotations and get the mixin dependencies
     // Do NOT use other classes from fabric loader
@@ -16,7 +27,7 @@ dependencies {
 }
 
 processResources {
-    from project(":crossversion:common").sourceSets.main.resources
+//    from project(":crossversion:common").sourceSets.main.resources
 }
 
 architectury {

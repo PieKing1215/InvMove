@@ -8,6 +8,7 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.client.gui.screens.Screen;
 
 import java.io.File;
 import java.util.Optional;
@@ -15,9 +16,17 @@ import java.util.Optional;
 public class InvMoveFabric implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
+        System.out.println("modid list!!");
+        for (ModContainer mod : FabricLoader.getInstance().getAllMods()) {
+            System.out.println(mod.getMetadata().getId() + " " + mod.getPath('/' + Screen.class.getName().replace('.', '/') + ".class") + " " + mod.findPath('/' + Screen.class.getName().replace('.', '/') + ".class"));
+        }
         InvMove.instance = new InvMove19() {
             @Override
             public Optional<String> modidFromClass(Class<?> c) {
+                if (c.getPackage().getName().startsWith("net.minecraft.")) {
+                    return Optional.of("minecraft");
+                }
+
                 for (ModContainer mod : FabricLoader.getInstance().getAllMods()) {
                     if (mod.findPath('/' + c.getName().replace('.', '/') + ".class").isPresent()) {
                         return Optional.of(mod.getMetadata().getId());

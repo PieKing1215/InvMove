@@ -56,9 +56,14 @@ dependencies {
 
 processResources {
     inputs.property "version", project.version
+    inputs.property "crossversionRefmap", "${archives_base_name}-${project.parent.name}_${project.name}-refmap.json"
 
     filesMatching("fabric.mod.json") {
         expand "version": project.version
+    }
+
+    filesMatching("invmove.mixins.json") {
+        expand "crossversionRefmap": "${archives_base_name}-${project.parent.name}_${project.name}-refmap.json"
     }
 
     from project("${parent.path}:common").sourceSets.main.resources

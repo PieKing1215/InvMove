@@ -17,12 +17,12 @@ mkdir ./build/
 for i in "${versions[@]}"
 do
 
-  MAX_TRIES=4
+  MAX_TRIES=3
   COUNT=0
   while [ $COUNT -lt $MAX_TRIES ]; do
     echo "Building $i..."
     TERM=cygwin ./gradlew --stop
-    TERM=cygwin ./gradlew mc"$i":buildAll -PdisableAllBut=mc"$i"
+    TERM=cygwin timeout 10m ./gradlew mc"$i":buildAll -PdisableAllBut=mc"$i"
     if [ $? -eq 0 ];then
       break;
     fi
