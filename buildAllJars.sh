@@ -22,7 +22,7 @@ do
   while [ $COUNT -lt $MAX_TRIES ]; do
     echo "Building $i..."
     TERM=cygwin ./gradlew --stop
-    TERM=cygwin timeout 10m ./gradlew mc"$i":buildAll -PdisableAllBut=mc"$i"
+    TERM=cygwin timeout 7m ./gradlew mc"$i":buildAll -PdisableAllBut=mc"$i"
     if [ $? -eq 0 ];then
       break;
     fi
