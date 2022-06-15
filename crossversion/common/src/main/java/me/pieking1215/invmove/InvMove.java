@@ -165,7 +165,6 @@ public abstract class InvMove {
                 KeyMapping.setAll();
             }
 //            Minecraft.getInstance().screen.passEvents = true;
-//            System.out.println(input.up + " " + Minecraft.getInstance().options.keyUp.isDown);
 
             // this is needed for compatibility with ItemPhysic
             Minecraft.getInstance().options.keyDrop.setDown(false);

@@ -16,10 +16,6 @@ import java.util.Optional;
 public class InvMoveFabric implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-        System.out.println("modid list!!");
-        for (ModContainer mod : FabricLoader.getInstance().getAllMods()) {
-            System.out.println(mod.getMetadata().getId() + " " + mod.getPath('/' + Screen.class.getName().replace('.', '/') + ".class") + " " + mod.findPath('/' + Screen.class.getName().replace('.', '/') + ".class"));
-        }
         InvMove.instance = new InvMove19() {
             @Override
             public Optional<String> modidFromClass(Class<?> c) {

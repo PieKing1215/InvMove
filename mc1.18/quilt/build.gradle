@@ -2,10 +2,6 @@ plugins {
     id "com.github.johnrengelman.shadow" version "7.1.2"
 }
 
-repositories {
-    maven { url "https://maven.quiltmc.org/repository/release/" }
-}
-
 architectury {
     platformSetupLoomIde()
     loader("quilt")
@@ -17,7 +13,7 @@ loom {
 
 configurations {
     common
-    shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
+    shadowCommon
     compileClasspath.extendsFrom common
     runtimeClasspath.extendsFrom common
     developmentQuilt.extendsFrom common
@@ -26,12 +22,6 @@ configurations {
 dependencies {
     modImplementation "org.quiltmc:quilt-loader:${quilt_loader_version}"
     modApi "org.quiltmc.quilted-fabric-api:quilted-fabric-api:${quilt_fabric_api_version}"
-    // Remove the next few lines if you don't want to depend on the API
-//    modApi("dev.architectury:architectury-fabric:${architectury_version}") {
-//        // We must not pull Fabric Loader from Architectury Fabric
-//        exclude group: "net.fabricmc"
-//        exclude group: "net.fabricmc.fabric-api"
-//    }
 
     modImplementation("com.terraformersmc:modmenu:${modmenu_version}") {
         exclude(group: "net.fabricmc")

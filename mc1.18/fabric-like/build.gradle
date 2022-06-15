@@ -9,8 +9,6 @@ loom {
 dependencies {
     modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
     modApi "net.fabricmc.fabric-api:fabric-api:${fabric_api_version}"
-    // Remove the next line if you don't want to depend on the API
-//    modApi "dev.architectury:architectury-fabric:${architectury_version}"
 
     modImplementation("com.terraformersmc:modmenu:${modmenu_version}") {
         exclude(group: "net.fabricmc")
@@ -18,5 +16,4 @@ dependencies {
     }
 
     compileClasspath(project(path: "${parent.path}:common", configuration: "namedElements")) { transitive false }
-//    compileClasspath(project(path: ":crossversion:common", configuration: "namedElements")) { transitive false }
 }

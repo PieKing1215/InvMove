@@ -24,7 +24,7 @@ loom {
 
 configurations {
     common
-    shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
+    shadowCommon
     compileClasspath.extendsFrom common
     runtimeClasspath.extendsFrom common
     developmentForge.extendsFrom common
@@ -32,20 +32,11 @@ configurations {
 
 dependencies {
     forge "net.minecraftforge:forge:${forge_version}"
-    // Remove the next line if you don't want to depend on the API
-//    modApi "dev.architectury:architectury-forge:${architectury_version}"
-    modApi "me.shedaniel.cloth:cloth-config-forge:${cloth_version}"
 
-    // for testing some unrecognized UIs
-//    modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-forge:7.3.443"
+    modApi "me.shedaniel.cloth:cloth-config-forge:${cloth_version}"
 
     common(project(path: "${parent.path}:common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: "${parent.path}:common", configuration: "transformProductionForge")) { transitive = false }
-//    common(project(path: ":crossversion:common", configuration: "namedElements")) { transitive false }
-//    shadowCommon(project(path: ":crossversion:common", configuration: "namedElements")) { transitive false }
-
-
-
 }
 
 processResources {
@@ -61,7 +52,6 @@ processResources {
     }
 
     from project("${parent.path}:common").sourceSets.main.resources
-//    from project(":crossversion:common").sourceSets.main.resources
 }
 
 shadowJar {
