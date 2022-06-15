@@ -3,6 +3,15 @@ task cleanAll {
     dependsOn allprojects.collect { it.tasks.matching { it.name == 'clean' } }
 }
 
+allprojects {
+    repositories {
+        maven { url "https://maven.shedaniel.me/" }
+        maven { url "https://maven.terraformersmc.com" }
+    }
+}
+
+// Doing it this way used too much memory
+
 //task buildCrossversion {
 //    dependsOn project(':crossversion').subprojects.collect { it.tasks.matching { it.name == 'build' } }
 //}

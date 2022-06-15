@@ -1,8 +1,4 @@
 
-repositories {
-    maven { url "https://maven.shedaniel.me/" }
-}
-
 sourceSets {
     main {
         java {
