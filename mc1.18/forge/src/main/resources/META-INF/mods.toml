@@ -1,16 +1,16 @@
 modLoader = "javafml"
 loaderVersion = "[39,)"
 license = "LGPL-3.0-only"
-issueTrackerURL="https://github.com/PieKing1215/InvMove/issues"
+issueTrackerURL="${repo}/issues"
 
 [[mods]]
 modId = "invmove"
 version = "${version}"
 displayName = "InvMove"
-displayURL="https://github.com/PieKing1215/InvMove"
+displayURL="${repo}"
 authors = "PieKing1215"
 logoFile = "icon.png"
-description = '''Lets you move while in inventories.'''
+description = '''${description}'''
 
 [[dependencies.invmove]]
 modId = "forge"

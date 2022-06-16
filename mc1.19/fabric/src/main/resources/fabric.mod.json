@@ -3,14 +3,14 @@
   "id": "invmove",
   "version": "${version}",
   "name": "InvMove",
-  "description": "Lets you move while in inventories.",
+  "description": "${description}",
   "authors": [
     "PieKing1215"
   ],
   "contact": {
-    "homepage": "https://github.com/PieKing1215/InvMove",
-    "sources": "https://github.com/PieKing1215/InvMove",
-    "issues": "https://github.com/PieKing1215/InvMove/issues"
+    "homepage": "${repo}",
+    "sources": "${repo}",
+    "issues": "${repo}/issues"
   },
   "license": "LGPL-3.0-only",
   "icon": "icon.png",

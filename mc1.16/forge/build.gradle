@@ -55,7 +55,9 @@ processResources {
     inputs.property "crossversionRefmap", "${archives_base_name}-${project.parent.name}_${project.name}-refmap.json"
 
     filesMatching("META-INF/mods.toml") {
-        expand "version": project.version
+        expand "version": project.version,
+                "description": mod_description,
+                "repo": mod_repo
     }
 
     filesMatching("invmove.mixins.json") {

@@ -47,7 +47,9 @@ processResources {
 
     filesMatching("quilt.mod.json") {
         expand "group": maven_group,
-                "version": project.version
+                "version": project.version,
+                "description": mod_description,
+                "repo": mod_repo
     }
 
     filesMatching("invmove.mixins.json") {
