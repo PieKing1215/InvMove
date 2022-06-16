@@ -48,6 +48,12 @@
         "id": "cloth-config",
         "version": ">=6"
       }
+    ],
+    "breaks": [
+      {
+        "id": "invmove_compat",
+        "version": "<=0.1.0"
+      }
     ]
   }
 }

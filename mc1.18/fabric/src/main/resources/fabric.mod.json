@@ -35,5 +35,8 @@
     "minecraft": "1.18.x",
     "fabric": "*",
     "cloth-config": ">=6"
+  },
+  "breaks": {
+    "invmove_compat": "<=0.1.0"
   }
 }

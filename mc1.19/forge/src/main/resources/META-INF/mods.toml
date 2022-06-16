@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[39,)"
+loaderVersion = "[41,)"
 license = "LGPL v3.0"
 issueTrackerURL="https://github.com/PieKing1215/InvMove/issues"
 
@@ -15,20 +15,20 @@ description = '''Lets you move while in inventories.'''
 [[dependencies.invmove]]
 modId = "forge"
 mandatory = true
-versionRange = "[39,)"
+versionRange = "[41,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.invmove]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.18.1,)"
+versionRange = "[1.19,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.invmove]]
 modId = "cloth_config"
 mandatory = true
-versionRange = "[6,)"
+versionRange = "[7,)"
 ordering = "NONE"
 side = "CLIENT"
