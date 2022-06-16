@@ -17,8 +17,8 @@ public class ModuleConfig {
     final List<Pair<ConfigEntry<?>, ConfigEntryMeta>> entries;
 
     public static class ConfigEntryMeta {
-        public String id;
-        public String display;
+        public final String id;
+        public final String display;
 
         public ConfigEntryMeta(final String id, final String display) {
             this.id = id;

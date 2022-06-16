@@ -2,7 +2,6 @@ package me.pieking1215.invmove.fabric;
 
 import me.pieking1215.invmove.InvMove;
 import me.pieking1215.invmove.InvMove16;
-import me.pieking1215.invmove.fabric_like.InvMoveInitializer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.loader.api.FabricLoader;

@@ -31,12 +31,13 @@ public abstract class InvMove {
             "keycategory.invmove"
     );
 
-    private static List<Module> addonModules = new ArrayList<>();
+    private static final List<Module> addonModules = new ArrayList<>();
 
     /**
      * Use this function to register addon `Module`s.
      * This should be done during `InterModEnqueueEvent` on forge or the "invmove" entrypoint on fabric/quilt
      */
+    @SuppressWarnings("unused")
     public static void registerModule(Module module) {
         (instance != null ? instance.modules : addonModules).add(module);
     }
@@ -60,7 +61,7 @@ public abstract class InvMove {
     protected boolean wasShiftDown = false;
     protected boolean wasToggleMovementPressed = false;
 
-    public List<Module> modules = new ArrayList<>();
+    public final List<Module> modules = new ArrayList<>();
 
     public InvMove() {
         this.modules.addAll(addonModules);
