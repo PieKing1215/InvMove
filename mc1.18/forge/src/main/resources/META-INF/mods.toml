@@ -1,6 +1,6 @@
 modLoader = "javafml"
 loaderVersion = "[39,)"
-license = "LGPL v3.0"
+license = "LGPL-3.0-only"
 issueTrackerURL="https://github.com/PieKing1215/InvMove/issues"
 
 [[mods]]
