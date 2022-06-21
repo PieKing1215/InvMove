@@ -11,6 +11,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class OverlayMixin {
     @Inject(method = "render", at = @At("TAIL"))
     public void render(CallbackInfo callbackInfo) {
-        InvMove.instance.drawDebugOverlay();
+        InvMove.instance().drawDebugOverlay();
     }
 }

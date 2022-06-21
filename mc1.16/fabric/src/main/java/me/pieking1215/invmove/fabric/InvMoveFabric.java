@@ -14,7 +14,7 @@ import java.util.Optional;
 public class InvMoveFabric implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-        InvMove.instance = new InvMove16() {
+        InvMove.setInstance(new InvMove16() {
             @Override
             public Optional<String> modidFromClass(Class<?> c) {
                 for (ModContainer mod : FabricLoader.getInstance().getAllMods()) {
@@ -40,10 +40,10 @@ public class InvMoveFabric implements ClientModInitializer {
             protected void registerKeybind(KeyMapping key) {
                 KeyBindingHelper.registerKeyBinding(key);
             }
-        };
+        });
 
         FabricLoader.getInstance().getEntrypointContainers("invmove", InvMoveInitializer.class).forEach(entrypoint -> entrypoint.getEntrypoint().init());
 
-        InvMove.instance.finishInit();
+        InvMove.instance().finishInit();
     }
 }

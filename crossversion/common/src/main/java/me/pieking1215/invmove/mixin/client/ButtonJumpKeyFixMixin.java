@@ -22,7 +22,7 @@ public class ButtonJumpKeyFixMixin {
         // but if the player can jump in this inventory we cancel that
         // (fix for https://github.com/PieKing1215/InvMove/issues/2)
         if (i == 32 && InvMoveConfig.GENERAL.ENABLED.get() && InvMoveConfig.MOVEMENT.ENABLED.get() && InvMoveConfig.MOVEMENT.JUMP.get()) {
-            if (InvMove.instance.allowMovementInScreen(Minecraft.getInstance().screen)) {
+            if (InvMove.instance().allowMovementInScreen(Minecraft.getInstance().screen)) {
                 cir.setReturnValue(false);
             }
         }

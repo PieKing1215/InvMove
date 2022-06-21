@@ -18,7 +18,7 @@ import java.util.Optional;
 public class InvMoveQuilt implements ClientModInitializer {
     @Override
     public void onInitializeClient(ModContainer thisMod) {
-        InvMove.instance = new InvMove18() {
+        InvMove.setInstance(new InvMove18() {
             @Override
             public Optional<String> modidFromClass(Class<?> c) {
                 CodeSource src1 = c.getProtectionDomain().getCodeSource();
@@ -53,10 +53,10 @@ public class InvMoveQuilt implements ClientModInitializer {
                 // TODO: switch to qsl when this merges: https://github.com/QuiltMC/quilt-standard-libraries/pull/59
                 KeyBindingHelper.registerKeyBinding(key);
             }
-        };
+        });
 
         QuiltLoader.getEntrypointContainers("invmove", InvMoveInitializer.class).forEach(entrypoint -> entrypoint.getEntrypoint().init());
 
-        InvMove.instance.finishInit();
+        InvMove.instance().finishInit();
     }
 }

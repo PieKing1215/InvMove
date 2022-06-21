@@ -108,7 +108,7 @@ public class VanillaModule16 extends ModuleImpl {
 
     @Override
     public Movement shouldAllowMovement(Screen screen) {
-        if(screen.getTitle() != null && screen.getTitle().equals(InvMove.instance.translatableComponent("sign.edit"))) return Movement.SUGGEST_DISABLE;
+        if(screen.getTitle() != null && screen.getTitle().equals(InvMove.instance().translatableComponent("sign.edit"))) return Movement.SUGGEST_DISABLE;
 
         if(InvMoveConfig.MOVEMENT.TEXT_FIELD_DISABLES.get()) {
             // don't allow movement when focused on an active textfield
@@ -149,7 +149,7 @@ public class VanillaModule16 extends ModuleImpl {
     @Override
     public Background shouldHideBackground(Screen screen) {
 
-        if(screen.getTitle() != null && screen.getTitle().equals(InvMove.instance.translatableComponent("sign.edit"))) return Background.SUGGEST_SHOW;
+        if(screen.getTitle() != null && screen.getTitle().equals(InvMove.instance().translatableComponent("sign.edit"))) return Background.SUGGEST_SHOW;
 
         return super.shouldHideBackground(screen);
     }

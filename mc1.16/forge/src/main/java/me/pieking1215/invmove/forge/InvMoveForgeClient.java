@@ -24,12 +24,12 @@ import java.util.Optional;
 public class InvMoveForgeClient {
 
     static void finishInit() {
-        InvMove.instance.finishInit();
+        InvMove.instance().finishInit();
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onGUIDrawPost(GuiScreenEvent.DrawScreenEvent.Post event){
-        InvMove.instance.drawDebugOverlay();
+        InvMove.instance().drawDebugOverlay();
     }
 
     static String modidFromModJarURL(URL url) {
@@ -44,7 +44,7 @@ public class InvMoveForgeClient {
                 () -> Pair.of(() -> "", (a, b) -> true));
         MinecraftForge.EVENT_BUS.register(new InvMoveForgeClient());
 
-        InvMove.instance = new InvMove16() {
+        InvMove.setInstance(new InvMove16() {
             @Override
             public Optional<String> modidFromClass(Class<?> c) {
                 if (c.getPackage().getName().startsWith("net.minecraft.")) {
@@ -78,7 +78,7 @@ public class InvMoveForgeClient {
                 key.setKeyConflictContext(KeyConflictContext.UNIVERSAL);
                 ClientRegistry.registerKeyBinding(key);
             }
-        };
+        });
 
         ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.CONFIGGUIFACTORY, () -> (mc, screen) -> InvMoveConfig.setupCloth(screen));
 

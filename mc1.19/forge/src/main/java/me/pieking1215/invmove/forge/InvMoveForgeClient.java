@@ -24,12 +24,12 @@ import java.util.Optional;
 public class InvMoveForgeClient {
 
     static void finishInit() {
-        InvMove.instance.finishInit();
+        InvMove.instance().finishInit();
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onGUIDrawPost(ScreenEvent.DrawScreenEvent.Post event){
-        InvMove.instance.drawDebugOverlay();
+        InvMove.instance().drawDebugOverlay();
     }
 
     static void clientSetup(final FMLClientSetupEvent event) {
@@ -37,7 +37,7 @@ public class InvMoveForgeClient {
                 () -> new IExtensionPoint.DisplayTest(() -> "", (a, b) -> true));
         MinecraftForge.EVENT_BUS.register(new InvMoveForgeClient());
 
-        InvMove.instance = new InvMove19() {
+        InvMove.setInstance(new InvMove19() {
             @Override
             public Optional<String> modidFromClass(Class<?> c) {
                 if (c.getPackage().getName().startsWith("net.minecraft.")) {
@@ -71,7 +71,7 @@ public class InvMoveForgeClient {
                 key.setKeyConflictContext(KeyConflictContext.UNIVERSAL);
                 ClientRegistry.registerKeyBinding(key);
             }
-        };
+        });
 
         ModLoadingContext.get().registerExtensionPoint(ConfigGuiHandler.ConfigGuiFactory.class, () -> new ConfigGuiHandler.ConfigGuiFactory((mc, screen) -> InvMoveConfig.setupCloth(screen)));
     }

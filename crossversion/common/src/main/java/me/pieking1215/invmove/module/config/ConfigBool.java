@@ -27,9 +27,9 @@ public class ConfigBool extends ConfigEntry<Boolean> {
 
     @Override
     public void addTo(ConfigCategory category, ConfigEntryBuilder eb, String id) {
-        BooleanToggleBuilder b = eb.startBooleanToggle(InvMove.instance.translatableComponent(id), get()).setDefaultValue(getDefault()).setSaveConsumer(this::set);
+        BooleanToggleBuilder b = eb.startBooleanToggle(InvMove.instance().translatableComponent(id), get()).setDefaultValue(getDefault()).setSaveConsumer(this::set);
         if (Language.getInstance().has("tooltip." + id)) {
-            b.setTooltip(InvMove.instance.translatableComponent("tooltip." + id));
+            b.setTooltip(InvMove.instance().translatableComponent("tooltip." + id));
         }
         if (this.textFn != null) {
             b.setYesNoTextSupplier(this.textFn);
@@ -39,9 +39,9 @@ public class ConfigBool extends ConfigEntry<Boolean> {
 
     @Override
     public void addTo(SubCategoryBuilder category, ConfigEntryBuilder eb, String id) {
-        BooleanToggleBuilder b = eb.startBooleanToggle(InvMove.instance.translatableComponent(id), get()).setDefaultValue(getDefault()).setSaveConsumer(this::set);
+        BooleanToggleBuilder b = eb.startBooleanToggle(InvMove.instance().translatableComponent(id), get()).setDefaultValue(getDefault()).setSaveConsumer(this::set);
         if (Language.getInstance().has("tooltip." + id)) {
-            b.setTooltip(InvMove.instance.translatableComponent("tooltip." + id));
+            b.setTooltip(InvMove.instance().translatableComponent("tooltip." + id));
         }
         if (this.textFn != null) {
             b.setYesNoTextSupplier(this.textFn);

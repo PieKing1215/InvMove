@@ -15,6 +15,6 @@ public class MovementMixin {
     )
     private void onInput(CallbackInfo info) {
         //noinspection ConstantConditions
-        InvMove.instance.onInputUpdate(((LocalPlayer)(Object)this).input);
+        InvMove.instance().onInputUpdate(((LocalPlayer)(Object)this).input);
     }
 }

@@ -62,12 +62,12 @@ public class ModuleConfig {
         this.entries.add(Pair.of(new ConfigEntry<None>(new None()) {
             @Override
             void addTo(ConfigCategory category, ConfigEntryBuilder eb, String id) {
-                category.addEntry(eb.startTextDescription(InvMove.instance.translatableComponent(id)).build());
+                category.addEntry(eb.startTextDescription(InvMove.instance().translatableComponent(id)).build());
             }
 
             @Override
             void addTo(SubCategoryBuilder category, ConfigEntryBuilder eb, String id) {
-                category.add(eb.startTextDescription(InvMove.instance.translatableComponent(id)).build());
+                category.add(eb.startTextDescription(InvMove.instance().translatableComponent(id)).build());
             }
 
             @SuppressWarnings("EmptyMethod")
@@ -87,7 +87,7 @@ public class ModuleConfig {
             entry.addTo(category, eb, (id.isEmpty() ? "" : (id + ".")) + this.id + "." + meta.id);
         }
         if (entries.isEmpty()) {
-            category.addEntry(eb.startTextDescription(InvMove.instance.translatableComponent("key.invmove.module.nooptions").withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC)).build());
+            category.addEntry(eb.startTextDescription(InvMove.instance().translatableComponent("key.invmove.module.nooptions").withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC)).build());
         }
     }
 
@@ -102,7 +102,7 @@ public class ModuleConfig {
             entry.addTo(category, eb, meta.display == null ? ((id.isEmpty() ? "" : (id + ".")) + this.id + "." + meta.id) : meta.display);
         }
         if (entries.isEmpty()) {
-            category.add(eb.startTextDescription(InvMove.instance.translatableComponent("key.invmove.module.nooptions").withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC)).build());
+            category.add(eb.startTextDescription(InvMove.instance().translatableComponent("key.invmove.module.nooptions").withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC)).build());
         }
     }
 

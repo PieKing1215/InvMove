@@ -17,7 +17,7 @@ public class BackgroundMixin {
     )
     private void onRenderBackground(PoseStack poseStack, CallbackInfo ci){
         //noinspection ConstantConditions
-        if(InvMove.instance.shouldDisableScreenBackground((Screen)(Object)this)) {
+        if(InvMove.instance().shouldDisableScreenBackground((Screen)(Object)this)) {
             ci.cancel();
         }
     }

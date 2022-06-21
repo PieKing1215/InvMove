@@ -31,10 +31,10 @@ public class ConfigEnum<T extends Enum<T>> extends ConfigEntry<T> {
     @Override
     void addTo(ConfigCategory category, ConfigEntryBuilder eb, String id) {
         //noinspection unchecked
-        EnumSelectorBuilder<T> esb = eb.startEnumSelector(InvMove.instance.translatableComponent(id), (Class<T>) this.defaultValue.getClass(), this.value)
+        EnumSelectorBuilder<T> esb = eb.startEnumSelector(InvMove.instance().translatableComponent(id), (Class<T>) this.defaultValue.getClass(), this.value)
             .setDefaultValue(this.getDefault())
             .setSaveConsumer(this::set)
-            .setTooltip(InvMove.instance.translatableComponent("tooltip." + id));
+            .setTooltip(InvMove.instance().translatableComponent("tooltip." + id));
 
         category.addEntry(esb.build());
     }
@@ -42,12 +42,12 @@ public class ConfigEnum<T extends Enum<T>> extends ConfigEntry<T> {
     @Override
     void addTo(SubCategoryBuilder category, ConfigEntryBuilder eb, String id) {
         //noinspection unchecked
-        EnumSelectorBuilder<T> esb = eb.startEnumSelector(InvMove.instance.translatableComponent(id), (Class<T>) this.defaultValue.getClass(), this.value)
+        EnumSelectorBuilder<T> esb = eb.startEnumSelector(InvMove.instance().translatableComponent(id), (Class<T>) this.defaultValue.getClass(), this.value)
                 .setDefaultValue(this.getDefault())
                 .setSaveConsumer(this::set)
-                .setTooltip(InvMove.instance.translatableComponent("tooltip." + id));
+                .setTooltip(InvMove.instance().translatableComponent("tooltip." + id));
         if (Language.getInstance().has("tooltip." + id)) {
-            esb.setTooltip(InvMove.instance.translatableComponent("tooltip." + id));
+            esb.setTooltip(InvMove.instance().translatableComponent("tooltip." + id));
         }
         category.add(esb.build());
     }

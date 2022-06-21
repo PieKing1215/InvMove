@@ -10,6 +10,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.player.Input;
 import net.minecraft.network.chat.MutableComponent;
 
+import javax.annotation.Nullable;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -20,7 +21,19 @@ import java.util.Optional;
 
 public abstract class InvMove {
 
-    public static InvMove instance;
+    private static InvMove instance;
+
+    public static InvMove instance() {
+        if (instance == null) {
+            instance = new InvMoveNoOp();
+        }
+
+        return instance;
+    }
+
+    public static void setInstance(InvMove newInstance) {
+        instance = newInstance;
+    }
 
     public static final String MOD_ID = "invmove";
 

@@ -15,7 +15,7 @@ import java.util.Optional;
 public class InvMoveFabric implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-        InvMove.instance = new InvMove19() {
+        InvMove.setInstance(new InvMove19() {
             @Override
             public Optional<String> modidFromClass(Class<?> c) {
                 if (c.getPackage().getName().startsWith("net.minecraft.")) {
@@ -45,10 +45,10 @@ public class InvMoveFabric implements ClientModInitializer {
             protected void registerKeybind(KeyMapping key) {
                 KeyBindingHelper.registerKeyBinding(key);
             }
-        };
+        });
 
         FabricLoader.getInstance().getEntrypointContainers("invmove", InvMoveInitializer.class).forEach(entrypoint -> entrypoint.getEntrypoint().init());
 
-        InvMove.instance.finishInit();
+        InvMove.instance().finishInit();
     }
 }
