@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[41,)"
+loaderVersion = "[41.1,)"
 license = "LGPL-3.0-only"
 issueTrackerURL="${repo}/issues"
 
@@ -15,7 +15,7 @@ description = '''${description}'''
 [[dependencies.invmove]]
 modId = "forge"
 mandatory = true
-versionRange = "[41,)"
+versionRange = "[41.1,)"
 ordering = "NONE"
 side = "BOTH"
 
