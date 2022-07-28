@@ -63,3 +63,7 @@ task buildAll {
         }
     }
 }
+
+task publishAllToMavenLocal {
+    dependsOn subprojects.collect { it.tasks.matching { it.name == 'publishToMavenLocal' } }
+}
