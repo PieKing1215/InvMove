@@ -2,7 +2,7 @@ name: Copy README.md to Modrinth
  
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "${{ github.event.repository.default_branch }}" ]
     paths:
       - 'README.md'
 
