@@ -1,0 +1,34 @@
+modLoader = "javafml"
+loaderVersion = "[36,)"
+license = "LGPL-3.0-only"
+issueTrackerURL="${repo}/issues"
+
+[[mods]]
+modId = "invmove"
+version = "${version}"
+displayName = "InvMove"
+displayURL="${repo}"
+authors = "PieKing1215"
+logoFile = "icon.png"
+description = '''${description}'''
+
+[[dependencies.invmove]]
+modId = "forge"
+mandatory = true
+versionRange = "[36,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.invmove]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.16.5,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.invmove]]
+modId = "cloth-config"
+mandatory = true
+versionRange = "[4,)"
+ordering = "NONE"
+side = "CLIENT"

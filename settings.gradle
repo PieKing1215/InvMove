@@ -7,10 +7,28 @@ pluginManagement {
     }
 }
 
-include("common")
-include("fabric-like")
-include("fabric")
-include("quilt")
-include("forge")
+include("crossversion:common")
+
+if (startParameter.projectProperties.getOrDefault("disableAllBut", "mc1.19") == "mc1.19") {
+    include("mc1.19:common")
+    include("mc1.19:fabric-like")
+    include("mc1.19:fabric")
+    include("mc1.19:quilt")
+    include("mc1.19:forge")
+}
+
+if (startParameter.projectProperties.getOrDefault("disableAllBut", "mc1.18") == "mc1.18") {
+    include("mc1.18:common")
+    include("mc1.18:fabric-like")
+    include("mc1.18:fabric")
+    include("mc1.18:quilt")
+    include("mc1.18:forge")
+}
+
+if (startParameter.projectProperties.getOrDefault("disableAllBut", "mc1.16") == "mc1.16") {
+    include("mc1.16:common")
+    include("mc1.16:fabric")
+    include("mc1.16:forge")
+}
 
 rootProject.name = "InvMove"

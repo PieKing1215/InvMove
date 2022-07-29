@@ -25,34 +25,22 @@ jobs:
 
     - run: chmod +x ./gradlew
 
+    - run: chmod +x ./buildAllJars.sh
+
     - name: Build with Gradle
-      uses: gradle/gradle-build-action@937999e9cc2425eddc7fd62d1053baf041147db7
+      uses: nick-fields/retry@v2
       with:
-        arguments: build
+        timeout_minutes: 30
+        max_attempts: 3
+        retry_on: error
+        command: ./buildAllJars.sh
         
     - name: Prep files
       run: |
-        mv ./forge/build/libs/*[0-9].jar "./InvMove-forge-${{ steps.short-sha.outputs.sha }}.jar"
-        mv ./fabric/build/libs/*[0-9].jar "./InvMove-fabric-${{ steps.short-sha.outputs.sha }}.jar"
-        mv ./quilt/build/libs/*[0-9].jar "./InvMove-quilt-${{ steps.short-sha.outputs.sha }}.jar"
+        for f in ./build/*.jar; do mv "$f" "$(echo "$f" | sed -E 's/(.+)-(.+)-.+-(.+)/\1-\2-${{ steps.short-sha.outputs.sha }}-\3/')"; done
         
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.3.1
       with:
-        # Artifact name
-        name: "InvMove-forge-${{ steps.short-sha.outputs.sha }}"
-        path: ./*forge*.jar
-
-    - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v2.3.1
-      with:
-        # Artifact name
-        name: "InvMove-fabric-${{ steps.short-sha.outputs.sha }}"
-        path: ./*fabric*.jar
-
-    - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v2.3.1
-      with:
-        # Artifact name
-        name: "InvMove-quilt-${{ steps.short-sha.outputs.sha }}"
-        path: ./*quilt*.jar
+        name: "InvMove-build-${{ steps.short-sha.outputs.sha }}"
+        path: ./build/
