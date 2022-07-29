@@ -2,7 +2,7 @@ name: Copy README.md to Modrinth
  
 on:
   push:
-    branches: [ "1.18" ]
+    branches: [ "master" ]
     paths:
       - 'README.md'
 
