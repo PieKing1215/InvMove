@@ -6,7 +6,7 @@
   <a href="https://ko-fi.com/X8X34Y6MZ"><img src="https://ko-fi.com/img/githubbutton_sm.svg" alt="Donate on ko-fi" width="160px"></a>
 </h1>
 
-### Minecraft Forge/Fabric mod that adds the ability to walk around while in inventories
+### Minecraft Forge/Fabric/Quilt mod that adds the ability to walk around while in inventories
 
 <table>
 <tr>
@@ -25,7 +25,6 @@
 
 This is a rewrite of the previously separate Forge and Fabric versions.<br>
 Mod compatibilities have been moved into an addon mod: [InvMoveCompats](https://github.com/PieKing1215/InvMoveCompats)<br>
-This rewrite is currently 1.18 only, backports for 1.16 and maybe 1.17 coming soon (tm) utilizing the magic of semi-cursed build scripts.
 
 ![demo.gif](https://raw.githubusercontent.com/PieKing1215/InvMove/media/demo.gif)
 
@@ -40,8 +39,11 @@ I take no responsibility if you get banned or something because you used this on
 
 ### [Releases](https://github.com/PieKing1215/InvMove/releases)
 
-Requires Cloth Config ([Forge](https://www.curseforge.com/minecraft/mc-mods/cloth-config-forge)/[Fabric](https://www.curseforge.com/minecraft/mc-mods/cloth-config)).
-For Fabric, you need [Mod Menu](https://www.curseforge.com/minecraft/mc-mods/modmenu) to be able to open the config screen.
+Requires [Cloth Config](https://modrinth.com/mod/cloth-config) on Forge/Fabric/Quilt.<br>
+Requires [Fabric API](https://modrinth.com/mod/fabric-api) on Fabric.<br>
+Requires [Quilted Fabric API / Quilt Standard Libraries](https://modrinth.com/mod/qsl) on Quilt.<br>
+For Fabric, you need [Mod Menu](https://modrinth.com/mod/modmenu) to be able to open the config screen.<br>
+For Forge, I also recommend [Game Menu Mod Option](https://modrinth.com/mod/gamemenumodoption) so you can change settings in-game.
 
 ## Config (In-game)
 
