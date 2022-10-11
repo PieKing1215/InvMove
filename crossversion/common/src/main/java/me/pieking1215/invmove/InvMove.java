@@ -6,17 +6,18 @@ import me.pieking1215.invmove.module.Module;
 import me.pieking1215.invmove.module.VanillaModule16;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.ToggleKeyMapping;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.player.Input;
 import net.minecraft.network.chat.MutableComponent;
 
-import javax.annotation.Nullable;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public abstract class InvMove {
@@ -71,8 +72,9 @@ public abstract class InvMove {
     // implementation
 
     protected boolean wasSneaking = false;
-    protected boolean wasShiftDown = false;
     protected boolean wasToggleMovementPressed = false;
+
+    protected Map<ToggleKeyMapping, Boolean> wasToggleKeyDown = new HashMap<>();
 
     public final List<Module> modules = new ArrayList<>();
 
@@ -153,31 +155,43 @@ public abstract class InvMove {
         canMove = handleToggleMovementKey(Minecraft.getInstance().screen, canMove);
 
         if(canMove){
-
             // tick keybinds (since opening the ui unpresses all keys)
 
-            if (optionToggleCrouch()) {
-                // TODO: think about doing this a better way
+            // edited implementation of KeyMapping.setAll()
+            // using normal setAll breaks toggle keys so we have to do it manually
+            // TODO: maybe it would be better to modify KeyboardHandler::keyPress to hook key presses instead of doing it this way
+            for (KeyMapping k : KeyMapping.ALL.values()) {
+                if (k.key.getType() == InputConstants.Type.KEYSYM && k.key.getValue() != InputConstants.UNKNOWN.getValue()) {
 
-                // save whether it was toggled
-                boolean wasCrouchToggle = Minecraft.getInstance().options.keyShift.isDown;
+                    boolean raw = InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), k.key.getValue());
 
-                // make it not toggle, and see if the key was pressed
-                setOptionToggleCrouch(false);
-                KeyMapping.setAll();
-                setOptionToggleCrouch(true);
+                    // if is a toggle key in toggle mode
+                    if (k instanceof ToggleKeyMapping && ((ToggleKeyMapping)k).needsToggle.getAsBoolean()) {
+                        // special handling for toggle keys
 
-                // manually toggle crouch
-                boolean nowShift = Minecraft.getInstance().options.keyShift.isDown;
-                if (InvMoveConfig.MOVEMENT.SNEAK.get() == InvMoveConfig.Movement.SneakMode.Pressed && !wasShiftDown && nowShift) {
-                    Minecraft.getInstance().options.keyShift.isDown = !wasCrouchToggle;
-                } else {
-                    Minecraft.getInstance().options.keyShift.isDown = wasCrouchToggle;
+                        // manually handle toggling
+                        if (wasToggleKeyDown.containsKey(k)) {
+                            if (!wasToggleKeyDown.get(k) && raw) {
+                                // TODO: add a "boolean allowKey(KeyBinding);" method to Module instead of hardcoding only for sneak
+                                if (k == Minecraft.getInstance().options.keyShift) {
+                                    if (InvMoveConfig.MOVEMENT.SNEAK.get() == InvMoveConfig.Movement.SneakMode.Pressed) {
+                                        k.setDown(true);
+                                    }
+                                } else {
+                                    k.setDown(true);
+                                }
+                            }
+                        }
+
+                        wasToggleKeyDown.put((ToggleKeyMapping) k, raw);
+
+                    } else {
+                        // normal setAll behavior
+                        k.setDown(raw);
+                    }
                 }
-                wasShiftDown = nowShift;
-            } else {
-                KeyMapping.setAll();
             }
+
 //            Minecraft.getInstance().screen.passEvents = true;
 
             // this is needed for compatibility with ItemPhysic
@@ -205,6 +219,8 @@ public abstract class InvMove {
             }
 
             // tick movement
+            // TODO: consider mixing into KeyboardInput::tick or KeyMapping::isDown instead of this for better compatibility
+            //       that would also fix swift sneak (gh-21)
             manualTickMovement(input, Minecraft.getInstance().player.isMovingSlowly(), Minecraft.getInstance().player.isSpectator());
 
             // set sprinting using raw keybind data
