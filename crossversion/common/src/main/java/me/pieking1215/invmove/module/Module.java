@@ -1,15 +1,13 @@
 package me.pieking1215.invmove.module;
 
-import me.pieking1215.invmove.InvMove;
 import me.pieking1215.invmove.module.config.ModuleConfig;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.Component;
 
 public interface Module {
     @SuppressWarnings("SameReturnValue")
     String getId();
-    default Component getTitle() {
-        return InvMove.instance().translatableComponent("key.invmove.module." + getId());
+    default CVComponent getTitle() {
+        return CVComponent.translated("key.invmove.module." + getId());
     }
     Movement shouldAllowMovement(Screen screen);
     Background shouldHideBackground(Screen screen);

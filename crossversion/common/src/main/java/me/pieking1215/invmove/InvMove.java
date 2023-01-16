@@ -2,6 +2,7 @@ package me.pieking1215.invmove;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.vertex.PoseStack;
+import me.pieking1215.invmove.module.CVComponent;
 import me.pieking1215.invmove.module.Module;
 import me.pieking1215.invmove.module.VanillaModule16;
 import net.minecraft.client.KeyMapping;
@@ -66,6 +67,13 @@ public abstract class InvMove {
 
     public abstract MutableComponent translatableComponent(String key);
     public abstract MutableComponent literalComponent(String text);
+    public MutableComponent fromCV(CVComponent c) {
+        if (c.translate) {
+            return translatableComponent(c.text);
+        } else {
+            return literalComponent(c.text);
+        }
+    }
 
     public abstract boolean optionToggleCrouch();
     public abstract void setOptionToggleCrouch(boolean toggleCrouch);
