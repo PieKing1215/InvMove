@@ -69,6 +69,11 @@ public class InvMoveForgeClient {
             }
 
             @Override
+            public boolean hasMod(String modid) {
+                return ModList.get().isLoaded(modid);
+            }
+
+            @Override
             public File configDir() {
                 return FMLPaths.CONFIGDIR.get().toFile();
             }

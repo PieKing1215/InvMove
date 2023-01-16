@@ -60,6 +60,7 @@ public abstract class InvMove {
 
     public abstract Optional<String> modidFromClass(Class<?> c);
     public abstract String modNameFromModid(String modid);
+    public abstract boolean hasMod(String modid);
     public abstract File configDir();
     protected abstract void registerKeybind(KeyMapping key);
 

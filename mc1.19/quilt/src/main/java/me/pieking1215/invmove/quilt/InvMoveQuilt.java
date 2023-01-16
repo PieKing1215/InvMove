@@ -44,6 +44,11 @@ public class InvMoveQuilt implements ClientModInitializer {
             }
 
             @Override
+            public boolean hasMod(String modid) {
+                return QuiltLoader.isModLoaded(modid);
+            }
+
+            @Override
             public File configDir() {
                 return QuiltLoader.getConfigDir().toFile();
             }

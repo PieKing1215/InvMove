@@ -18,3 +18,7 @@ classes/
 .vscode
 .settings
 *.launch
+
+publish_all.sh
+publish_curseforge_version.sh
+publish_modrinth_version.sh

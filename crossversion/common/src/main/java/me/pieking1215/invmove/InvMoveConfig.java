@@ -93,7 +93,7 @@ public class InvMoveConfig {
         MOVEMENT.cfg.addTo(movement, eb, "config.invmove");
 
         for (Module module : InvMove.instance().modules) {
-            SubCategoryBuilder cat = eb.startSubCategory(InvMove.instance().translatableComponent("key.invmove.module." + module.getId()));
+            SubCategoryBuilder cat = eb.startSubCategory(module.getTitle());
             module.getMovementConfig().addTo(cat, eb, "config.invmove." + module.getId() + "");
             movement.addEntry(cat.build());
         }
@@ -130,7 +130,7 @@ public class InvMoveConfig {
         BACKGROUND.cfg.addTo(background, eb, "config.invmove");
 
         for (Module module : InvMove.instance().modules) {
-            SubCategoryBuilder cat = eb.startSubCategory(InvMove.instance().translatableComponent("key.invmove.module." + module.getId()));
+            SubCategoryBuilder cat = eb.startSubCategory(module.getTitle());
             module.getBackgroundConfig().addTo(cat, eb, "config.invmove." + module.getId() + "");
             background.addEntry(cat.build());
         }

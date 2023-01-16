@@ -32,6 +32,11 @@ public class InvMoveFabric implements ClientModInitializer {
             }
 
             @Override
+            public boolean hasMod(String modid) {
+                return FabricLoader.getInstance().isModLoaded(modid);
+            }
+
+            @Override
             public File configDir() {
                 return FabricLoader.getInstance().getConfigDir().toFile();
             }

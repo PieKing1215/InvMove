@@ -18,6 +18,11 @@ public class InvMoveNoOp extends InvMove {
     }
 
     @Override
+    public boolean hasMod(String modid) {
+        return false;
+    }
+
+    @Override
     public File configDir() {
         return null;
     }
