@@ -20,7 +20,7 @@ public class InvMoveQuilt implements ClientModInitializer {
     public void onInitializeClient(ModContainer thisMod) {
         InvMove.setInstance(new InvMove18() {
             @Override
-            public Optional<String> modidFromClass(Class<?> c) {
+            protected Optional<String> modidFromClassInternal(Class<?> c) {
                 CodeSource src1 = c.getProtectionDomain().getCodeSource();
                 CodeSource src2 = Screen.class.getProtectionDomain().getCodeSource();
                 boolean eq = src1 != null && src2 != null && src1.getLocation().equals(src2.getLocation());

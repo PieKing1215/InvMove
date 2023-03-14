@@ -59,7 +59,11 @@ public abstract class InvMove {
 
     // crossversion compatibility layer
 
-    public abstract Optional<String> modidFromClass(Class<?> c);
+    protected abstract Optional<String> modidFromClassInternal(Class<?> c);
+    private final HashMap<Class<?>, Optional<String>> modidFromClassCache = new HashMap<>();
+    public Optional<String> modidFromClass(Class<?> c) {
+        return modidFromClassCache.computeIfAbsent(c, this::modidFromClassInternal);
+    }
     public abstract String modNameFromModid(String modid);
     public abstract boolean hasMod(String modid);
     public abstract File configDir();

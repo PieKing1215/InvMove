@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public class InvMoveNoOp extends InvMove {
     @Override
-    public Optional<String> modidFromClass(Class<?> c) {
+    protected Optional<String> modidFromClassInternal(Class<?> c) {
         return Optional.empty();
     }
 

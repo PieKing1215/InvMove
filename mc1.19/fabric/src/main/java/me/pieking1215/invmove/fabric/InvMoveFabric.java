@@ -17,7 +17,7 @@ public class InvMoveFabric implements ClientModInitializer {
     public void onInitializeClient() {
         InvMove.setInstance(new InvMove19() {
             @Override
-            public Optional<String> modidFromClass(Class<?> c) {
+            protected Optional<String> modidFromClassInternal(Class<?> c) {
                 if (c.getPackage().getName().startsWith("net.minecraft.")) {
                     return Optional.of("minecraft");
                 }

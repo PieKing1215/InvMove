@@ -16,7 +16,7 @@ public class InvMoveFabric implements ClientModInitializer {
     public void onInitializeClient() {
         InvMove.setInstance(new InvMove16() {
             @Override
-            public Optional<String> modidFromClass(Class<?> c) {
+            protected Optional<String> modidFromClassInternal(Class<?> c) {
                 for (ModContainer mod : FabricLoader.getInstance().getAllMods()) {
                     if (mod.findPath('/' + c.getName().replace('.', '/') + ".class").isPresent()) {
                         return Optional.of(mod.getMetadata().getId());

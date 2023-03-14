@@ -39,7 +39,7 @@ public class InvMoveForgeClient {
 
         InvMove.setInstance(new InvMove18() {
             @Override
-            public Optional<String> modidFromClass(Class<?> c) {
+            protected Optional<String> modidFromClassInternal(Class<?> c) {
                 if (c.getPackage().getName().startsWith("net.minecraft.")) {
                     return Optional.of("minecraft");
                 }
