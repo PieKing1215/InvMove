@@ -65,6 +65,8 @@ processResources {
     }
 
     from project("${parent.path}:common").sourceSets.main.resources
+    
+    duplicatesStrategy 'exclude'
 }
 
 shadowJar {
