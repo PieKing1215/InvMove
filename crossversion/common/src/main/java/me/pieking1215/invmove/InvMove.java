@@ -166,6 +166,12 @@ public abstract class InvMove {
             return;
         }
 
+        // don't continue if the input is a non-vanilla type or if it isn't the local player's input
+        // this fixes Freecam/Tweakeroo where while a screen is open the player would also move
+        if(input.getClass() != KeyboardInput.class || input != Minecraft.getInstance().player.input) {
+            return;
+        }
+
         if(Minecraft.getInstance().screen == null) {
             wasSneaking = input.shiftKeyDown;
         }
