@@ -1,8 +1,10 @@
 package me.pieking1215.invmove;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import me.pieking1215.invmove.module.Module;
 import me.pieking1215.invmove.module.VanillaModule19;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 
@@ -35,5 +37,10 @@ public abstract class InvMove19 extends InvMove {
     @Override
     public void setOptionToggleCrouch(boolean toggleCrouch) {
         Minecraft.getInstance().options.toggleCrouch().set(toggleCrouch);
+    }
+
+    @Override
+    protected void drawShadow(Font font, PoseStack poseStack, String string, float x, float y, int col){
+        font.draw(poseStack, string, x, y, col);
     }
 }

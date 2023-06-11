@@ -1,0 +1,42 @@
+
+sourceSets {
+    main {
+        java {
+            srcDir "${project(":crossversion:common").projectDir}/src/main/java"
+        }
+        resources {
+            srcDir "${project(":crossversion:common").projectDir}/src/main/resources"
+        }
+    }
+}
+
+dependencies {
+    modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
+
+    modApi("me.shedaniel.cloth:cloth-config:${cloth_version}"){
+        exclude(group: "net.fabricmc")
+        exclude(group: "net.fabricmc.fabric-api")
+    }
+}
+
+architectury {
+    common(enabled_platforms.split(","))
+}
+
+loom {
+    accessWidenerPath = project(":crossversion:common").file("src/main/resources/invmove.accesswidener")
+}
+
+publishing {
+    publications {
+        mavenCommon(MavenPublication) {
+            artifactId = maven_artifact_id
+            from components.java
+        }
+    }
+
+    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
+    repositories {
+        // Add repositories to publish to here.
+    }
+}

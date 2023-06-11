@@ -10,7 +10,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.ToggleKeyMapping;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.player.Input;
+import net.minecraft.client.player.KeyboardInput;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.client.gui.Font;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -81,6 +83,8 @@ public abstract class InvMove {
 
     public abstract boolean optionToggleCrouch();
     public abstract void setOptionToggleCrouch(boolean toggleCrouch);
+
+    protected abstract void drawShadow(Font font, PoseStack poseStack, String string, float x, float y, int col);
 
     // implementation
 
@@ -158,7 +162,9 @@ public abstract class InvMove {
     }
 
     public void onInputUpdate(Input input){
-        if(Minecraft.getInstance().player == null) return;
+        if(Minecraft.getInstance().player == null) {
+            return;
+        }
 
         if(Minecraft.getInstance().screen == null) {
             wasSneaking = input.shiftKeyDown;
@@ -457,7 +463,7 @@ public abstract class InvMove {
                 if (allowMovementInScreen(screen)) {
                     className = "M" + className;
                 }
-                Minecraft.getInstance().font.drawShadow(new PoseStack(), className, 4, 4 + 10 * i, 0xffffffff);
+                drawShadow(Minecraft.getInstance().font, new PoseStack(), className, 4, 4 + 10 * i, 0xffffffff);
 
                 i++;
                 cl = cl.getSuperclass();

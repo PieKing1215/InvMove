@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "id": "invmove",
+  "version": "${version}",
+  "name": "InvMove",
+  "description": "${description}",
+  "authors": [
+    "PieKing1215"
+  ],
+  "contact": {
+    "homepage": "${repo}",
+    "sources": "${repo}",
+    "issues": "${repo}/issues"
+  },
+  "license": "LGPL-3.0-only",
+  "icon": "icon.png",
+
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "me.pieking1215.invmove.fabric.InvMoveFabric"
+    ],
+    "modmenu": [
+      "me.pieking1215.invmove.fabric_like.InvMoveModMenuIntegration"
+    ]
+  },
+
+  "mixins": [
+    "invmove-fabric.mixins.json",
+    "invmove-fabric-like.mixins.json",
+    "invmove.mixins.json"
+  ],
+
+  "depends": {
+    "minecraft": ">=1.20",
+    "fabric": "*",
+    "cloth-config": ">=11"
+  },
+  "breaks": {
+    "invmove_compat": "<=0.1.0"
+  }
+}

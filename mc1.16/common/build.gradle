@@ -1,3 +1,13 @@
+sourceSets {
+    main {
+        java {
+            srcDir "${project(":crossversion:common").projectDir}/src/main/java"
+        }
+        resources {
+            srcDir "${project(":crossversion:common").projectDir}/src/main/resources"
+        }
+    }
+}
 
 dependencies {
     modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
@@ -10,6 +20,11 @@ dependencies {
 
 processResources {
     from project(":crossversion:common").sourceSets.main.resources
+    duplicatesStrategy 'exclude'
+}
+
+sourcesJar {
+    duplicatesStrategy 'exclude'
 }
 
 architectury {

@@ -13,11 +13,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class BackgroundMixin {
     @Group
     @Inject(
-            method = "renderBackground(Lcom/mojang/blaze3d/vertex/PoseStack;)V",
-            at = @At(value = "HEAD"),
-            cancellable = true
+        method = {
+            "renderBackground(Lcom/mojang/blaze3d/vertex/PoseStack;)V",
+            "renderBackground(Lnet/minecraft/client/gui/GuiGraphics;)V"
+        },
+        at = @At(value = "HEAD"),
+        cancellable = true
     )
-    private void onRenderBackground(PoseStack poseStack, CallbackInfo ci){
+    private void onRenderBackground(CallbackInfo ci){
         //noinspection ConstantConditions
         if(InvMove.instance().shouldDisableScreenBackground((Screen)(Object)this)) {
             ci.cancel();

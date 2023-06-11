@@ -1,6 +1,6 @@
 plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
-    id "dev.architectury.loom" version "1.0-SNAPSHOT" apply false
+    id "dev.architectury.loom" version "1.1-SNAPSHOT" apply false
 }
 
 architectury {
@@ -19,7 +19,7 @@ subprojects {
         minecraft "com.mojang:minecraft:${minecraft_version}"
         mappings loom.officialMojangMappings()
 
-        implementation project(path: ":crossversion:common", configuration: "namedElements")
+//        implementation project(path: ":crossversion:common", configuration: "namedElements")
     }
 }
 
