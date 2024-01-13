@@ -1,30 +1,30 @@
 <h1>InvMove<br>
-  <a href="https://www.curseforge.com/minecraft/mc-mods/invmove"><img src="http://cf.way2muchnoise.eu/versions/%20For%20MC%20_581854_all(555-0C8E8E-fff-010101).svg" alt="Supported Versions"></a>
+  <a href="https://modrinth.com/mod/invmove"><img src="http://cf.way2muchnoise.eu/versions/%20For%20MC%20_581854_all(555-0C8E8E-fff-010101).svg" alt="Supported Versions"></a>
   <a href="https://github.com/PieKing1215/InvMove/blob/master/COPYING"><img src="https://img.shields.io/github/license/PieKing1215/InvMove?style=flat&color=0C8E8E" alt="License"></a>
-  <a href="https://modrinth.com/mod/invmove"><img src="https://modrinth-utils.vercel.app/api/badge/downloads?id=REfW2AEX&logo=true" alt="Modrinth Download Count"></a>
-  <a href="https://www.curseforge.com/minecraft/mc-mods/invmove"><img src="http://cf.way2muchnoise.eu/full_581854_downloads(E04E14-555-fff-010101-1C1C1C).svg" alt="CF Download Count"></a>
+  <a href="https://modrinth.com/mod/invmove"><img src="https://img.shields.io/modrinth/dt/REfW2AEX?label=Modrinth downloads&logo=modrinth" alt="Modrinth Download Count"></a>
+  <!-- <a href="https://www.curseforge.com/minecraft/mc-mods/invmove"><img src="http://cf.way2muchnoise.eu/full_581854_downloads(E04E14-555-fff-010101-1C1C1C).svg" alt="CF Download Count"></a> -->
   <a href="https://ko-fi.com/X8X34Y6MZ"><img src="https://ko-fi.com/img/githubbutton_sm.svg" alt="Donate on ko-fi" width="160px"></a>
 </h1>
 
-### Minecraft Forge/Fabric mod that adds the ability to walk around while in inventories
+### Minecraft Forge/Fabric/Quilt mod that adds the ability to walk around while in inventories
 
 <table>
 <tr>
   <td>InvMove</td>
   <td><a href="https://github.com/PieKing1215/InvMove">GitHub</a></td>
   <td><a href="https://modrinth.com/mod/invmove">Modrinth</a></td>
-  <td><a href="https://www.curseforge.com/minecraft/mc-mods/invmove">CurseForge</a></td>
+  <td><a href="https://www.curseforge.com/minecraft/mc-mods/invmove">CurseForge</a> (Mirror)</td>
 </tr>
 <tr>
   <td>InvMoveCompats</td>
   <td><a href="https://github.com/PieKing1215/InvMoveCompats">GitHub</a></td>
   <td><a href="https://modrinth.com/mod/invmovecompats">Modrinth</a></td>
-  <td><a href="https://www.curseforge.com/minecraft/mc-mods/invmovecompats">CurseForge</a></td>
+  <td><a href="https://www.curseforge.com/minecraft/mc-mods/invmovecompats">CurseForge</a> (Mirror)</td>
 </tr>
 </table>
 
 This is a rewrite of the previously separate Forge and Fabric versions.<br>
-Mod compatibilities have been moved into an addon mod: [InvMoveCompats](https://github.com/PieKing1215/InvMoveCompats)
+Mod compatibilities have been moved into an addon mod: [InvMoveCompats](https://github.com/PieKing1215/InvMoveCompats)<br>
 
 ![demo.gif](https://raw.githubusercontent.com/PieKing1215/InvMove/media/demo.gif)
 
@@ -39,8 +39,11 @@ I take no responsibility if you get banned or something because you used this on
 
 ### [Releases](https://github.com/PieKing1215/InvMove/releases)
 
-Requires Cloth Config ([Forge](https://www.curseforge.com/minecraft/mc-mods/cloth-config-forge)/[Fabric](https://www.curseforge.com/minecraft/mc-mods/cloth-config)).
-For Fabric, you need [Mod Menu](https://www.curseforge.com/minecraft/mc-mods/modmenu) to be able to open the config screen.
+Requires [Cloth Config](https://modrinth.com/mod/cloth-config) on Forge/Fabric/Quilt.<br>
+Requires [Fabric API](https://modrinth.com/mod/fabric-api) on Fabric.<br>
+Requires [Quilted Fabric API / Quilt Standard Libraries](https://modrinth.com/mod/qsl) on Quilt.<br>
+For Fabric, you need [Mod Menu](https://modrinth.com/mod/modmenu) to be able to open the config screen.<br>
+For Forge, I also recommend [Game Menu Mod Option](https://modrinth.com/mod/gamemenumodoption) so you can change settings in-game.
 
 ## Config (In-game)
 

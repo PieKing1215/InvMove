@@ -9,8 +9,8 @@ import me.shedaniel.clothconfig2.impl.builders.EnumSelectorBuilder;
 import me.shedaniel.clothconfig2.impl.builders.SubCategoryBuilder;
 import net.minecraft.locale.Language;
 import net.minecraft.util.GsonHelper;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -19,7 +19,7 @@ public class ConfigEnum<T extends Enum<T>> extends ConfigEntry<T> {
     // TODO: refactor this
     Function<JsonElement, Optional<T>> migrator = null;
 
-    public ConfigEnum(@Nonnull T defaultValue) {
+    public ConfigEnum(@NotNull T defaultValue) {
         super(defaultValue);
     }
 
