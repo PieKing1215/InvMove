@@ -32,9 +32,9 @@
   ],
 
   "depends": {
-    "minecraft": ">=1.20",
+    "minecraft": ">=1.20.2",
     "fabric": "*",
-    "cloth-config": ">=11"
+    "cloth-config": ">=12"
   },
   "breaks": {
     "invmove_compat": "<=0.1.0"

@@ -15,20 +15,20 @@ description = '''${description}'''
 [[dependencies.invmove]]
 modId = "forge"
 mandatory = true
-versionRange = "[46,)"
+versionRange = "[48,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.invmove]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.20,)"
+versionRange = "[1.20.2,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.invmove]]
 modId = "cloth_config"
 mandatory = true
-versionRange = "[11,)"
+versionRange = "[12,)"
 ordering = "NONE"
 side = "CLIENT"

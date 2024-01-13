@@ -14,8 +14,7 @@ public class BackgroundMixin {
     @Group
     @Inject(
         method = {
-            "renderBackground(Lcom/mojang/blaze3d/vertex/PoseStack;)V",
-            "renderBackground(Lnet/minecraft/client/gui/GuiGraphics;)V"
+            "renderBackground*"
         },
         at = @At(value = "HEAD"),
         cancellable = true

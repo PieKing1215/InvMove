@@ -56,6 +56,7 @@ public abstract class InvMove {
      */
     @SuppressWarnings("unused")
     public static void registerModule(Module module) {
+        System.out.println("[InvMove] Registered Module: " + module);
         (instance != null ? instance.modules : addonModules).add(module);
     }
 
