@@ -19,13 +19,12 @@ public class ButtonJumpKeyFixMixin {
             cancellable = true
     )
     private void keyPressed(int i, int j, int k, CallbackInfoReturnable<Boolean> cir) {
-        // if button recieved space key it normally clicks the button
+        // if button received space key it normally clicks the button
         // but if the player can jump in this inventory we cancel that
         // (fix for https://github.com/PieKing1215/InvMove/issues/2)
         if (i == 32 && InvMoveConfig.GENERAL.ENABLED.get() && InvMoveConfig.MOVEMENT.ENABLED.get() && InvMoveConfig.MOVEMENT.JUMP.get()) {
             // TODO: consider doing this a better way
             if(!((AbstractButton)(Object)this instanceof MerchantScreen.TradeOfferButton)) {
-                System.out.println(this + " " + i + " " + j + " " + k);
                 if (InvMove.instance().allowMovementInScreen(Minecraft.getInstance().screen)) {
                     cir.setReturnValue(false);
                 }

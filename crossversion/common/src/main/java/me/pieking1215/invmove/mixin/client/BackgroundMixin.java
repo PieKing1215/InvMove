@@ -11,7 +11,20 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Screen.class)
 public class BackgroundMixin {
-    @Group
+    @Inject(
+            method = {
+                    "renderTransparentBackground"
+            },
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;fillGradient(IIIIII)V"),
+            cancellable = true
+    )
+    private void onRenderTransparentBackground(CallbackInfo ci) {
+        //noinspection ConstantConditions
+        if (InvMove.instance().shouldDisableScreenBackground((Screen) (Object) this)) {
+            ci.cancel();
+        }
+    }
+
     @Inject(
         method = {
             "renderBackground*"
