@@ -5,7 +5,6 @@ import me.pieking1215.invmove.InvMoveConfig;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.gui.screens.DeathScreen;
-import net.minecraft.client.gui.screens.GenericDirtMessageScreen;
 import net.minecraft.client.gui.screens.LevelLoadingScreen;
 import net.minecraft.client.gui.screens.OptionsScreen;
 import net.minecraft.client.gui.screens.OptionsSubScreen;
@@ -61,7 +60,6 @@ public class VanillaModule16 extends ModuleImpl {
     public VanillaModule16() {
         super();
         register(
-            GenericDirtMessageScreen.class,
             DeathScreen.class,
             OptionsScreen.class,
             OptionsSubScreen.class,
