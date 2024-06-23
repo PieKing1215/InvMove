@@ -1,0 +1,64 @@
+plugins {
+    id "architectury-plugin" version "3.4-SNAPSHOT"
+    id "dev.architectury.loom" version "1.6-SNAPSHOT" apply false
+}
+
+architectury {
+    minecraft = minecraft_version
+}
+
+subprojects {
+    apply plugin: "dev.architectury.loom"
+
+    loom {
+        silentMojangMappingsLicense()
+//        clientOnlyMinecraftJar()
+    }
+
+    dependencies {
+        minecraft "com.mojang:minecraft:${minecraft_version}"
+        mappings loom.officialMojangMappings()
+
+//        implementation project(path: ":crossversion:common", configuration: "namedElements")
+    }
+}
+
+allprojects {
+    apply plugin: "java"
+    apply plugin: "architectury-plugin"
+    apply plugin: "maven-publish"
+
+    archivesBaseName = archives_base_name
+    version = mod_version
+    group = maven_group
+
+    tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
+        options.release = 21
+    }
+
+    java {
+        withSourcesJar()
+    }
+}
+
+task buildAll {
+    dependsOn subprojects.collect { it.tasks.matching { it.name == 'build' } }
+
+    doLast {
+        subprojects.forEach {
+            def platproj = it
+            if(platproj.name.matches("fabric|forge|quilt")) {
+                copy {
+                    from platproj.file("build/libs/${archives_base_name}-${mod_version}.jar")
+                    into "${buildDir}/"
+                    rename(".+", "${archives_base_name}-${project.name.substring(2)}-${mod_version}-${platproj.name.capitalize()}.jar")
+                }
+            }
+        }
+    }
+}
+
+task publishAllToMavenLocal {
+    dependsOn subprojects.collect { it.tasks.matching { it.name == 'publishToMavenLocal' } }
+}

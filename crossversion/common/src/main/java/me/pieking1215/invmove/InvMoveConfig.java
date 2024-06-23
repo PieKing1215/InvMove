@@ -80,7 +80,7 @@ public class InvMoveConfig {
 
     public static Screen setupCloth(Screen parent){
         ConfigBuilder builder = ConfigBuilder.create().setParentScreen(parent).setTitle(InvMove.instance().translatableComponent("config.invmove.title"));
-        builder.setDefaultBackgroundTexture(new ResourceLocation("minecraft:textures/block/spruce_planks.png"));
+        builder.setDefaultBackgroundTexture(InvMove.instance().parseResource("minecraft:textures/block/spruce_planks.png"));
         builder.transparentBackground();
 
         ConfigEntryBuilder eb = builder.entryBuilder();

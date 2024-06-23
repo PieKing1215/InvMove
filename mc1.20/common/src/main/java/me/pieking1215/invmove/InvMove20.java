@@ -9,6 +9,7 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.ResourceLocation;
 
 public abstract class InvMove20 extends InvMove {
 
@@ -47,5 +48,10 @@ public abstract class InvMove20 extends InvMove {
         MultiBufferSource.BufferSource buffer = MultiBufferSource.immediate(Tesselator.getInstance().getBuilder());
         font.drawInBatch(string, x, y, col, true, poseStack.last().pose(), buffer, Font.DisplayMode.NORMAL, 0, 15728880);
         buffer.endBatch();
+    }
+
+    @Override
+    public ResourceLocation parseResource(String path){
+        return new ResourceLocation(path);
     }
 }

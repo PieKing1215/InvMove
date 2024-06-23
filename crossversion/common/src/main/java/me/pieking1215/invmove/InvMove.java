@@ -13,6 +13,7 @@ import net.minecraft.client.player.Input;
 import net.minecraft.client.player.KeyboardInput;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.client.gui.Font;
+import net.minecraft.resources.ResourceLocation;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -86,6 +87,8 @@ public abstract class InvMove {
     public abstract void setOptionToggleCrouch(boolean toggleCrouch);
 
     protected abstract void drawShadow(Font font, PoseStack poseStack, String string, float x, float y, int col);
+
+    public abstract ResourceLocation parseResource(String path);
 
     // implementation
 

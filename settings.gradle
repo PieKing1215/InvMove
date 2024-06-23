@@ -9,6 +9,14 @@ pluginManagement {
 
 include("crossversion:common")
 
+if (startParameter.projectProperties.getOrDefault("disableAllBut", "mc1.21") == "mc1.21") {
+    include("mc1.21:common")
+    include("mc1.21:fabric-like")
+    include("mc1.21:fabric")
+    include("mc1.21:quilt")
+    include("mc1.21:forge")
+}
+
 if (startParameter.projectProperties.getOrDefault("disableAllBut", "mc1.20") == "mc1.20") {
     include("mc1.20:common")
     include("mc1.20:fabric-like")

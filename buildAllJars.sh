@@ -6,7 +6,7 @@
 # Once it succeeds this script copies the jars into the root build/
 # (trying to do all of this through gradle was using an absurd amount of memory)
 
-versions=("1.16" "1.18" "1.19" "1.20")
+versions=("1.16" "1.18" "1.19" "1.20" "1.21")
 
 start=$(date +%s)
 end=$(date +%s)

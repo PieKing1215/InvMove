@@ -7,6 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.ResourceLocation;
 
 public abstract class InvMove19 extends InvMove {
 
@@ -42,5 +43,10 @@ public abstract class InvMove19 extends InvMove {
     @Override
     protected void drawShadow(Font font, PoseStack poseStack, String string, float x, float y, int col){
         font.draw(poseStack, string, x, y, col);
+    }
+
+    @Override
+    public ResourceLocation parseResource(String path){
+        return new ResourceLocation(path);
     }
 }

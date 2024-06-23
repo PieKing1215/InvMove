@@ -4,6 +4,7 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.network.chat.MutableComponent;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.Font;
+import net.minecraft.resources.ResourceLocation;
 
 import java.io.File;
 import java.util.Optional;
@@ -57,5 +58,10 @@ public class InvMoveNoOp extends InvMove {
     @Override
     protected void drawShadow(Font font, PoseStack poseStack, String string, float x, float y, int col) {
 
+    }
+
+    @Override
+    public ResourceLocation parseResource(String path){
+        return null;
     }
 }

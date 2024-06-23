@@ -6,8 +6,6 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.gui.screens.DeathScreen;
 import net.minecraft.client.gui.screens.LevelLoadingScreen;
-import net.minecraft.client.gui.screens.OptionsScreen;
-import net.minecraft.client.gui.screens.OptionsSubScreen;
 import net.minecraft.client.gui.screens.ProgressScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.ShareToLanScreen;
@@ -61,8 +59,6 @@ public class VanillaModule16 extends ModuleImpl {
         super();
         register(
             DeathScreen.class,
-            OptionsScreen.class,
-            OptionsSubScreen.class,
             ShareToLanScreen.class,
             StatsScreen.class,
             WinScreen.class,
