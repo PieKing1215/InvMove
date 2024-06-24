@@ -15,5 +15,5 @@ dependencies {
         exclude(group: "net.fabricmc.fabric-api")
     }
 
-    compileClasspath(project(path: "${parent.path}:common", configuration: "namedElements")) { transitive false }
+    compileOnly(project(path: "${parent.path}:common", configuration: "namedElements")) { transitive false }
 }
