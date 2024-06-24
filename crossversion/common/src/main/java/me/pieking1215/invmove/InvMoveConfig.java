@@ -80,7 +80,7 @@ public class InvMoveConfig {
 
     public static Screen setupCloth(Screen parent){
         ConfigBuilder builder = ConfigBuilder.create().setParentScreen(parent).setTitle(InvMove.instance().translatableComponent("config.invmove.title"));
-        builder.setDefaultBackgroundTexture(new ResourceLocation("minecraft:textures/block/spruce_planks.png"));
+        builder.setDefaultBackgroundTexture(InvMove.instance().parseResource("minecraft:textures/block/spruce_planks.png"));
         builder.transparentBackground();
 
         ConfigEntryBuilder eb = builder.entryBuilder();
@@ -93,7 +93,7 @@ public class InvMoveConfig {
         MOVEMENT.cfg.addTo(movement, eb, "config.invmove");
 
         for (Module module : InvMove.instance().modules) {
-            SubCategoryBuilder cat = eb.startSubCategory(InvMove.instance().translatableComponent("key.invmove.module." + module.getId()));
+            SubCategoryBuilder cat = eb.startSubCategory(InvMove.instance().fromCV(module.getTitle()));
             module.getMovementConfig().addTo(cat, eb, "config.invmove." + module.getId() + "");
             movement.addEntry(cat.build());
         }
@@ -130,7 +130,7 @@ public class InvMoveConfig {
         BACKGROUND.cfg.addTo(background, eb, "config.invmove");
 
         for (Module module : InvMove.instance().modules) {
-            SubCategoryBuilder cat = eb.startSubCategory(InvMove.instance().translatableComponent("key.invmove.module." + module.getId()));
+            SubCategoryBuilder cat = eb.startSubCategory(InvMove.instance().fromCV(module.getTitle()));
             module.getBackgroundConfig().addTo(cat, eb, "config.invmove." + module.getId() + "");
             background.addEntry(cat.build());
         }
@@ -434,6 +434,9 @@ public class InvMoveConfig {
                 for (Map.Entry<String, JsonElement> entry : movement.entrySet()) {
                     if (GsonHelperFix.isBooleanValue(entry.getValue())) {
                         try {
+                            // important that we don't initialize the class here because it causes crashes with mods
+                            //   that try to interact with MC classes in static initializers, etc
+                            // TODO: do this a less hacky way
                             Class<?> cl = Class.forName(entry.getKey(), false, InvMoveConfig.class.getClassLoader());
                             if (Screen.class.isAssignableFrom(cl)) {
                                 String modid = InvMove.instance().modidFromClass(cl).orElse("?unknown");
@@ -452,7 +455,10 @@ public class InvMoveConfig {
                 for (Map.Entry<String, JsonElement> entry : background.entrySet()) {
                     if (GsonHelperFix.isBooleanValue(entry.getValue())) {
                         try {
-                            Class<?> cl = Class.forName(entry.getKey());
+                            // important that we don't initialize the class here because it causes crashes with mods
+                            //   that try to interact with MC classes in static initializers, etc
+                            // TODO: do this a less hacky way
+                            Class<?> cl = Class.forName(entry.getKey(), false, InvMoveConfig.class.getClassLoader());
                             if (Screen.class.isAssignableFrom(cl)) {
                                 String modid = InvMove.instance().modidFromClass(cl).orElse("?unknown");
                                 InvMoveConfig.BACKGROUND.unrecognizedScreensHideBG.putIfAbsent(modid, new HashMap<>());

@@ -46,7 +46,7 @@ public class InvMoveForgeClient {
 
         InvMove.setInstance(new InvMove16() {
             @Override
-            public Optional<String> modidFromClass(Class<?> c) {
+            protected Optional<String> modidFromClassInternal(Class<?> c) {
                 if (c.getPackage().getName().startsWith("net.minecraft.")) {
                     return Optional.of("minecraft");
                 }
@@ -66,6 +66,11 @@ public class InvMoveForgeClient {
             @Override
             public String modNameFromModid(String modid) {
                 return ModList.get().getModContainerById(modid).map(con -> con.getModInfo().getDisplayName()).orElse(modid);
+            }
+
+            @Override
+            public boolean hasMod(String modid) {
+                return ModList.get().isLoaded(modid);
             }
 
             @Override

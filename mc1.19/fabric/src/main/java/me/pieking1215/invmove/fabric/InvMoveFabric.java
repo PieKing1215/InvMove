@@ -17,7 +17,7 @@ public class InvMoveFabric implements ClientModInitializer {
     public void onInitializeClient() {
         InvMove.setInstance(new InvMove19() {
             @Override
-            public Optional<String> modidFromClass(Class<?> c) {
+            protected Optional<String> modidFromClassInternal(Class<?> c) {
                 if (c.getPackage().getName().startsWith("net.minecraft.")) {
                     return Optional.of("minecraft");
                 }
@@ -34,6 +34,11 @@ public class InvMoveFabric implements ClientModInitializer {
             @Override
             public String modNameFromModid(String modid) {
                 return FabricLoader.getInstance().getModContainer(modid).map(con -> con.getMetadata().getName()).orElse(modid);
+            }
+
+            @Override
+            public boolean hasMod(String modid) {
+                return FabricLoader.getInstance().isModLoaded(modid);
             }
 
             @Override

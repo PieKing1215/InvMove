@@ -8,5 +8,6 @@ allprojects {
         maven { url "https://maven.shedaniel.me/" }
         maven { url "https://maven.terraformersmc.com" }
         maven { url "https://maven.quiltmc.org/repository/release/" }
+        maven { url "https://maven.neoforged.net/releases/" }
     }
 }

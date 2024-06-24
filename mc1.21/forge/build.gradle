@@ -1,0 +1,102 @@
+plugins {
+    id "com.github.johnrengelman.shadow" version "8.1.1"
+}
+
+architectury {
+    platformSetupLoomIde()
+    neoForge()
+}
+
+loom {
+    accessWidenerPath = project("${parent.path}:common").loom.accessWidenerPath
+}
+
+configurations {
+    common
+    shadowCommon
+    compileClasspath.extendsFrom common
+    runtimeClasspath.extendsFrom common
+    developmentNeoForge.extendsFrom common
+}
+
+dependencies {
+    neoForge "net.neoforged:neoforge:${neoforge_version}"
+
+    modApi "me.shedaniel.cloth:cloth-config-neoforge:${cloth_version}"
+
+    common(project(path: "${parent.path}:common", configuration: "namedElements")) { transitive false }
+    shadowCommon(project(path: "${parent.path}:common", configuration: "transformProductionNeoForge")) { transitive = false }
+}
+
+processResources {
+    inputs.property "version", project.version
+
+//    if(!gradle.startParameter.getTaskNames().toString().contains("publishAllToMavenLocal")) {
+//        inputs.property "crossversionRefmap", "${archives_base_name}-${project.parent.name}_common-refmap.json"
+//    }
+
+    var replaceProperties = [
+            version: project.version,
+            description: mod_description,
+            repo: mod_repo
+    ]
+    inputs.properties replaceProperties
+
+    filesMatching(['META-INF/neoforge.mods.toml']) {
+        expand replaceProperties
+    }
+
+//    if(!gradle.startParameter.getTaskNames().toString().contains("publishAllToMavenLocal")) {
+//        filesMatching("invmove.mixins.json") {
+//            expand "crossversionRefmap": "asdf"
+//        }
+//    }
+
+    from project("${parent.path}:common").sourceSets.main.resources
+}
+
+shadowJar {
+    exclude "fabric.mod.json"
+    exclude "architectury.common.json"
+
+    configurations = [project.configurations.shadowCommon]
+    archiveClassifier = "dev-shadow"
+}
+
+remapJar {
+    input.set shadowJar.archiveFile
+    dependsOn shadowJar
+    archiveClassifier = null
+
+    atAccessWideners.add('invmove.accesswidener')
+}
+
+jar {
+    archiveClassifier = "dev"
+}
+
+sourcesJar {
+    def commonSources = project("${parent.path}:common").sourcesJar
+    dependsOn commonSources
+    from commonSources.archiveFile.map { zipTree(it) }
+}
+
+components.java {
+    withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
+        skip()
+    }
+}
+
+publishing {
+    publications {
+        mavenForge(MavenPublication) {
+            artifactId = maven_artifact_id + "-" + project.name
+            from components.java
+        }
+    }
+
+    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
+    repositories {
+        // Add repositories to publish to here.
+    }
+}

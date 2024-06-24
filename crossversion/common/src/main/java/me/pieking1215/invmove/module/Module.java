@@ -6,6 +6,9 @@ import net.minecraft.client.gui.screens.Screen;
 public interface Module {
     @SuppressWarnings("SameReturnValue")
     String getId();
+    default CVComponent getTitle() {
+        return CVComponent.translated("key.invmove.module." + getId());
+    }
     Movement shouldAllowMovement(Screen screen);
     Background shouldHideBackground(Screen screen);
     ModuleConfig getMovementConfig();

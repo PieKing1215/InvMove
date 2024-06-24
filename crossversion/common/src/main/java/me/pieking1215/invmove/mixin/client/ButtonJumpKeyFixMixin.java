@@ -4,6 +4,7 @@ import me.pieking1215.invmove.InvMove;
 import me.pieking1215.invmove.InvMoveConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.AbstractButton;
+import net.minecraft.client.gui.screens.inventory.MerchantScreen;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -18,12 +19,15 @@ public class ButtonJumpKeyFixMixin {
             cancellable = true
     )
     private void keyPressed(int i, int j, int k, CallbackInfoReturnable<Boolean> cir) {
-        // if button recieved space key it normally clicks the button
+        // if button received space key it normally clicks the button
         // but if the player can jump in this inventory we cancel that
         // (fix for https://github.com/PieKing1215/InvMove/issues/2)
         if (i == 32 && InvMoveConfig.GENERAL.ENABLED.get() && InvMoveConfig.MOVEMENT.ENABLED.get() && InvMoveConfig.MOVEMENT.JUMP.get()) {
-            if (InvMove.instance().allowMovementInScreen(Minecraft.getInstance().screen)) {
-                cir.setReturnValue(false);
+            // TODO: consider doing this a better way
+            if(!((AbstractButton)(Object)this instanceof MerchantScreen.TradeOfferButton)) {
+                if (InvMove.instance().allowMovementInScreen(Minecraft.getInstance().screen)) {
+                    cir.setReturnValue(false);
+                }
             }
         }
     }
