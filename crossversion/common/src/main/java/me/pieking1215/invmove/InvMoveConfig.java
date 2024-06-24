@@ -434,6 +434,9 @@ public class InvMoveConfig {
                 for (Map.Entry<String, JsonElement> entry : movement.entrySet()) {
                     if (GsonHelperFix.isBooleanValue(entry.getValue())) {
                         try {
+                            // important that we don't initialize the class here because it causes crashes with mods
+                            //   that try to interact with MC classes in static initializers, etc
+                            // TODO: do this a less hacky way
                             Class<?> cl = Class.forName(entry.getKey(), false, InvMoveConfig.class.getClassLoader());
                             if (Screen.class.isAssignableFrom(cl)) {
                                 String modid = InvMove.instance().modidFromClass(cl).orElse("?unknown");
@@ -452,7 +455,10 @@ public class InvMoveConfig {
                 for (Map.Entry<String, JsonElement> entry : background.entrySet()) {
                     if (GsonHelperFix.isBooleanValue(entry.getValue())) {
                         try {
-                            Class<?> cl = Class.forName(entry.getKey());
+                            // important that we don't initialize the class here because it causes crashes with mods
+                            //   that try to interact with MC classes in static initializers, etc
+                            // TODO: do this a less hacky way
+                            Class<?> cl = Class.forName(entry.getKey(), false, InvMoveConfig.class.getClassLoader());
                             if (Screen.class.isAssignableFrom(cl)) {
                                 String modid = InvMove.instance().modidFromClass(cl).orElse("?unknown");
                                 InvMoveConfig.BACKGROUND.unrecognizedScreensHideBG.putIfAbsent(modid, new HashMap<>());
