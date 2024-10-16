@@ -1,0 +1,48 @@
+plugins {
+    id "dev.kikugie.stonecutter"
+    id 'dev.architectury.loom' version '1.7-SNAPSHOT' apply false
+    id 'architectury-plugin' version '3.4-SNAPSHOT' apply false
+    id 'com.github.johnrengelman.shadow' version '8.1.1' apply false
+}
+
+stonecutter.active "1.21" /* [SC] DO NOT EDIT */
+
+stonecutter.registerChiseled tasks.register("chiseledBuild", stonecutter.chiseled) { 
+    setGroup "project"
+    ofTask "build"
+}
+
+def get(prop) {
+    return rootProject.project(stonecutter.current.project).property(prop)
+}
+
+subprojects {
+    repositories {
+        maven { url "https://maven.shedaniel.me/" }
+        maven { url "https://maven.terraformersmc.com" }
+        maven { url "https://maven.fabricmc.net/" }
+        maven { url "https://maven.architectury.dev/" }
+        maven { url "https://files.minecraftforge.net/maven/" }
+    }
+}
+
+allprojects {
+    apply plugin: "java"
+    apply plugin: 'architectury-plugin'
+
+    archivesBaseName = "$rootProject.display_name-$project.name"
+
+    java {
+        withSourcesJar()
+
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.toVersion(get("java"))
+    }
+
+    tasks.withType(JavaCompile).tap {
+        configureEach {
+            options.encoding = "UTF-8"
+            options.release.set Integer.parseInt(get("java"))
+        }
+    }
+}

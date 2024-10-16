@@ -2,6 +2,21 @@ plugins {
     id 'com.github.johnrengelman.shadow'
 }
 
+apply plugin: 'dev.architectury.loom'
+
+def get(prop) {
+    return rootProject.project(stonecutter.current.project).property(prop)
+}
+
+loom {
+    silentMojangMappingsLicense()
+}
+
+dependencies {
+    minecraft "net.minecraft:minecraft:$stonecutter.current.project"
+    mappings loom.officialMojangMappings()
+}
+
 architectury {
     platformSetupLoomIde()
     neoForge()
@@ -32,26 +47,26 @@ repositories {
 }
 
 dependencies {
-    neoForge "net.neoforged:neoforge:$parent.props.neoforge"
+    neoForge "net.neoforged:neoforge:${get("neoforge")}"
 
-    modApi "me.shedaniel.cloth:cloth-config-neoforge:${parent.props.cloth_version}"
+    modApi "me.shedaniel.cloth:cloth-config-neoforge:${get("cloth_version")}"
 
-    common(project(path: ':common', configuration: 'namedElements')) { transitive false }
-    shadowBundle project(path: ':common', configuration: 'transformProductionNeoForge')
+    common(project(path: ":common:$stonecutter.current.project", configuration: 'namedElements')) { transitive false }
+    shadowBundle project(path: ":common:$stonecutter.current.project", configuration: 'transformProductionNeoForge')
 }
 
 processResources {
     def props = [
-            "id"              : rootProject.id,
-            "name"            : rootProject.display_name,
-            "description"     : rootProject.description,
-            "author"          : rootProject.author,
-            "license"         : rootProject.license,
-            "repo"            : rootProject.repo,
+            "id"              : get("id"),
+            "name"            : get("display_name"),
+            "description"     : get("description"),
+            "author"          : get("author"),
+            "license"         : get("license"),
+            "repo"            : get("repo"),
             "version"         : project.version,
-            "minecraftVersion": rootProject.minecraft_version,
-            "neoForgeVersion" : rootProject.props.neoforge,
-            "cloth_major"     : rootProject.props.cloth_version.split('\\.')[0],
+            "minecraftVersion": stonecutter.current.project,
+            "neoForgeVersion" : get("neoforge"),
+            "cloth_major"     : get("cloth_version").split('\\.')[0],
     ]
 
     inputs.properties props

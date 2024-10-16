@@ -8,5 +8,10 @@ import me.pieking1215.invmove.ExampleMod;
 public final class ExampleModNeoForge {
     public ExampleModNeoForge() {
         ExampleMod.init();
+
+        //? if <1.21.1 {
+        System.out.println("NeoForge <1.21.1!");
+        //?} else
+        /*System.out.println("NeoForge >=1.21.1!");*/
     }
 }

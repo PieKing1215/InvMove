@@ -1,5 +1,22 @@
+apply plugin: 'dev.architectury.loom'
+
+loom {
+    silentMojangMappingsLicense()
+}
+
+dependencies {
+    minecraft "net.minecraft:minecraft:$stonecutter.current.project"
+    mappings loom.officialMojangMappings()
+}
+
+def get(prop) {
+    return rootProject.project(stonecutter.current.project).property(prop)
+}
+
+// subproject
+
 architectury {
-    common parent.props.enabled_platforms.split(',')
+    common get("enabled_platforms").split(',')
 }
 
 dependencies {
@@ -8,7 +25,7 @@ dependencies {
     // Do NOT use other classes from Fabric Loader.
     modImplementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
 
-    modApi("me.shedaniel.cloth:cloth-config:${parent.props.cloth_version}"){
+    modApi("me.shedaniel.cloth:cloth-config:${get("cloth_version")}"){
         exclude(group: "net.fabricmc")
         exclude(group: "net.fabricmc.fabric-api")
     }
