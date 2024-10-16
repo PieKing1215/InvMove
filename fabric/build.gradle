@@ -28,20 +28,34 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
 
     // Fabric API. This is technically optional, but you probably want it anyway.
-    modImplementation "net.fabricmc.fabric-api:fabric-api:$rootProject.fabric_api_version"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:$parent.props.fabric_api"
+
+    modRuntimeOnly "com.terraformersmc:modmenu:${parent.props.modmenu_version}"
+
+    modApi("me.shedaniel.cloth:cloth-config-fabric:${parent.props.cloth_version}") {
+        exclude(group: "net.fabricmc.fabric-api")
+    }
 
     common(project(path: ':common', configuration: 'namedElements')) { transitive false }
     shadowBundle project(path: ':common', configuration: 'transformProductionFabric')
-    common(project(path: ':fabric-like', configuration: 'namedElements')) { transitive false }
-    shadowBundle project(path: ':fabric-like', configuration: 'transformProductionFabric')
 }
 
 processResources {
-    inputs.property 'version', project.version
+    def props = [
+            "id"              : rootProject.id,
+            "name"            : rootProject.display_name,
+            "description"     : rootProject.description,
+            "author"          : rootProject.author,
+            "license"         : rootProject.license,
+            "repo"            : rootProject.repo,
+            "version"         : project.version,
+            "minecraftVersion": rootProject.minecraft_version,
+            "fabricVersion"   : rootProject.props.fabric_api,
+            "cloth_major"     : rootProject.props.cloth_version.split('\\.')[0],
+    ]
 
-    filesMatching('fabric.mod.json') {
-        expand version: project.version
-    }
+    inputs.properties props
+    filesMatching("fabric.mod.json") { expand props }
 }
 
 shadowJar {

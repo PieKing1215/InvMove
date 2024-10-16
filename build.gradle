@@ -5,70 +5,70 @@ plugins {
 }
 
 architectury {
-    minecraft = project.minecraft_version
+    minecraft = rootProject.minecraft_version
 }
 
-allprojects {
-    group = rootProject.maven_group
-    version = rootProject.mod_version
-}
+// Read version-specific properties file
+project.ext.set("props", new Properties())
+file("props/${rootProject.minecraft_version}.properties").withInputStream { project.props.load(it) }
+
+println()
+println "Minecraft: ${rootProject.minecraft_version} (Java ${project.props.java})"
+println "  Platforms: ${project.props.enabled_platforms}"
+println "  Fabric: ${project.props.fabric_api}"
+println "  NeoForge: ${project.props.neoforge}"
+println "  Forge: ${project.props.forge}"
+println()
+
+// Write build.properties with the current version
+new File(projectDir, "build.properties").text = String.format("MC_%s=\n", rootProject.minecraft_version.replace(".", "_"))
 
 subprojects {
     apply plugin: 'dev.architectury.loom'
-    apply plugin: 'architectury-plugin'
-    apply plugin: 'maven-publish'
-
-    base {
-        // Set up a suffixed format for the mod jar names, e.g. `example-fabric`.
-        archivesName = "$rootProject.archives_name-$project.name"
-    }
-
-    repositories {
-        // Add repositories to retrieve artifacts from in here.
-        // You should only use this when depending on other mods because
-        // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
-        // See https://docs.gradle.org/current/userguide/declaring_repositories.html
-        // for more information about repositories.
-    }
 
     loom {
         silentMojangMappingsLicense()
+    }
+
+    repositories {
+        maven { url "https://maven.shedaniel.me/" }
+        maven { url "https://maven.terraformersmc.com" }
     }
 
     dependencies {
         minecraft "net.minecraft:minecraft:$rootProject.minecraft_version"
         mappings loom.officialMojangMappings()
     }
+}
+
+allprojects {
+    apply plugin: "java"
+    apply plugin: 'architectury-plugin'
+
+    archivesBaseName = "$rootProject.display_name-$project.name"
+
+    repositories {
+        maven {
+            url "https://oss.sonatype.org/content/repositories/snapshots"
+        }
+    }
+
+    dependencies {
+        annotationProcessor "systems.manifold:manifold-preprocessor:$rootProject.manifold_version"
+    }
 
     java {
-        // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
-        // if it is present.
-        // If you remove this line, sources will not be generated.
         withSourcesJar()
 
         sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.toVersion(project.props.java)
     }
 
-    tasks.withType(JavaCompile).configureEach {
-        it.options.release = 21
-    }
-
-    // Configure Maven publishing.
-    publishing {
-        publications {
-            mavenJava(MavenPublication) {
-                artifactId = base.archivesName.get()
-                from components.java
-            }
-        }
-
-        // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
-        repositories {
-            // Add repositories to publish to here.
-            // Notice: This block does NOT have the same function as the block in the top level.
-            // The repositories here will be used for publishing your artifact, not for
-            // retrieving dependencies.
+    tasks.withType(JavaCompile).tap {
+        configureEach {
+            options.encoding = "UTF-8"
+            options.release.set Integer.parseInt(project.props.java)
+            options.compilerArgs += ["-Xplugin:Manifold"]
         }
     }
 }

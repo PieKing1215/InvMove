@@ -7,10 +7,8 @@ pluginManagement {
     }
 }
 
-rootProject.name = 'invmove'
+rootProject.name = 'InvMove'
 
 include 'common'
 include 'fabric'
-include 'fabric-like'
 include 'neoforge'
-include 'quilt'

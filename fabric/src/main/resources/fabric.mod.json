@@ -1,19 +1,20 @@
 {
   "schemaVersion": 1,
-  "id": "invmove",
+  "id": "${id}",
   "version": "${version}",
-  "name": "InvMove",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "${name}",
+  "description": "${description}",
   "authors": [
-    "Me!"
+    "${author}"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "${repo}",
+    "sources": "${repo}",
+    "issues": "${repo}/issues"
   },
-  "license": "CC0-1.0",
+  "license": "${license}",
   "icon": "assets/invmove/icon.png",
-  "environment": "*",
+  "environment": "client",
   "entrypoints": {
     "main": [
       "me.pieking1215.invmove.fabric.ExampleModFabric"
@@ -28,10 +29,6 @@
   "depends": {
     "fabricloader": ">=0.16.7",
     "minecraft": "~1.21",
-    "java": ">=21",
-    "fabric-api": "*"
-  },
-  "suggests": {
-    "another-mod": "*"
+    "cloth-config": ">=${cloth_major}"
   }
 }
