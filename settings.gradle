@@ -15,7 +15,7 @@ plugins {
 stonecutter {
     create(rootProject) {
         versions "1.21", "1.21.1"
-        vcsVersion = "1.21"
+        vcsVersion = "1.21.1"
         branch "common"
         branch "fabric"
         branch "neoforge"
