@@ -30,7 +30,7 @@ dependencies {
     // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation "net.fabricmc.fabric-api:fabric-api:${get("fabric_api")}"
 
-    modRuntimeOnly "com.terraformersmc:modmenu:${get("modmenu_version")}"
+    modImplementation "com.terraformersmc:modmenu:${get("modmenu_version")}"
 
     modApi("me.shedaniel.cloth:cloth-config-fabric:${get("cloth_version")}") {
         exclude(group: "net.fabricmc.fabric-api")

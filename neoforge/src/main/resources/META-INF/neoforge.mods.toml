@@ -35,3 +35,5 @@ side = "CLIENT"
 
 [[mixins]]
 config = "invmove.mixins.json"
+[[mixins]]
+config = "invmove-neoforge.mixins.json"

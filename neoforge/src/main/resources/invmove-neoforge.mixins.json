@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "me.pieking1215.invmove.neoforge.mixin",
+  "compatibilityLevel": "JAVA_16",
+  "client": [
+    "client.SprintKeyDownMixin"
+  ],
+  "mixins": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

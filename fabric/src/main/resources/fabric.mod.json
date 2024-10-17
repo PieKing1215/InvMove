@@ -16,14 +16,15 @@
   "icon": "icon.png",
   "environment": "client",
   "entrypoints": {
-    "main": [
-      "me.pieking1215.invmove.fabric.ExampleModFabric"
-    ],
     "client": [
-      "me.pieking1215.invmove.fabric.client.ExampleModFabricClient"
+      "me.pieking1215.invmove.fabric.InvMoveFabric"
+    ],
+    "modmenu": [
+      "me.pieking1215.invmove.fabric.InvMoveModMenuIntegration"
     ]
   },
   "mixins": [
+    "invmove-fabric.mixins.json",
     "invmove.mixins.json"
   ],
   "depends": {

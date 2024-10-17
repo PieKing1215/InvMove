@@ -29,6 +29,8 @@ subprojects {
         loom {
             silentMojangMappingsLicense()
 
+            accessWidenerPath = project(":common").file("src/main/resources/invmove.accesswidener")
+
             runs {
                 remove server
             }
