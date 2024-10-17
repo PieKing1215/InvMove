@@ -111,6 +111,8 @@ public abstract class InvMove {
 
     protected Map<ToggleKeyMapping, Boolean> wasToggleKeyDown = new HashMap<>();
 
+    protected boolean forceRawKeyDown = false;
+
     public final List<Module> modules = new ArrayList<>();
 
     public InvMove() {
@@ -179,7 +181,7 @@ public abstract class InvMove {
         return couldMove;
     }
 
-    public void onInputUpdate(Input input){
+    public void onInputUpdate(Input input, boolean sneaking, float sneakSpeed){
         if(Minecraft.getInstance().player == null) {
             return;
         }
@@ -262,16 +264,7 @@ public abstract class InvMove {
             }
 
             // tick movement
-            // TODO: consider mixing into KeyboardInput::tick or KeyMapping::isDown instead of this for better compatibility
-            //       that would also fix swift sneak (gh-21)
-            manualTickMovement(input, Minecraft.getInstance().player.isMovingSlowly(), Minecraft.getInstance().player.isSpectator());
-
-            // set sprinting using raw keybind data
-            // edit: this is commented out to let vanilla handle it (requires an extra mixin on forge)
-            //       letting vanilla do it might fix some bugs with other mods that affect sprinting
-//            if(!Minecraft.getInstance().player.isSprinting() && !Minecraft.getInstance().player.isCrouching()) {
-//                Minecraft.getInstance().player.setSprinting(rawIsKeyDown(Minecraft.getInstance().options.keySprint));
-//            }
+            inputTickRaw(input, sneaking, sneakSpeed);
 
         }else if(Minecraft.getInstance().screen != null){
             // we are in a screen that we can't move in
@@ -366,29 +359,16 @@ public abstract class InvMove {
     }
 
     /**
-     * Clone of Input.tick but uses raw keybind data
+     * Calls Input.tick but forces using raw keybind data
      */
-    public void manualTickMovement(Input input, boolean slow, boolean noDampening) {
-
-        input.up = rawIsKeyDown(Minecraft.getInstance().options.keyUp);
-        input.down = rawIsKeyDown(Minecraft.getInstance().options.keyDown);
-        input.left = rawIsKeyDown(Minecraft.getInstance().options.keyLeft);
-        input.right = rawIsKeyDown(Minecraft.getInstance().options.keyRight);
-        input.forwardImpulse = input.up == input.down ? 0.0F : (float)(input.up ? 1 : -1);
-        input.leftImpulse = input.left == input.right ? 0.0F : (float)(input.left ? 1 : -1);
-        input.jumping = rawIsKeyDown(Minecraft.getInstance().options.keyJump) && InvMoveConfig.MOVEMENT.JUMP.get();
-
-        input.shiftKeyDown = rawIsKeyDown(Minecraft.getInstance().options.keyShift);
-        if (!noDampening && (input.shiftKeyDown || slow)) {
-            input.leftImpulse = (float)((double)input.leftImpulse * 0.3D);
-            input.forwardImpulse = (float)((double)input.forwardImpulse * 0.3D);
-        }
+    public void inputTickRaw(Input input, boolean sneaking, float sneakSpeed) {
+        forceRawKeyDown = true;
+        input.tick(sneaking, sneakSpeed);
+        forceRawKeyDown = false;
     }
 
-    public static boolean rawIsKeyDown(KeyMapping key){
-        // this field is accesswidened
-        // can't use the method because it has extra conditions in forge
-        return key.isDown;
+    public boolean shouldForceRawKeyDown() {
+        return forceRawKeyDown;
     }
 
     /**

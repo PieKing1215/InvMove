@@ -4,6 +4,7 @@
   "package": "me.pieking1215.invmove.neoforge.mixin",
   "compatibilityLevel": "JAVA_16",
   "client": [
+    "client.KeyMappingIsDownMixin",
     "client.SprintKeyDownMixin"
   ],
   "mixins": [

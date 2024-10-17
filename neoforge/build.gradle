@@ -34,6 +34,9 @@ repositories {
 dependencies {
     neoForge "net.neoforged:neoforge:${get("neoforge")}"
 
+    implementation(annotationProcessor("io.github.llamalad7:mixinextras-common:${mixin_extras_version}"))
+    implementation(include("io.github.llamalad7:mixinextras-neoforge:${mixin_extras_version}"))
+
     modApi "me.shedaniel.cloth:cloth-config-neoforge:${get("cloth_version")}"
 
     common(project(path: ":common:$stonecutter.current.project", configuration: 'namedElements')) { transitive false }
