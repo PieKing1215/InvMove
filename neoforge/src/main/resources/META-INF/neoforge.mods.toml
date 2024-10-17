@@ -27,7 +27,7 @@ ordering = "NONE"
 side = "CLIENT"
 
 [[dependencies.${id}]]
-modId = "cloth_config"
+modId = "${cloth_id}"
 type = "required"
 versionRange = "[${cloth_major},)"
 ordering = "NONE"

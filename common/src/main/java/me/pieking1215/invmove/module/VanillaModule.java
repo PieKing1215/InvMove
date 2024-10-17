@@ -33,13 +33,15 @@ public class VanillaModule extends ModuleImpl {
             ProgressScreen.class,
             LevelLoadingScreen.class,
             ReceivingLevelScreen.class,
+            //? if >=1.17
             GenericMessageScreen.class,
             ChatScreen.class,
+            //? if >=1.17
+            AbstractSignEditScreen.class,
             CommandBlockEditScreen.class,
             MinecartCommandBlockEditScreen.class,
             StructureBlockEditScreen.class,
-            JigsawBlockEditScreen.class,
-            AbstractSignEditScreen.class
+            JigsawBlockEditScreen.class
         ).movement(Movement.SUGGEST_DISABLE).background(Background.SUGGEST_SHOW);
 
         register(BookEditScreen.class).movement(Movement.SUGGEST_DISABLE);

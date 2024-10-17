@@ -17,12 +17,15 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 public class MovementMixin {
     @WrapOperation(
             method = "aiStep",
+            //? if >=1.17 {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/Input;tick(ZF)V")
+            //?} else
+            /*at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/Input;tick(Z)V")*/
     )
-    private void onTick(Input instance, boolean sneaking, float sneakSpeed, Operation<Void> original) {
-        original.call(instance, sneaking, sneakSpeed);
+    private void onTick(Input instance, boolean sneaking/*? if >=1.17 {*/, float sneakSpeed/*?}*/, Operation<Void> original) {
+        original.call(instance, sneaking/*? if >=1.17 {*/, sneakSpeed/*?}*/);
 
         //noinspection ConstantConditions
-        InvMove.instance().onInputUpdate(instance, sneaking, sneakSpeed);
+        InvMove.instance().onInputUpdate(instance, sneaking/*? if >=1.17 {*/, sneakSpeed/*?}*/);
     }
 }

@@ -30,6 +30,6 @@
   "depends": {
     "fabricloader": "*",
     "minecraft": ">=${minecraft_min}",
-    "cloth-config": ">=${cloth_major}"
+    "${cloth_id}": ">=${cloth_major}"
   }
 }

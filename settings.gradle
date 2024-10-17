@@ -12,13 +12,41 @@ plugins {
     id "dev.kikugie.stonecutter" version "0.5-beta.2"
 }
 
+def platformVersionMap = [:]
+
+static def getEnabledPlatforms(file) {
+    Properties props = new Properties()
+    file.withInputStream { stream ->
+        props.load(stream)
+    }
+    def platforms = props['enabled_platforms']?.split(',')?.collect { it.trim() }
+    return platforms ?: []
+}
+
+fileTree(dir: file('versions'), include: '**/gradle.properties').each { propFile ->
+    def version = propFile.parentFile.name
+    def platforms = getEnabledPlatforms(propFile)
+
+    platforms.each { platform ->
+        if (platformVersionMap.containsKey(platform)) {
+            platformVersionMap[platform] << version
+        } else {
+            platformVersionMap[platform] = [version]
+        }
+    }
+}
+
 stonecutter {
     create(rootProject) {
-        versions "1.21", "1.21.1"
+        versions "1.16.5", "1.21", "1.21.1"
         vcsVersion = "1.21.1"
         branch "common"
-        branch "fabric"
-        branch "neoforge"
+
+        platformVersionMap.each { platform, versions ->
+            branch(platform, b -> {
+                b.versions(versions as String[])
+            })
+        }
     }
 }
 

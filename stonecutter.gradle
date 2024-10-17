@@ -5,6 +5,9 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '8.1.1' apply false
 }
 
+// I was getting weird caching issues and I think this disables caching
+stonecutter.debug = true
+
 stonecutter.active "1.21.1" /* [SC] DO NOT EDIT */
 
 stonecutter.registerChiseled tasks.register("chiseledBuild", stonecutter.chiseled) { 

@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Screen.class)
 public class BackgroundMixin {
+    //? >=1.17 {
     @Inject(
             method = {
                     "renderTransparentBackground"
@@ -25,6 +26,7 @@ public class BackgroundMixin {
             ci.cancel();
         }
     }
+    //?}
 
     @Inject(
         method = {
