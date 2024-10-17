@@ -32,12 +32,14 @@ public class VanillaModule extends ModuleImpl {
             WinScreen.class,
             ProgressScreen.class,
             LevelLoadingScreen.class,
+            ReceivingLevelScreen.class,
+            GenericMessageScreen.class,
             ChatScreen.class,
             CommandBlockEditScreen.class,
             MinecartCommandBlockEditScreen.class,
             StructureBlockEditScreen.class,
             JigsawBlockEditScreen.class,
-            SignEditScreen.class
+            AbstractSignEditScreen.class
         ).movement(Movement.SUGGEST_DISABLE).background(Background.SUGGEST_SHOW);
 
         register(BookEditScreen.class).movement(Movement.SUGGEST_DISABLE);
@@ -63,6 +65,7 @@ public class VanillaModule extends ModuleImpl {
         register(CartographyTableScreen.class)              .cfg("cartography").display("container.cartography_table").submit();
         register(GrindstoneScreen.class)                    .cfg("grindstone").display("block.minecraft.grindstone").submit();
         register(StonecutterScreen.class)                   .cfg("stonecutter").display("container.stonecutter").submit();
+        register(SmithingScreen.class)                      .cfg("smithing").display("container.smithing").submit();
         register(MerchantScreen.class)                      .cfg("villager").display("entity.minecraft.villager").submit();
         register(BookViewScreen.class, BookEditScreen.class).cfg("book").display("item.minecraft.book").submit();
         register(AdvancementsScreen.class)                  .cfg("advancements").display("gui.advancements").submit();
