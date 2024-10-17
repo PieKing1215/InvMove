@@ -4,9 +4,9 @@
   "package": "me.pieking1215.invmove.mixin",
   "compatibilityLevel": "JAVA_8",
   "client": [
-    "client.MovementMixin",
     "client.BackgroundMixin",
-    "client.ButtonJumpKeyFixMixin"
+    "client.ButtonJumpKeyFixMixin",
+    "client.MovementMixin"
   ],
   "mixins": [],
   "injectors": {

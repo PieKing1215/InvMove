@@ -1,30 +1,29 @@
 package me.pieking1215.invmove;
 
 import com.mojang.blaze3d.platform.InputConstants;
+import com.mojang.blaze3d.vertex.ByteBufferBuilder;
 import com.mojang.blaze3d.vertex.PoseStack;
 import me.pieking1215.invmove.module.CVComponent;
 import me.pieking1215.invmove.module.Module;
-import me.pieking1215.invmove.module.VanillaModule16;
+import me.pieking1215.invmove.module.VanillaModule;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.ToggleKeyMapping;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.player.Input;
 import net.minecraft.client.player.KeyboardInput;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.client.gui.Font;
 import net.minecraft.resources.ResourceLocation;
 
 import java.io.File;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public abstract class InvMove {
+    public static final String MOD_ID = "invmove";
 
     private static InvMove instance;
 
@@ -39,8 +38,6 @@ public abstract class InvMove {
     public static void setInstance(InvMove newInstance) {
         instance = newInstance;
     }
-
-    public static final String MOD_ID = "invmove";
 
     private static final KeyMapping TOGGLE_MOVEMENT_KEY = new KeyMapping(
             "keybind.invmove.toggleMove",
@@ -61,7 +58,7 @@ public abstract class InvMove {
         (instance != null ? instance.modules : addonModules).add(module);
     }
 
-    // crossversion compatibility layer
+    // loader compatibility layer
 
     protected abstract Optional<String> modidFromClassInternal(Class<?> c);
     private final HashMap<Class<?>, Optional<String>> modidFromClassCache = new HashMap<>();
@@ -73,8 +70,14 @@ public abstract class InvMove {
     public abstract File configDir();
     protected abstract void registerKeybind(KeyMapping key);
 
-    public abstract MutableComponent translatableComponent(String key);
-    public abstract MutableComponent literalComponent(String text);
+    // utility
+
+    public MutableComponent translatableComponent(String key) {
+        return Component.translatable(key);
+    }
+    public MutableComponent literalComponent(String text) {
+        return Component.literal(text);
+    }
     public MutableComponent fromCV(CVComponent c) {
         if (c.translate) {
             return translatableComponent(c.text);
@@ -83,12 +86,23 @@ public abstract class InvMove {
         }
     }
 
-    public abstract boolean optionToggleCrouch();
-    public abstract void setOptionToggleCrouch(boolean toggleCrouch);
+    public boolean optionToggleCrouch() {
+        return Minecraft.getInstance().options.toggleCrouch().get();
+    }
 
-    protected abstract void drawShadow(Font font, PoseStack poseStack, String string, float x, float y, int col);
+    public void setOptionToggleCrouch(boolean toggleCrouch) {
+        Minecraft.getInstance().options.toggleCrouch().set(toggleCrouch);
+    }
 
-    public abstract ResourceLocation parseResource(String path);
+    protected void drawShadow(Font font, PoseStack poseStack, String string, float x, float y, int col){
+        MultiBufferSource.BufferSource buffer = MultiBufferSource.immediate(new ByteBufferBuilder(786432));
+        font.drawInBatch(string, x, y, col, true, poseStack.last().pose(), buffer, Font.DisplayMode.NORMAL, 0, 15728880);
+        buffer.endBatch();
+    }
+
+    public ResourceLocation parseResource(String path){
+        return ResourceLocation.parse(path);
+    }
 
     // implementation
 
@@ -108,7 +122,7 @@ public abstract class InvMove {
     }
 
     public Module getVanillaModule() {
-        return new VanillaModule16();
+        return new VanillaModule();
     }
 
     public void finishInit(){
@@ -480,5 +494,4 @@ public abstract class InvMove {
             }
         }
     }
-
 }

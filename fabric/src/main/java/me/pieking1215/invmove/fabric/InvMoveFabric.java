@@ -1,8 +1,6 @@
 package me.pieking1215.invmove.fabric;
 
 import me.pieking1215.invmove.InvMove;
-import me.pieking1215.invmove.InvMove21;
-import me.pieking1215.invmove.fabric.InvMoveInitializer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.loader.api.FabricLoader;
@@ -15,7 +13,7 @@ import java.util.Optional;
 public class InvMoveFabric implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-        InvMove.setInstance(new InvMove21() {
+        InvMove.setInstance(new InvMove() {
             @Override
             protected Optional<String> modidFromClassInternal(Class<?> c) {
                 if (c.getPackage().getName().startsWith("net.minecraft.")) {

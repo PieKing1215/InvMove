@@ -1,7 +1,6 @@
 package me.pieking1215.invmove.neoforge;
 
 import me.pieking1215.invmove.InvMove;
-import me.pieking1215.invmove.InvMove21;
 import me.pieking1215.invmove.InvMoveConfig;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
@@ -48,7 +47,7 @@ public class InvMoveNeoForgeClient {
 
         final Field modClassesFieldFinal = modClassesField;
 
-        InvMove.setInstance(new InvMove21() {
+        InvMove.setInstance(new InvMove() {
             @Override
             protected Optional<String> modidFromClassInternal(Class<?> c) {
                 if (c.getPackage().getName().startsWith("net.minecraft.")) {

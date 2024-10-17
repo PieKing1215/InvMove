@@ -1,6 +1,5 @@
 package me.pieking1215.invmove.mixin.client;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import me.pieking1215.invmove.InvMove;
 import net.minecraft.client.gui.screens.Screen;
 import org.spongepowered.asm.mixin.Mixin;
