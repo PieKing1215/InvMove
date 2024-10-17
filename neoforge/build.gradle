@@ -2,21 +2,6 @@ plugins {
     id 'com.github.johnrengelman.shadow'
 }
 
-apply plugin: 'dev.architectury.loom'
-
-def get(prop) {
-    return rootProject.project(stonecutter.current.project).property(prop)
-}
-
-loom {
-    silentMojangMappingsLicense()
-}
-
-dependencies {
-    minecraft "net.minecraft:minecraft:$stonecutter.current.project"
-    mappings loom.officialMojangMappings()
-}
-
 architectury {
     platformSetupLoomIde()
     neoForge()
@@ -65,12 +50,16 @@ processResources {
             "repo"            : get("repo"),
             "version"         : project.version,
             "minecraftVersion": stonecutter.current.project,
+            "minecraft_min"   : get("minecraft_min"),
             "neoForgeVersion" : get("neoforge"),
+            "neoforge_min"    : "${get("neoforge").split('\\.')[0]}.${get("neoforge").split('\\.')[1]}",
             "cloth_major"     : get("cloth_version").split('\\.')[0],
     ]
 
     inputs.properties props
     filesMatching("META-INF/neoforge.mods.toml") { expand props }
+
+    from project(":common:$stonecutter.current.project").sourceSets.main.resources
 }
 
 shadowJar {

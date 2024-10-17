@@ -5,8 +5,8 @@ public final class ExampleMod {
 
     public static void init() {
         //? if <1.21.1 {
-        System.out.println("Common <1.21.1!");
-        //?} else
-        /*System.out.println("Common >=1.21.1!");*/
+        /*System.out.println("Common <1.21.1!");
+        *///?} else
+        System.out.println("Common >=1.21.1!");
     }
 }

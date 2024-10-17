@@ -13,7 +13,7 @@
     "issues": "${repo}/issues"
   },
   "license": "${license}",
-  "icon": "assets/invmove/icon.png",
+  "icon": "icon.png",
   "environment": "client",
   "entrypoints": {
     "main": [
@@ -27,8 +27,8 @@
     "invmove.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.16.7",
-    "minecraft": "~1.21",
+    "fabricloader": "*",
+    "minecraft": ">=${minecraft_min}",
     "cloth-config": ">=${cloth_major}"
   }
 }

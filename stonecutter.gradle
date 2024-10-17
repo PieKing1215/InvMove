@@ -5,44 +5,72 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '8.1.1' apply false
 }
 
-stonecutter.active "1.21" /* [SC] DO NOT EDIT */
+stonecutter.active "1.21.1" /* [SC] DO NOT EDIT */
 
 stonecutter.registerChiseled tasks.register("chiseledBuild", stonecutter.chiseled) { 
     setGroup "project"
     ofTask "build"
 }
 
-def get(prop) {
-    return rootProject.project(stonecutter.current.project).property(prop)
-}
-
 subprojects {
-    repositories {
-        maven { url "https://maven.shedaniel.me/" }
-        maven { url "https://maven.terraformersmc.com" }
-        maven { url "https://maven.fabricmc.net/" }
-        maven { url "https://maven.architectury.dev/" }
-        maven { url "https://files.minecraftforge.net/maven/" }
-    }
-}
+    if (parent != rootProject) {
+        apply plugin: "java"
+        apply plugin: 'architectury-plugin'
+        apply plugin: 'dev.architectury.loom'
 
-allprojects {
-    apply plugin: "java"
-    apply plugin: 'architectury-plugin'
+        archivesBaseName = "$rootProject.display_name-$project.name"
 
-    archivesBaseName = "$rootProject.display_name-$project.name"
+        ext.get = prop -> {
+            return rootProject.project(stonecutter.current.project).property(prop)
+        }
 
-    java {
-        withSourcesJar()
+        group = "$maven_group.$parent.name"
 
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.toVersion(get("java"))
-    }
+        loom {
+            silentMojangMappingsLicense()
 
-    tasks.withType(JavaCompile).tap {
-        configureEach {
-            options.encoding = "UTF-8"
-            options.release.set Integer.parseInt(get("java"))
+            runs {
+                remove server
+            }
+
+            runConfigs.all {
+                ideConfigGenerated = false
+                runDir "../../../run"
+            }
+        }
+
+        dependencies {
+            minecraft "net.minecraft:minecraft:$stonecutter.current.project"
+            mappings loom.officialMojangMappings()
+        }
+
+        java {
+            withSourcesJar()
+
+            sourceCompatibility = JavaVersion.VERSION_21
+            targetCompatibility = JavaVersion.toVersion(get("java"))
+        }
+
+        tasks.withType(JavaCompile).tap {
+            configureEach {
+                options.encoding = "UTF-8"
+                options.release.set Integer.parseInt(get("java"))
+            }
+        }
+
+        repositories {
+            maven { url "https://maven.shedaniel.me/" }
+            maven { url "https://maven.terraformersmc.com" }
+            maven { url "https://maven.fabricmc.net/" }
+            maven { url "https://maven.architectury.dev/" }
+            maven { url "https://files.minecraftforge.net/maven/" }
+        }
+
+        if (stonecutter.current.isActive && parent.name != "common") {
+            rootProject.tasks.register("Run Active ${parent.name.capitalize()}") {
+                group = "project"
+                dependsOn(tasks.named("runClient"))
+            }
         }
     }
 }

@@ -10,8 +10,8 @@ public final class ExampleModNeoForge {
         ExampleMod.init();
 
         //? if <1.21.1 {
-        System.out.println("NeoForge <1.21.1!");
-        //?} else
-        /*System.out.println("NeoForge >=1.21.1!");*/
+        /*System.out.println("NeoForge <1.21.1!");
+        *///?} else
+        System.out.println("NeoForge >=1.21.1!");
     }
 }

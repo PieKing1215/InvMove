@@ -2,21 +2,6 @@ plugins {
     id 'com.github.johnrengelman.shadow'
 }
 
-apply plugin: 'dev.architectury.loom'
-
-def get(prop) {
-    return rootProject.project(stonecutter.current.project).property(prop)
-}
-
-loom {
-    silentMojangMappingsLicense()
-}
-
-dependencies {
-    minecraft "net.minecraft:minecraft:$stonecutter.current.project"
-    mappings loom.officialMojangMappings()
-}
-
 architectury {
     platformSetupLoomIde()
     fabric()
@@ -65,12 +50,15 @@ processResources {
             "repo"            : rootProject.repo,
             "version"         : project.version,
             "minecraftVersion": stonecutter.current.project,
+            "minecraft_min"   : get("minecraft_min"),
             "fabricVersion"   : get("fabric_api"),
             "cloth_major"     : get("cloth_version").split('\\.')[0],
     ]
 
     inputs.properties props
     filesMatching("fabric.mod.json") { expand props }
+
+    from project(":common:$stonecutter.current.project").sourceSets.main.resources
 }
 
 shadowJar {

@@ -1,31 +1,37 @@
 modLoader = "javafml"
 loaderVersion = "[4,)"
-#issueTrackerURL = ""
-license = "Insert License Here"
+issueTrackerURL = "${repo}/issues"
+license = "${license}"
 
 [[mods]]
-modId = "invmove"
+modId = "${id}"
 version = "${version}"
-displayName = "InvMove"
-authors = "Me!"
-description = '''
-This is an example description! Tell everyone what your mod is about!
-'''
-#logoFile = ""
+displayName = "${name}"
+authors = "${author}"
+description = "${description}"
+logoFile = "icon.png"
+displayTest="IGNORE_ALL_VERSION"
 
-[[dependencies.invmove]]
+[[dependencies.${id}]]
 modId = "neoforge"
 type = "required"
-versionRange = "[21.0,)"
+versionRange = "[${neoforge_min},)"
 ordering = "NONE"
-side = "BOTH"
+side = "CLIENT"
 
-[[dependencies.invmove]]
+[[dependencies.${id}]]
 modId = "minecraft"
 type = "required"
-versionRange = "[1.21,)"
+versionRange = "[${minecraft_min},)"
 ordering = "NONE"
-side = "BOTH"
+side = "CLIENT"
+
+[[dependencies.${id}]]
+modId = "cloth_config"
+type = "required"
+versionRange = "[${cloth_major},)"
+ordering = "NONE"
+side = "CLIENT"
 
 [[mixins]]
 config = "invmove.mixins.json"

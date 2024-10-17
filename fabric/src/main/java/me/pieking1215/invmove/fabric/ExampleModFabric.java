@@ -10,8 +10,8 @@ public final class ExampleModFabric implements ModInitializer {
         ExampleMod.init();
 
         //? if <1.21.1 {
-        System.out.println("Fabric <1.21.1!");
-        //?} else
-        /*System.out.println("Fabric >=1.21.1!");*/
+        /*System.out.println("Fabric <1.21.1!");
+        *///?} else
+        System.out.println("Fabric >=1.21.1!");
     }
 }
