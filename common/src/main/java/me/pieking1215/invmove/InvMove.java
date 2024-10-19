@@ -1,8 +1,10 @@
 package me.pieking1215.invmove;
 
 import com.mojang.blaze3d.platform.InputConstants;
-//? if >=1.17
+//? if >=1.21
 import com.mojang.blaze3d.vertex.ByteBufferBuilder;
+//? if <1.21
+/*import com.mojang.blaze3d.vertex.Tesselator;*/
 import com.mojang.blaze3d.vertex.PoseStack;
 import me.pieking1215.invmove.module.CVComponent;
 import me.pieking1215.invmove.module.Module;
@@ -113,7 +115,11 @@ public abstract class InvMove {
 
     protected void drawShadow(Font font, PoseStack poseStack, String string, float x, float y, int col){
         //? if >=1.17 {
-        MultiBufferSource.BufferSource buffer = MultiBufferSource.immediate(new ByteBufferBuilder(786432));
+        //? if >=1.21 {
+        var builder = new ByteBufferBuilder(786432);
+        //?} else
+        /*var builder = Tesselator.getInstance().getBuilder();*/
+        MultiBufferSource.BufferSource buffer = MultiBufferSource.immediate(builder);
         font.drawInBatch(string, x, y, col, true, poseStack.last().pose(), buffer, Font.DisplayMode.NORMAL, 0, 15728880);
         buffer.endBatch();
         //?} else
@@ -121,7 +127,7 @@ public abstract class InvMove {
     }
 
     public ResourceLocation parseResource(String path){
-        //? if >=1.17 {
+        //? if >=1.21 {
         return ResourceLocation.parse(path);
         //?} else
         /*return new ResourceLocation(path);*/

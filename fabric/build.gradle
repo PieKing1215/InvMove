@@ -54,13 +54,11 @@ processResources {
             "minecraft_min"   : get("minecraft_min"),
             "fabricVersion"   : get("fabric_api"),
             "cloth_id"        : stonecutter.eval(stonecutter.current.project, ">=1.18") ? "cloth-config" : "cloth-config2",
-            "cloth_major"     : get("cloth_version").split('\\.')[0],
+            "cloth_min"       : get("cloth_min"),
     ]
 
     inputs.properties props
     filesMatching("fabric.mod.json") { expand props }
-
-    from project(":common:$stonecutter.current.project").sourceSets.main.resources
 }
 
 shadowJar {

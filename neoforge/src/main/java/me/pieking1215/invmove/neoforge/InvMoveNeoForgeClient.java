@@ -11,8 +11,11 @@ import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.javafmlmod.FMLModContainer;
 import net.neoforged.fml.loading.FMLPaths;
-import net.neoforged.neoforge.client.event.ScreenEvent;
+//? if >=1.20.5 {
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
+//?} else
+/*import net.neoforged.neoforge.client.ConfigScreenHandler;*/
+import net.neoforged.neoforge.client.event.ScreenEvent;
 import net.neoforged.neoforge.client.settings.KeyConflictContext;
 import net.neoforged.neoforge.common.NeoForge;
 import org.apache.commons.lang3.ArrayUtils;
@@ -21,6 +24,7 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.security.CodeSource;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 public class InvMoveNeoForgeClient {
@@ -59,8 +63,8 @@ public class InvMoveNeoForgeClient {
                         CodeSource src1 = c.getProtectionDomain().getCodeSource();
                         CodeSource src2 = null;
                         try {
-                            src2 = ((List<Class<?>>) modClassesFieldFinal.get(fmlMod)).getFirst().getProtectionDomain().getCodeSource();
-                        } catch (IllegalAccessException e) {
+                            src2 = ((List<Class<?>>) modClassesFieldFinal.get(fmlMod)).get(0).getProtectionDomain().getCodeSource();
+                        } catch (IllegalAccessException | NoSuchElementException | IndexOutOfBoundsException e) {
                             return Optional.<String>empty();
                         }
                         boolean eq = src1 != null && src2 != null && src1.getLocation().equals(src2.getLocation());
@@ -96,7 +100,9 @@ public class InvMoveNeoForgeClient {
             }
         });
 
-
+        //? if >=1.20.5 {
         ModLoadingContext.get().registerExtensionPoint(IConfigScreenFactory.class, () -> (mc, screen) -> InvMoveConfig.setupCloth(screen));
+        //?} else
+        /*ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class, () -> new ConfigScreenHandler.ConfigScreenFactory((mc, screen) -> InvMoveConfig.setupCloth(screen)));*/
     }
 }

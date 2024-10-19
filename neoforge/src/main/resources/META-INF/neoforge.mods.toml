@@ -29,7 +29,7 @@ side = "CLIENT"
 [[dependencies.${id}]]
 modId = "${cloth_id}"
 type = "required"
-versionRange = "[${cloth_major},)"
+versionRange = "[${cloth_min},)"
 ordering = "NONE"
 side = "CLIENT"
 

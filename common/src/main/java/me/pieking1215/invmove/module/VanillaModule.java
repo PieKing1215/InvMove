@@ -33,8 +33,10 @@ public class VanillaModule extends ModuleImpl {
             ProgressScreen.class,
             LevelLoadingScreen.class,
             ReceivingLevelScreen.class,
-            //? if >=1.17
+            //? if >=1.20.5 {
             GenericMessageScreen.class,
+            //?} else
+            /*GenericDirtMessageScreen.class,*/
             ChatScreen.class,
             //? if >=1.17
             AbstractSignEditScreen.class,

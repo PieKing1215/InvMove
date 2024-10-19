@@ -27,9 +27,10 @@
     "invmove-fabric.mixins.json",
     "invmove.mixins.json"
   ],
+  "accessWidener" : "${id}.accesswidener",
   "depends": {
     "fabricloader": "*",
     "minecraft": ">=${minecraft_min}",
-    "${cloth_id}": ">=${cloth_major}"
+    "${cloth_id}": ">=${cloth_min}"
   }
 }
