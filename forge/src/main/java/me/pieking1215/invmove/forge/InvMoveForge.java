@@ -1,5 +1,7 @@
 package me.pieking1215.invmove.forge;
 
+//? if <1.18
+/*import com.llamalad7.mixinextras.MixinExtrasBootstrap;*/
 import me.pieking1215.invmove.InvMove;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;

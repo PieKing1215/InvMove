@@ -32,6 +32,10 @@ configurations {
         canBeResolved = true
         canBeConsumed = false
     }
+
+    if (stonecutter.eval(stonecutter.current.project, "<1.18")) {
+        implementation.extendsFrom shadow
+    }
 }
 
 repositories {
@@ -41,8 +45,12 @@ repositories {
 dependencies {
     forge "net.minecraftforge:forge:${get("forge")}"
 
-    implementation(annotationProcessor("io.github.llamalad7:mixinextras-common:${mixin_extras_version}"))
-    implementation(include("io.github.llamalad7:mixinextras-forge:${mixin_extras_version}"))
+    if (stonecutter.eval(stonecutter.current.project, ">=1.18")) {
+        implementation(annotationProcessor("io.github.llamalad7:mixinextras-common:${mixin_extras_version}"))
+        implementation(include("io.github.llamalad7:mixinextras-forge:${mixin_extras_version}"))
+    } else {
+        shadow(annotationProcessor("io.github.llamalad7:mixinextras-common:${mixin_extras_version}"))
+    }
 
     modApi "me.shedaniel.cloth:cloth-config-forge:${get("cloth_version")}"
 
@@ -62,7 +70,7 @@ processResources {
             "minecraftVersion": stonecutter.current.project,
             "minecraft_min"   : get("minecraft_min"),
             "forgeVersion"    : get("forge"),
-            "forge_min"       : "${get("forge").split('\\.')[0]}",
+            "forge_min"       : "${get("forge").split('-')[1].split('\\.')[0]}",
             // NOTE: underscore on forge
             "cloth_id"        : stonecutter.eval(stonecutter.current.project, ">=1.18") ? "cloth_config" : "cloth_config2",
             "cloth_min"       : get("cloth_min"),
@@ -75,6 +83,11 @@ processResources {
 shadowJar {
     configurations = [project.configurations.shadowBundle]
     archiveClassifier = 'dev-shadow'
+    if (stonecutter.eval(stonecutter.current.project, "<1.18")) {
+        configurations.add(project.configurations.shadow)
+        relocate("com.llamalad7.mixinextras", "${maven_group}.mixinextras")
+        mergeServiceFiles()
+    }
 }
 
 remapJar {

@@ -8,6 +8,7 @@
     "client.ButtonJumpKeyFixMixin",
     "client.MovementMixin"
   ],
+  "plugin": "me.pieking1215.invmove.mixin.InvMoveMixinPlugin",
   "mixins": [],
   "injectors": {
     "defaultRequire": 1

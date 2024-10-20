@@ -52,7 +52,7 @@ subprojects {
         java {
             withSourcesJar()
 
-            sourceCompatibility = JavaVersion.VERSION_21
+            sourceCompatibility = JavaVersion.VERSION_1_8
             targetCompatibility = JavaVersion.toVersion(get("java"))
         }
 
@@ -69,6 +69,16 @@ subprojects {
             maven { url "https://maven.fabricmc.net/" }
             maven { url "https://maven.architectury.dev/" }
             maven { url "https://files.minecraftforge.net/maven/" }
+        }
+
+        processResources {
+            if (parent.name != "common") {
+                // need to manually copy resources from common when running in dev
+                // but doing this when building to jar results in mixin refmap not being included
+                if (project.gradle.startParameter.taskNames.getFirst().containsIgnoreCase("run")) {
+                    from(project(":common:$stonecutter.current.project").sourceSets["main"].resources)
+                }
+            }
         }
 
         if (stonecutter.current.isActive && parent.name != "common") {

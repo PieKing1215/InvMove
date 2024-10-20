@@ -7,7 +7,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+//? if >=1.17 {
 import net.minecraftforge.fml.IExtensionPoint;
+//?} else
+/*import net.minecraftforge.fml.ExtensionPoint;*/
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -15,11 +18,15 @@ import net.minecraftforge.fml.javafmlmod.FMLModContainer;
 import net.minecraftforge.fml.loading.FMLPaths;
 //? if >=1.20.5 {
 import net.minecraftforge.client.gui.IConfigScreenFactory;
-//?} else
+//?} else if >=1.17
 /*import net.minecraftforge.client.ConfigScreenHandler;*/
+//? if >=1.17 {
 import net.minecraftforge.client.event.ScreenEvent;
+//?} else
+/*import net.minecraftforge.client.event.GuiScreenEvent;*/
 import net.minecraftforge.client.settings.KeyConflictContext;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -35,13 +42,23 @@ public class InvMoveForgeClient {
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    public void onGUIDrawPost(ScreenEvent.Render.Post event){
+    public void onGUIDrawPost(
+            //? if >=1.17 {
+            ScreenEvent.Render.Post
+            //?} else
+            /*GuiScreenEvent.DrawScreenEvent.Post*/
+            event){
         InvMove.instance().drawDebugOverlay();
     }
 
     static void clientSetup(final FMLClientSetupEvent event) {
+        //? if >= 1.17 {
         ModLoadingContext.get().registerExtensionPoint(IExtensionPoint.DisplayTest.class,
                 () -> new IExtensionPoint.DisplayTest(() -> "", (a, b) -> true));
+        //?} else {
+        /*ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.DISPLAYTEST,
+                () -> Pair.of(() -> "", (a, b) -> true));
+        *///?}
         MinecraftForge.EVENT_BUS.register(new InvMoveForgeClient());
 
         InvMove.setInstance(new InvMove() {
@@ -88,7 +105,9 @@ public class InvMoveForgeClient {
 
         //? if >=1.20.5 {
         ModLoadingContext.get().registerExtensionPoint(IConfigScreenFactory.class, () -> (mc, screen) -> InvMoveConfig.setupCloth(screen));
-        //?} else
-        /*ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class, () -> new ConfigScreenHandler.ConfigScreenFactory((mc, screen) -> InvMoveConfig.setupCloth(screen)));*/
+        //?} else if >= 1.17 {
+        /*ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class, () -> new ConfigScreenHandler.ConfigScreenFactory((mc, screen) -> InvMoveConfig.setupCloth(screen)));
+        *///?} else
+        /*ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.CONFIGGUIFACTORY, () -> (mc, screen) -> InvMoveConfig.setupCloth(screen));*/
     }
 }
