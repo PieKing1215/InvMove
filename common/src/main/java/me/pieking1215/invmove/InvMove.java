@@ -19,9 +19,9 @@ import net.minecraft.client.player.KeyboardInput;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-//? if <1.17
+//? if <1.19
 /*import net.minecraft.network.chat.TextComponent;*/
-//? if <1.17
+//? if <1.19
 /*import net.minecraft.network.chat.TranslatableComponent;*/
 import net.minecraft.resources.ResourceLocation;
 
@@ -80,13 +80,13 @@ public abstract class InvMove {
     // utility
 
     public MutableComponent translatableComponent(String key) {
-        //? if >=1.17 {
+        //? if >=1.19 {
         return Component.translatable(key);
         //?} else
         /*return new TranslatableComponent(key);*/
     }
     public MutableComponent literalComponent(String text) {
-        //? if >=1.17 {
+        //? if >=1.19 {
         return Component.literal(text);
          //?} else
         /*return new TextComponent(text);*/
@@ -100,21 +100,21 @@ public abstract class InvMove {
     }
 
     public boolean optionToggleCrouch() {
-        //? if >=1.17 {
+        //? if >=1.19 {
         return Minecraft.getInstance().options.toggleCrouch().get();
         //?} else
         /*return Minecraft.getInstance().options.toggleCrouch;*/
     }
 
     public void setOptionToggleCrouch(boolean toggleCrouch) {
-        //? if >=1.17 {
+        //? if >=1.19 {
         Minecraft.getInstance().options.toggleCrouch().set(toggleCrouch);
         //?} else
         /*Minecraft.getInstance().options.toggleCrouch = toggleCrouch;*/
     }
 
     protected void drawShadow(Font font, PoseStack poseStack, String string, float x, float y, int col){
-        //? if >=1.17 {
+        //? if >=1.19 {
         //? if >=1.21 {
         var builder = new ByteBufferBuilder(786432);
         //?} else
@@ -210,7 +210,7 @@ public abstract class InvMove {
         return couldMove;
     }
 
-    public void onInputUpdate(Input input, boolean sneaking/*? if >=1.17 {*/, float sneakSpeed/*?}*/){
+    public void onInputUpdate(Input input, boolean sneaking/*? if >=1.19 {*/, float sneakSpeed/*?}*/){
         if(Minecraft.getInstance().player == null) {
             return;
         }
@@ -293,7 +293,7 @@ public abstract class InvMove {
             }
 
             // tick movement
-            inputTickRaw(input, sneaking/*? if >=1.17 {*/, sneakSpeed/*?}*/);
+            inputTickRaw(input, sneaking/*? if >=1.19 {*/, sneakSpeed/*?}*/);
 
         }else if(Minecraft.getInstance().screen != null){
             // we are in a screen that we can't move in
@@ -390,9 +390,9 @@ public abstract class InvMove {
     /**
      * Calls Input.tick but forces using raw keybind data
      */
-    public void inputTickRaw(Input input, boolean sneaking/*? if >=1.17 {*/, float sneakSpeed/*?}*/) {
+    public void inputTickRaw(Input input, boolean sneaking/*? if >=1.19 {*/, float sneakSpeed/*?}*/) {
         forceRawKeyDown = true;
-        input.tick(sneaking/*? if >=1.17 {*/, sneakSpeed/*?}*/);
+        input.tick(sneaking/*? if >=1.19 {*/, sneakSpeed/*?}*/);
         forceRawKeyDown = false;
     }
 

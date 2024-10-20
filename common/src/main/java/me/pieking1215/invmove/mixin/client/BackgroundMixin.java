@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Screen.class)
 public class BackgroundMixin {
-    //? >=1.17 {
+    //? >=1.19 {
     @Inject(
             method = {
                     "renderTransparentBackground"
@@ -36,7 +36,7 @@ public class BackgroundMixin {
         cancellable = true,
         require = 0
     )
-    @Group
+    @Group(min = 1)
     private void onRenderBackground(CallbackInfo ci){
         //noinspection ConstantConditions
         if(InvMove.instance().shouldDisableScreenBackground((Screen)(Object)this)) {

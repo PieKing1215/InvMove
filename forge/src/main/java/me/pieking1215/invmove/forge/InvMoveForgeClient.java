@@ -18,8 +18,10 @@ import net.minecraftforge.fml.javafmlmod.FMLModContainer;
 import net.minecraftforge.fml.loading.FMLPaths;
 //? if >=1.20.5 {
 import net.minecraftforge.client.gui.IConfigScreenFactory;
-//?} else if >=1.17
+//?} else if >=1.19 {
 /*import net.minecraftforge.client.ConfigScreenHandler;*/
+//?} else if >=1.17
+/*import net.minecraftforge.client.ConfigGuiHandler;*/
 //? if >=1.17 {
 import net.minecraftforge.client.event.ScreenEvent;
 //?} else
@@ -43,9 +45,11 @@ public class InvMoveForgeClient {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onGUIDrawPost(
-            //? if >=1.17 {
+            //? if >=1.19 {
             ScreenEvent.Render.Post
-            //?} else
+            //?} else if >=1.17 {
+            /*ScreenEvent.DrawScreenEvent.Post
+            *///?} else
             /*GuiScreenEvent.DrawScreenEvent.Post*/
             event){
         InvMove.instance().drawDebugOverlay();
@@ -105,8 +109,10 @@ public class InvMoveForgeClient {
 
         //? if >=1.20.5 {
         ModLoadingContext.get().registerExtensionPoint(IConfigScreenFactory.class, () -> (mc, screen) -> InvMoveConfig.setupCloth(screen));
-        //?} else if >= 1.17 {
+        //?} else if >= 1.19 {
         /*ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class, () -> new ConfigScreenHandler.ConfigScreenFactory((mc, screen) -> InvMoveConfig.setupCloth(screen)));
+        *///?} else if >= 1.17 {
+        /*ModLoadingContext.get().registerExtensionPoint(ConfigGuiHandler.ConfigGuiFactory.class, () -> new ConfigGuiHandler.ConfigGuiFactory((mc, screen) -> InvMoveConfig.setupCloth(screen)));
         *///?} else
         /*ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.CONFIGGUIFACTORY, () -> (mc, screen) -> InvMoveConfig.setupCloth(screen));*/
     }

@@ -11,7 +11,7 @@ import java.util.Set;
 public class InvMoveMixinPlugin implements IMixinConfigPlugin {
     @Override
     public void onLoad(String mixinPackage) {
-        //? if <1.18
+        //? if <1.19
         /*MixinExtrasBootstrap.init();*/
     }
 
