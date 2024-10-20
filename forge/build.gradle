@@ -70,7 +70,7 @@ processResources {
             "minecraftVersion": stonecutter.current.project,
             "minecraft_min"   : get("minecraft_min"),
             "forgeVersion"    : get("forge"),
-            "forge_min"       : "${get("forge").split('-')[1].split('\\.')[0]}",
+            "forge_min"       : get("forge_min"),
             // NOTE: underscore on forge
             "cloth_id"        : stonecutter.eval(stonecutter.current.project, ">=1.18") ? "cloth_config" : "cloth_config2",
             "cloth_min"       : get("cloth_min"),
