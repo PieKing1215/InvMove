@@ -38,8 +38,11 @@ public class VanillaModule extends ModuleImpl {
             //?} else
             /*GenericDirtMessageScreen.class,*/
             ChatScreen.class,
-            //? if >=1.17
+            // (technically 1.19.3 but required experimental 1.20 pack)
+            //? if >=1.20 {
             AbstractSignEditScreen.class,
+            //?} else
+            /*SignEditScreen.class,*/
             CommandBlockEditScreen.class,
             MinecartCommandBlockEditScreen.class,
             StructureBlockEditScreen.class,
