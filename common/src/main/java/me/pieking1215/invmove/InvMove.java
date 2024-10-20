@@ -1,10 +1,12 @@
 package me.pieking1215.invmove;
 
 import com.mojang.blaze3d.platform.InputConstants;
-//? if >=1.21
+
+//? if >=1.21 {
 import com.mojang.blaze3d.vertex.ByteBufferBuilder;
-//? if <1.21
+//?} else
 /*import com.mojang.blaze3d.vertex.Tesselator;*/
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import me.pieking1215.invmove.module.CVComponent;
 import me.pieking1215.invmove.module.Module;
@@ -19,10 +21,12 @@ import net.minecraft.client.player.KeyboardInput;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+
 //? if <1.19
 /*import net.minecraft.network.chat.TextComponent;*/
 //? if <1.19
 /*import net.minecraft.network.chat.TranslatableComponent;*/
+
 import net.minecraft.resources.ResourceLocation;
 
 import java.io.File;

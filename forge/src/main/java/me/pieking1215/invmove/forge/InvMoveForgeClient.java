@@ -7,25 +7,32 @@ import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+
 //? if >=1.17 {
 import net.minecraftforge.fml.IExtensionPoint;
 //?} else
 /*import net.minecraftforge.fml.ExtensionPoint;*/
+
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLModContainer;
 import net.minecraftforge.fml.loading.FMLPaths;
+
 //? if >=1.20.5 {
 import net.minecraftforge.client.gui.IConfigScreenFactory;
 //?} else if >=1.19 {
 /*import net.minecraftforge.client.ConfigScreenHandler;*/
-//?} else if >=1.17
+//?} else if >=1.18 {
 /*import net.minecraftforge.client.ConfigGuiHandler;*/
-//? if >=1.17 {
+//?} else if >=1.17
+/*import net.minecraftforge.fmlclient.ConfigGuiHandler;*/
+
+//? if >=1.18 {
 import net.minecraftforge.client.event.ScreenEvent;
 //?} else
 /*import net.minecraftforge.client.event.GuiScreenEvent;*/
+
 import net.minecraftforge.client.settings.KeyConflictContext;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -47,7 +54,7 @@ public class InvMoveForgeClient {
     public void onGUIDrawPost(
             //? if >=1.19 {
             ScreenEvent.Render.Post
-            //?} else if >=1.17 {
+            //?} else if >=1.18 {
             /*ScreenEvent.DrawScreenEvent.Post
             *///?} else
             /*GuiScreenEvent.DrawScreenEvent.Post*/
