@@ -241,7 +241,7 @@ public abstract class InvMove {
             for (KeyMapping k : KeyMapping.ALL.values()) {
                 if (k.key.getType() == InputConstants.Type.KEYSYM && k.key.getValue() != InputConstants.UNKNOWN.getValue()) {
 
-                    boolean raw = InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), k.key.getValue());
+                    boolean raw = k.isDown || InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), k.key.getValue());
 
                     // if is a toggle key in toggle mode
                     if (k instanceof ToggleKeyMapping && ((ToggleKeyMapping)k).needsToggle.getAsBoolean()) {
