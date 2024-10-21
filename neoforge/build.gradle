@@ -55,8 +55,9 @@ processResources {
             "minecraftVersion": stonecutter.current.project,
             "minecraft_min"   : get("minecraft_min"),
             "neoForgeVersion" : get("neoforge"),
-            "neoforge_min"    : "${get("neoforge").split('\\.')[0]}.${get("neoforge").split('\\.')[1]}",
-            "cloth_id"        : stonecutter.eval(stonecutter.current.project, ">=1.18") ? "cloth-config" : "cloth-config2",
+            "neoforge_min"    : get("neoforge_min"),
+            // NOTE: underscore on neoforge
+            "cloth_id"        : stonecutter.eval(stonecutter.current.project, ">=1.18") ? "cloth_config" : "cloth_config2",
             "cloth_min"       : get("cloth_min"),
     ]
 
