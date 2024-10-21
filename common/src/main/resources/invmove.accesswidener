@@ -1,4 +1,5 @@
 accessWidener   v1  named
+accessible   method  net/minecraft/client/KeyMapping   release ()V
 accessible   field   net/minecraft/client/KeyMapping   isDown   Z
 accessible   field   net/minecraft/client/KeyMapping   key   Lcom/mojang/blaze3d/platform/InputConstants$Key;
 accessible   field   net/minecraft/client/KeyMapping   ALL   Ljava/util/Map;

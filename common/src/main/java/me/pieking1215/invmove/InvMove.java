@@ -140,6 +140,7 @@ public abstract class InvMove {
     // implementation
 
     protected boolean wasSneaking = false;
+    protected boolean wasMovementDisallowed = false;
     protected boolean wasToggleMovementPressed = false;
 
     protected Map<ToggleKeyMapping, Boolean> wasToggleKeyDown = new HashMap<>();
@@ -216,12 +217,14 @@ public abstract class InvMove {
 
     public void onInputUpdate(Input input, boolean sneaking/*? if >=1.19 {*/, float sneakSpeed/*?}*/){
         if(Minecraft.getInstance().player == null) {
+            wasMovementDisallowed = false;
             return;
         }
 
         // don't continue if the input is a non-vanilla type or if it isn't the local player's input
         // this fixes Freecam/Tweakeroo where while a screen is open the player would also move
         if(input.getClass() != KeyboardInput.class || input != Minecraft.getInstance().player.input) {
+            wasMovementDisallowed = false;
             return;
         }
 
@@ -233,6 +236,8 @@ public abstract class InvMove {
         canMove = handleToggleMovementKey(Minecraft.getInstance().screen, canMove);
 
         if(canMove){
+            wasMovementDisallowed = false;
+
             // tick keybinds (since opening the ui unpresses all keys)
 
             // edited implementation of KeyMapping.setAll()
@@ -302,7 +307,19 @@ public abstract class InvMove {
         }else if(Minecraft.getInstance().screen != null){
             // we are in a screen that we can't move in
 
-            KeyMapping.releaseAll();
+            // this used to be KeyMapping.releaseAll() but it caused issues with other mods (ItemSwapper + Amecs)
+            if (!wasMovementDisallowed) {
+                // .release() here is accessWidened
+                Minecraft.getInstance().options.keyUp.release();
+                Minecraft.getInstance().options.keyDown.release();
+                Minecraft.getInstance().options.keyLeft.release();
+                Minecraft.getInstance().options.keyRight.release();
+                Minecraft.getInstance().options.keyJump.release();
+                Minecraft.getInstance().options.keyShift.release();
+                Minecraft.getInstance().options.keySprint.release();
+            }
+
+            wasMovementDisallowed = true;
 
             // special handling for sneaking
             if (InvMoveConfig.GENERAL.ENABLED.get() && !optionToggleCrouch()) {
@@ -321,6 +338,8 @@ public abstract class InvMove {
                     input.shiftKeyDown = sneakKey;
                 }
             }
+        } else {
+            wasMovementDisallowed = false;
         }
     }
 
@@ -335,13 +354,9 @@ public abstract class InvMove {
         if(!InvMoveConfig.GENERAL.ENABLED.get()) return false;
         if(!InvMoveConfig.MOVEMENT.ENABLED.get()) return false;
 
-        if(screen.isPauseScreen() && Minecraft.getInstance().hasSingleplayerServer()){
-            if(Minecraft.getInstance().getSingleplayerServer() != null) {
-                if (!Minecraft.getInstance().getSingleplayerServer().isPublished()) return false;
-            } else {
-                return false;
-            }
-        }
+        // checking this way instead of screen.isPauseScreen() makes it work with ItemSwapper
+        // (their overlay uses a mixin instead of overriding isPauseScreen)
+        if(Minecraft.getInstance().isPaused()) return false;
 
         Optional<Boolean> movement = Optional.empty();
         modules: for (Module mod : this.modules) {
