@@ -5,6 +5,8 @@ import me.pieking1215.invmove.InvMoveConfig;
 //? if >=1.21.2
 import me.pieking1215.invmove.mixin.client.AbstractRecipeBookScreenAccessor;
 import me.pieking1215.invmove.mixin.client.RecipeBookComponentAccessor;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.*;
 import net.minecraft.client.gui.screens.achievement.StatsScreen;
@@ -15,6 +17,8 @@ import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
 import net.minecraft.client.gui.screens.recipebook.RecipeUpdateListener;
 
 import java.lang.reflect.Field;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 import static me.pieking1215.invmove.InvMove.getDeclaredFieldsSuper;
 
@@ -122,6 +126,23 @@ public class VanillaModule extends ModuleImpl {
         }
 
         return super.shouldAllowMovement(screen);
+    }
+
+    @Override
+    public Optional<Boolean> allowKeyDefault(KeyMapping key) {
+        if (Stream.of(
+            Minecraft.getInstance().options.keyUp,
+            Minecraft.getInstance().options.keyDown,
+            Minecraft.getInstance().options.keyLeft,
+            Minecraft.getInstance().options.keyRight,
+            Minecraft.getInstance().options.keyJump,
+            Minecraft.getInstance().options.keyShift,
+            Minecraft.getInstance().options.keySprint
+        ).anyMatch(k -> k == key)) {
+            return Optional.of(true);
+        }
+
+        return Optional.empty();
     }
 
     @Override

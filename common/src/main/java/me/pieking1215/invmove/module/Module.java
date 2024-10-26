@@ -1,7 +1,10 @@
 package me.pieking1215.invmove.module;
 
 import me.pieking1215.invmove.module.config.ModuleConfig;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.client.gui.screens.Screen;
+
+import java.util.Optional;
 
 public interface Module {
     @SuppressWarnings("SameReturnValue")
@@ -10,6 +13,9 @@ public interface Module {
         return CVComponent.translated("key.invmove.module." + getId());
     }
     Movement shouldAllowMovement(Screen screen);
+    default Optional<Boolean> allowKeyDefault(KeyMapping key) {
+        return Optional.empty();
+    }
     Background shouldHideBackground(Screen screen);
     ModuleConfig getMovementConfig();
     ModuleConfig getBackgroundConfig();

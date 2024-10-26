@@ -29,6 +29,9 @@
   "config.invmove.background.unrecognizedScreenDefault": "Unrecognized Screens Default",
   "tooltip.config.invmove.background.unrecognizedScreenDefault": "Default state for new unrecognized UIs.",
 
+  "key.invmove.category.movement.keys": "Allowed Keys",
+  "key.invmove.category.movement.keys.desc": "Only keys marked \"Allow\" will be handled by the mod.",
+
   "key.invmove.module.nooptions": "This module doesn't have any options.",
 
   "key.invmove.unrecognized": "Unrecognized UI Types",
@@ -37,6 +40,7 @@
   "keycategory.invmove": "InvMove",
   "keybind.invmove.toggleMove": "Toggle UI Movement",
 
+  "key.invmove.modules": "Modules",
   "key.invmove.module.vanilla": "Vanilla",
 
   "config.invmove.vanilla.movement.horseInventory": "Horse Inventory",

@@ -14,6 +14,7 @@ import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.impl.builders.SubCategoryBuilder;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
@@ -25,10 +26,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class InvMoveConfig {
 
     public static final Function<Boolean, Component> MOVEMENT_YES_NO_TEXT = b -> InvMove.instance().literalComponent(b ? ChatFormatting.GREEN + "Allow Movement" : ChatFormatting.RED + "Disallow Movement");
+    public static final Function<Boolean, Component> KEY_ALLOW_IGNORE_TEXT = b -> InvMove.instance().literalComponent(b ? ChatFormatting.GREEN + "Allow" : ChatFormatting.RED + "Ignore");
     public static final Function<Boolean, Component> BACKGROUND_YES_NO_TEXT = b -> InvMove.instance().literalComponent(b ? ChatFormatting.GREEN + "Hide Background" : ChatFormatting.RED + "Show Background");
 
     public static final General GENERAL = new General();
@@ -60,6 +63,8 @@ public class InvMoveConfig {
         public final ConfigBool UNRECOGNIZED_SCREEN_DEFAULT = cfg.bool("unrecognizedScreenDefault", true).textFn(MOVEMENT_YES_NO_TEXT);
 
         public final HashMap<String, HashMap<Class<? extends Screen>, Boolean>> unrecognizedScreensAllowMovement = new HashMap<>();
+
+        public final HashMap<String, Boolean> allowedKeys = new HashMap<>();
     }
 
     public static class Background {
@@ -90,6 +95,29 @@ public class InvMoveConfig {
         
         ConfigCategory movement = builder.getOrCreateCategory(InvMove.instance().translatableComponent("key.invmove.category.movement"));
         MOVEMENT.cfg.addTo(movement, eb, "config.invmove");
+
+        SubCategoryBuilder keysCat = eb.startSubCategory(InvMove.instance().translatableComponent("key.invmove.category.movement.keys"));
+        keysCat.setTooltip(InvMove.instance().translatableComponent("key.invmove.category.movement.keys.desc"));
+        //noinspection SimplifyStreamApiCallChains
+        for (KeyMapping keyMap : KeyMapping.ALL.values().stream().sorted().collect(Collectors.toList())) {
+            String key = keyMap.getName();
+            boolean def = InvMove.instance().allowKeyDefault(keyMap);
+
+            keysCat.add(eb.startBooleanToggle(
+                    InvMove.instance().translatableComponent(key),
+                    MOVEMENT.allowedKeys.getOrDefault(key, def)
+                )
+                .setDefaultValue(def)
+                .setTooltip(InvMove.instance().literalComponent(ChatFormatting.GRAY + key))
+                .setYesNoTextSupplier(KEY_ALLOW_IGNORE_TEXT)
+                .setSaveConsumer(v -> MOVEMENT.allowedKeys.put(key, v))
+                .build());
+        }
+        movement.addEntry(keysCat.build());
+
+        // modules
+
+        movement.addEntry(eb.startTextDescription(InvMove.instance().translatableComponent("key.invmove.modules").withStyle(ChatFormatting.UNDERLINE)).build());
 
         for (Module module : InvMove.instance().modules) {
             SubCategoryBuilder cat = eb.startSubCategory(InvMove.instance().fromCV(module.getTitle()));
@@ -127,6 +155,10 @@ public class InvMoveConfig {
         
         ConfigCategory background = builder.getOrCreateCategory(InvMove.instance().translatableComponent("key.invmove.category.background"));
         BACKGROUND.cfg.addTo(background, eb, "config.invmove");
+
+        // modules
+
+        background.addEntry(eb.startTextDescription(InvMove.instance().translatableComponent("key.invmove.modules").withStyle(ChatFormatting.UNDERLINE)).build());
 
         for (Module module : InvMove.instance().modules) {
             SubCategoryBuilder cat = eb.startSubCategory(InvMove.instance().fromCV(module.getTitle()));
@@ -347,6 +379,25 @@ public class InvMoveConfig {
         MOVEMENT.cfg.write(json);
         BACKGROUND.cfg.write(json);
 
+        JsonObject allowedKeys = new JsonObject();
+        for (String key : MOVEMENT.allowedKeys.keySet()) {
+            boolean v = MOVEMENT.allowedKeys.get(key);
+
+            // always keep values for any keys that don't exist right now (eg. if you disabled a mod)
+            if (!KeyMapping.ALL.containsKey(key)){
+                allowedKeys.addProperty(key, v);
+                continue;
+            }
+
+            // for keys that are loaded, only write to file if they differ from the default value
+            KeyMapping keyMap = KeyMapping.ALL.get(key);
+            boolean def = InvMove.instance().allowKeyDefault(keyMap);
+            if (v != def) {
+                allowedKeys.addProperty(key, v);
+            }
+        }
+        json.add("allowedKeysOverrides", allowedKeys);
+
         JsonWriter jw = new JsonWriter(new FileWriter(file));
         jw.setIndent("  ");
         new Gson().toJson(json, jw);
@@ -363,6 +414,13 @@ public class InvMoveConfig {
             GENERAL.cfg.read(json);
             MOVEMENT.cfg.read(json);
             BACKGROUND.cfg.read(json);
+
+            JsonObject allowedKeys = json.getAsJsonObject("allowedKeysOverrides");
+            if (allowedKeys != null) {
+                for (Map.Entry<String, JsonElement> entry : allowedKeys.entrySet()) {
+                    MOVEMENT.allowedKeys.put(entry.getKey(), entry.getValue().getAsBoolean());
+                }
+            }
         }
     }
 

@@ -251,9 +251,12 @@ public abstract class InvMove {
             // using normal setAll breaks toggle keys so we have to do it manually
             // TODO: maybe it would be better to modify KeyboardHandler::keyPress to hook key presses instead of doing it this way
             for (KeyMapping k : KeyMapping.ALL.values()) {
+                if (!allowKey(k))
+                    continue;
+
                 if (k.key.getType() == InputConstants.Type.KEYSYM && k.key.getValue() != InputConstants.UNKNOWN.getValue()) {
 
-                    boolean raw = k.isDown || InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), k.key.getValue());
+                    boolean raw = InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), k.key.getValue());
 
                     // if is a toggle key in toggle mode
                     if (k instanceof ToggleKeyMapping && ((ToggleKeyMapping)k).needsToggle.getAsBoolean()) {
@@ -316,14 +319,12 @@ public abstract class InvMove {
 
             // this used to be KeyMapping.releaseAll() but it caused issues with other mods (ItemSwapper + Amecs)
             if (!wasMovementDisallowed) {
-                // .release() here is accessWidened
-                Minecraft.getInstance().options.keyUp.release();
-                Minecraft.getInstance().options.keyDown.release();
-                Minecraft.getInstance().options.keyLeft.release();
-                Minecraft.getInstance().options.keyRight.release();
-                Minecraft.getInstance().options.keyJump.release();
-                Minecraft.getInstance().options.keyShift.release();
-                Minecraft.getInstance().options.keySprint.release();
+                for (KeyMapping key : KeyMapping.ALL.values()) {
+                    if (allowKey(key)) {
+                        // .release() is accessWidened
+                        key.release();
+                    }
+                }
             }
 
             wasMovementDisallowed = true;
@@ -359,6 +360,32 @@ public abstract class InvMove {
         } else {
             wasMovementDisallowed = false;
         }
+    }
+
+    /**
+     * Returns `true` if the given key should be handled by the mod
+     */
+    public boolean allowKey(KeyMapping key) {
+        String k = key.getName();
+
+        if (InvMoveConfig.MOVEMENT.allowedKeys.containsKey(k)) {
+            return InvMoveConfig.MOVEMENT.allowedKeys.get(k);
+        }
+
+        boolean allow = allowKeyDefault(key);
+        InvMoveConfig.MOVEMENT.allowedKeys.put(k, allow);
+        return allow;
+    }
+
+    public boolean allowKeyDefault(KeyMapping key) {
+        for (Module module : modules) {
+            Optional<Boolean> def = module.allowKeyDefault(key);
+            if (def.isPresent()) {
+                return def.get();
+            }
+        }
+
+        return false;
     }
 
     /**
