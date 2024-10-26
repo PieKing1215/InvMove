@@ -6,7 +6,8 @@
   "client": [
     "client.BackgroundMixin",
     "client.ButtonJumpKeyFixMixin",
-    "client.MovementMixin"
+    "client.MovementMixin",
+    "client.RecipeBookComponentAccessor"
   ],
   "plugin": "me.pieking1215.invmove.mixin.InvMoveMixinPlugin",
   "mixins": [],

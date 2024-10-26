@@ -16,7 +16,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.ToggleKeyMapping;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.player.Input;
+
+import net.minecraft.client.player./*$ Input {*/ClientInput/*$}*/;
+//? if >=1.21.2
+import net.minecraft.world.entity.player.Input;
+
 import net.minecraft.client.player.KeyboardInput;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.network.chat.Component;
@@ -215,7 +219,7 @@ public abstract class InvMove {
         return couldMove;
     }
 
-    public void onInputUpdate(Input input, boolean sneaking/*? if >=1.19 {*/, float sneakSpeed/*?}*/){
+    public void onInputUpdate(/*$ Input {*/ClientInput/*$}*/ input, boolean sneaking/*? if >=1.19 {*/, float sneakSpeed/*?}*/){
         if(Minecraft.getInstance().player == null) {
             wasMovementDisallowed = false;
             return;
@@ -229,7 +233,10 @@ public abstract class InvMove {
         }
 
         if(Minecraft.getInstance().screen == null) {
-            wasSneaking = input.shiftKeyDown;
+            //? if >=1.21.2 {
+            wasSneaking = input.keyPresses.shift();
+            //?} else
+            /*wasSneaking = input.shiftKeyDown;*/
         }
 
         boolean canMove = allowMovementInScreen(Minecraft.getInstance().screen);
@@ -335,7 +342,18 @@ public abstract class InvMove {
                     }
 
                     Minecraft.getInstance().options.keyShift.setDown(sneakKey);
-                    input.shiftKeyDown = sneakKey;
+
+                    //? if >=1.21.2 {
+                    input.keyPresses = new Input(
+                            input.keyPresses.forward(),
+                            input.keyPresses.backward(),
+                            input.keyPresses.left(),
+                            input.keyPresses.right(),
+                            input.keyPresses.jump(),
+                            sneakKey,
+                            input.keyPresses.sprint());
+                    //?} else
+                    /*input.shiftKeyDown = sneakKey;*/
                 }
             }
         } else {
@@ -407,9 +425,9 @@ public abstract class InvMove {
     }
 
     /**
-     * Calls Input.tick but forces using raw keybind data
+     * Calls ClientInput.tick but forces using raw keybind data
      */
-    public void inputTickRaw(Input input, boolean sneaking/*? if >=1.19 {*/, float sneakSpeed/*?}*/) {
+    public void inputTickRaw(/*$ Input {*/ClientInput/*$}*/ input, boolean sneaking/*? if >=1.19 {*/, float sneakSpeed/*?}*/) {
         forceRawKeyDown = true;
         input.tick(sneaking/*? if >=1.19 {*/, sneakSpeed/*?}*/);
         forceRawKeyDown = false;

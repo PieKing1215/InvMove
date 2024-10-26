@@ -2,6 +2,9 @@ package me.pieking1215.invmove.module;
 
 import me.pieking1215.invmove.InvMove;
 import me.pieking1215.invmove.InvMoveConfig;
+//? if >=1.21.2
+import me.pieking1215.invmove.mixin.client.AbstractRecipeBookScreenAccessor;
+import me.pieking1215.invmove.mixin.client.RecipeBookComponentAccessor;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.*;
 import net.minecraft.client.gui.screens.achievement.StatsScreen;
@@ -12,7 +15,6 @@ import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
 import net.minecraft.client.gui.screens.recipebook.RecipeUpdateListener;
 
 import java.lang.reflect.Field;
-import java.util.stream.Stream;
 
 import static me.pieking1215.invmove.InvMove.getDeclaredFieldsSuper;
 
@@ -86,6 +88,7 @@ public class VanillaModule extends ModuleImpl {
             // don't allow movement when focused on an active textfield
 
             // search all fields and superclass fields for a EditBox
+            // TODO: cache this
             try {
                 Field[] fs = getDeclaredFieldsSuper(screen.getClass());
 
@@ -100,15 +103,18 @@ public class VanillaModule extends ModuleImpl {
                 e.printStackTrace();
             }
 
-            if (screen instanceof RecipeUpdateListener) {
+            //? if >=1.21.2 {
+            if (screen instanceof AbstractRecipeBookScreen<?>) {
+            //?} else
+            /*if (screen instanceof RecipeUpdateListener) {*/
                 try {
-                    RecipeBookComponent wid = ((RecipeUpdateListener) screen).getRecipeBookComponent();
-                    Field searchField = Stream.of(RecipeBookComponent.class.getDeclaredFields()).filter(f -> f.getType() == EditBox.class).findFirst().orElse(null);
-                    if(searchField != null) {
-                        searchField.setAccessible(true);
-                        EditBox searchBar = (EditBox) searchField.get(wid);
-                        if (searchBar != null && searchBar.isVisible() && searchBar.active && searchBar.canConsumeInput()) return Movement.SUGGEST_DISABLE;
-                    }
+                    //? if >=1.21.2 {
+                    RecipeBookComponent<?> cmp = ((AbstractRecipeBookScreenAccessor) screen).getRecipeBookComponent();
+                    //?} else
+                    /*RecipeBookComponent cmp = ((RecipeUpdateListener) screen).getRecipeBookComponent();*/
+                    EditBox searchBar = ((RecipeBookComponentAccessor)cmp).getSearchBox();
+                    if (searchBar != null && searchBar.isVisible() && searchBar.active && searchBar.canConsumeInput())
+                        return Movement.SUGGEST_DISABLE;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

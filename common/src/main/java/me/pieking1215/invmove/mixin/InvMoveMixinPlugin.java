@@ -32,7 +32,10 @@ public class InvMoveMixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public List<String> getMixins() {
-        return null;
+        //? if >=1.21.2 {
+        return List.of("client.AbstractRecipeBookScreenAccessor");
+        //?} else
+        /*return null;*/
     }
 
     @Override
