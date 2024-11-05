@@ -102,7 +102,7 @@ subprojects {
                     copy {
                         from file("build/libs/${display_name}-${project.name}-${version}.jar")
                         into rootProject.file("build/libs")
-                        rename(".+", "${display_name}-${project.name}-${version}-${platproj.name.capitalize()}.jar")
+                        rename(".+", "${display_name}-${project.name}-${version}-${platproj.name.replaceAll('f', 'F').replaceAll('n', 'N')}.jar")
                     }
                 }
             }
