@@ -34,7 +34,7 @@ jobs:
           for f in ./build/libs/*.jar; do mv "$f" "$(echo "$f" | sed -E 's/(.+)-.+\+(.+)-(.+)/\1-${{ steps.short-sha.outputs.sha }}+\2-\3/')"; done
 
       - name: Upload a Build Artifact
-        uses: actions/upload-artifact@v2.3.1
+        uses: actions/upload-artifact@v4
         with:
           name: "InvMove-build-${{ steps.short-sha.outputs.sha }}"
           path: ./build/libs
