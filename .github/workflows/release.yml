@@ -1,0 +1,54 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      changelog:
+        description: 'Release changelog'
+        required: true
+        type: string
+      type:
+        type: choice
+        description: 'Release Type'
+        required: true
+        options:
+          - ALPHA
+          - BETA
+          - STABLE
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: benjlevesque/short-sha@v1.2
+        id: short-sha
+
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
+          settings-path: ${{ github.workspace }} # location for the settings.xml file
+
+      - run: chmod +x ./gradlew
+
+      - name: chiseledBuild
+        run: ./gradlew chiseledBuild
+
+      - name: chiseledPublishMods
+        env:
+          RELEASE_CHANGELOG: ${{ inputs.changelog }}
+          RELEASE_TYPE: ${{ inputs.type }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MODRINTH_API_KEY: ${{ secrets.MODRINTH_API_KEY }}
+        run: ./gradlew chiseledPublishMods
+
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v2.3.1
+        with:
+          name: "publishMods"
+          path: ./build/publishMods

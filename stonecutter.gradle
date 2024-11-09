@@ -1,8 +1,11 @@
+import me.modmuss50.mpp.ReleaseType
+
 plugins {
     id "dev.kikugie.stonecutter"
     id 'dev.architectury.loom' version '1.7-SNAPSHOT' apply false
     id 'architectury-plugin' version '3.4-SNAPSHOT' apply false
     id 'com.github.johnrengelman.shadow' version '8.1.1' apply false
+    id 'me.modmuss50.mod-publish-plugin' version '0.7.4'
 }
 
 // I was getting weird caching issues and I think this disables caching
@@ -15,11 +18,35 @@ stonecutter.registerChiseled tasks.register("chiseledBuild", stonecutter.chisele
     ofTask "buildAndCollect"
 }
 
+stonecutter.registerChiseled tasks.register("chiseledPublishMods", stonecutter.chiseled) {
+    setGroup "project"
+    ofTask "publishAndCollect"
+}
+
+publishMods {
+    changelog = providers.environmentVariable("RELEASE_CHANGELOG").orElse("TEST")
+    type = providers.environmentVariable("RELEASE_TYPE").orElse("ALPHA").map(ReleaseType::of)
+
+    github {
+        accessToken = providers.environmentVariable("GITHUB_TOKEN")
+        repository = repo.replace("https://github.com/", "")
+        commitish = "main"
+        tagName = "v$rootProject.version"
+        displayName = "v$rootProject.version"
+
+        // files added by subprojects
+        allowEmptyFiles = true
+    }
+
+    dryRun = true
+}
+
 subprojects {
     if (parent != rootProject) {
         apply plugin: "java"
         apply plugin: 'architectury-plugin'
         apply plugin: 'dev.architectury.loom'
+        apply plugin: 'me.modmuss50.mod-publish-plugin'
 
         stonecutter {
             swap("Input", eval(stonecutter.current.version, ">=1.21.2") ? "ClientInput" : "Input")
@@ -102,7 +129,7 @@ subprojects {
                     copy {
                         from file("build/libs/${display_name}-${project.name}-${version}.jar")
                         into rootProject.file("build/libs")
-                        rename(".+", "${display_name}-${project.name}-${version}-${platproj.name.replaceAll('f', 'F').replaceAll('n', 'N')}.jar")
+                        rename(".+", "${display_name}-${version}+${project.name}-${platproj.name.replaceAll('f', 'F').replaceAll('n', 'N')}.jar")
                     }
                 }
             }
@@ -111,6 +138,63 @@ subprojects {
         tasks.register("buildAndCollect") {
             group = "build"
             dependsOn(tasks.named("build"), tasks.named("collectFile"))
+        }
+
+        if (parent.name != "common") {
+            tasks.register("collectPublish") {
+                group = "publishing"
+                mustRunAfter("publishMods")
+
+                doLast {
+                    def platproj = parent
+                    if(platproj.name.matches("fabric|forge|neoforge")) {
+                        copy {
+                            from file("build/publishMods/")
+                            into rootProject.file("build/publishMods/${project.name}/${platproj.name}")
+                        }
+//                        delete "build/publishMods/"
+                    }
+                }
+            }
+
+            tasks.register("publishAndCollect") {
+                group = "publishing"
+                dependsOn(tasks.named("publishMods"), tasks.named("collectPublish"))
+            }
+
+            publishMods {
+                file = rootProject.file("build/libs/${display_name}-${rootProject.version}+${project.name}-${parent.name.replaceAll('f', 'F').replaceAll('n', 'N')}.jar")
+                modLoaders.add(parent.name)
+
+                changelog = rootProject.publishMods.changelog
+                type = rootProject.publishMods.type
+
+                github {
+                    parent rootProject.tasks.named("publishGithub")
+                }
+
+                modrinth {
+                    accessToken = providers.environmentVariable("MODRINTH_API_KEY")
+                    projectId = modrinth_project
+
+                    displayName = "$rootProject.version for ${parent.name.replaceAll('f', 'F').replaceAll('n', 'N')} ${get("display_mc_version")}"
+                    version = "$rootProject.version+$project.name-$parent.name"
+
+                    minecraftVersionRange {
+                        start = get("minecraft_min")
+                        end = project.name
+                    }
+
+                    requires "cloth-config"
+                    optional "invmovecompats"
+
+                    if (parent.name == "fabric") {
+                        optional "modmenu"
+                    }
+                }
+
+                dryRun = rootProject.publishMods.dryRun
+            }
         }
     }
 }

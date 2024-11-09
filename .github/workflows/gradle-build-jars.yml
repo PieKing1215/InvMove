@@ -1,0 +1,40 @@
+name: Build jars
+
+on:
+  push:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: benjlevesque/short-sha@v1.2
+        id: short-sha
+
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
+          settings-path: ${{ github.workspace }} # location for the settings.xml file
+
+      - run: chmod +x ./gradlew
+
+      - name: chiseledBuild
+        run: ./gradlew chiseledBuild
+
+      - name: Prep files
+        run: |
+          for f in ./build/libs/*.jar; do mv "$f" "$(echo "$f" | sed -E 's/(.+)-.+\+(.+)-(.+)/\1-${{ steps.short-sha.outputs.sha }}+\2-\3/')"; done
+
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v2.3.1
+        with:
+          name: "InvMove-build-${{ steps.short-sha.outputs.sha }}"
+          path: ./build/libs

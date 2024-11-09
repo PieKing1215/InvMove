@@ -1,0 +1,23 @@
+name: Copy README.md to Modrinth
+ 
+on:
+  push:
+    branches: 
+      - 'master'
+    paths:
+      - 'README.md'
+
+jobs:
+  doit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Run a multi-line script
+        env:
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+        run: |
+          sed 's/"/\\"/g' README.md > README_work.md
+          sed -E ':a;N;$!ba;s/\r{0,1}\n/\\n/g' README_work.md > README_work2.md
+          curl -i -s -X PATCH -H "Content-type: application/json" -H "Authorization:$MODRINTH_TOKEN" --data-raw "{\"body\": \"$(cat README_work2.md)\" }" https://api.modrinth.com/v2/project/REfW2AEX
