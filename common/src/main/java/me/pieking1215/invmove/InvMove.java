@@ -219,7 +219,13 @@ public abstract class InvMove {
         return couldMove;
     }
 
-    public void onInputUpdate(/*$ Input {*/ClientInput/*$}*/ input, boolean sneaking/*? if >=1.19 {*/, float sneakSpeed/*?}*/){
+    public void onInputUpdate(/*$ Input {*/ClientInput/*$}*/ input
+            //? if >=1.21.4 {
+            //?} else if >=1.19 {
+            /*, boolean sneaking, float sneakSpeed
+             *///?} else
+            /*, boolean sneaking*/
+    ){
         if(Minecraft.getInstance().player == null) {
             wasMovementDisallowed = false;
             return;
@@ -312,7 +318,14 @@ public abstract class InvMove {
             }
 
             // tick movement
-            inputTickRaw(input, sneaking/*? if >=1.19 {*/, sneakSpeed/*?}*/);
+
+            //? if >=1.21.4 {
+            inputTickRaw(input);
+            //?} else if >=1.19 {
+            /*inputTickRaw(input, sneaking, sneakSpeed);
+            *///?} else {
+            /*inputTickRaw(input, sneaking);
+            *///?}
 
         }else if(Minecraft.getInstance().screen != null){
             // we are in a screen that we can't move in
@@ -454,9 +467,21 @@ public abstract class InvMove {
     /**
      * Calls ClientInput.tick but forces using raw keybind data
      */
-    public void inputTickRaw(/*$ Input {*/ClientInput/*$}*/ input, boolean sneaking/*? if >=1.19 {*/, float sneakSpeed/*?}*/) {
+    public void inputTickRaw(/*$ Input {*/ClientInput/*$}*/ input
+            //? if >=1.21.4 {
+            //?} else if >=1.19 {
+            /*, boolean sneaking, float sneakSpeed
+             *///?} else
+            /*, boolean sneaking*/
+    ) {
         forceRawKeyDown = true;
-        input.tick(sneaking/*? if >=1.19 {*/, sneakSpeed/*?}*/);
+        //? if >=1.21.4 {
+        input.tick();
+        //?} else if >=1.19 {
+        /*input.tick(sneaking, sneakSpeed);
+        *///?} else {
+        /*input.tick(sneaking);
+        *///?}
         forceRawKeyDown = false;
     }
 

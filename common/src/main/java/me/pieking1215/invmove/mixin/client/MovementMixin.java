@@ -12,19 +12,35 @@ import org.spongepowered.asm.mixin.injection.At;
 public class MovementMixin {
     @WrapOperation(
             method = "aiStep",
-            //? if >=1.21.2 {
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/ClientInput;tick(ZF)V")
-            //?} else if >=1.19 {
+            //? if >=1.21.4 {
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/ClientInput;tick()V")
+            //?} else if >=1.21.2 {
+            /*at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/ClientInput;tick(ZF)V")
+            *///?} else if >=1.19 {
             /*at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/Input;tick(ZF)V")
             *///?} else
             /*at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/Input;tick(Z)V")*/
     )
     private void onTick(
             /*$ Input {*/ClientInput/*$}*/ instance,
-            boolean sneaking/*? if >=1.19 {*/, float sneakSpeed/*?}*/, Operation<Void> original) {
-        original.call(instance, sneaking/*? if >=1.19 {*/, sneakSpeed/*?}*/);
 
-        //noinspection ConstantConditions
-        InvMove.instance().onInputUpdate(instance, sneaking/*? if >=1.19 {*/, sneakSpeed/*?}*/);
+            //? if >=1.21.4 {
+            //?} else if >=1.19 {
+            /*boolean sneaking, float sneakSpeed,
+            *///?} else
+            /*boolean sneaking,*/
+
+            Operation<Void> original) {
+
+        //? if >=1.21.4 {
+        original.call(instance);
+        InvMove.instance().onInputUpdate(instance);
+        //?} else if >=1.19 {
+        /*original.call(instance, sneaking, sneakSpeed);
+        InvMove.instance().onInputUpdate(instance, sneaking, sneakSpeed);
+        *///?} else {
+        /*original.call(instance, sneaking);
+        InvMove.instance().onInputUpdate(instance, sneaking);
+        *///?}
     }
 }
