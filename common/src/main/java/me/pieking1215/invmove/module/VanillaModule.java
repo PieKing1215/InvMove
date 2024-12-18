@@ -5,6 +5,7 @@ import me.pieking1215.invmove.InvMoveConfig;
 //? if >=1.21.2
 import me.pieking1215.invmove.mixin.client.AbstractRecipeBookScreenAccessor;
 import me.pieking1215.invmove.mixin.client.RecipeBookComponentAccessor;
+import me.pieking1215.invmove.module.config.ConfigBool;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.EditBox;
@@ -23,6 +24,8 @@ import java.util.stream.Stream;
 import static me.pieking1215.invmove.InvMove.getDeclaredFieldsSuper;
 
 public class VanillaModule extends ModuleImpl {
+
+    protected ConfigBool recipeBookAllowMovement;
 
     @Override
     public String getId() {
@@ -59,6 +62,7 @@ public class VanillaModule extends ModuleImpl {
 
         register(GameModeSwitcherScreen.class).movement(Movement.SUGGEST_ENABLE);
 
+        recipeBookAllowMovement = m_config.bool("Recipe Book", "recipeBook", true).textFn(InvMoveConfig.MOVEMENT_YES_NO_TEXT);
         register(InventoryScreen.class)                     .cfg("inventory").display("container.inventory").submit();
         register(HorseInventoryScreen.class)                .cfg("horseInventory").submit();
         register(CreativeModeInventoryScreen.class)         .cfg("creative").display("key.categories.creative").submit();
@@ -88,7 +92,25 @@ public class VanillaModule extends ModuleImpl {
     public Movement shouldAllowMovement(Screen screen) {
         if(screen.getTitle() != null && screen.getTitle().equals(InvMove.instance().translatableComponent("sign.edit"))) return Movement.SUGGEST_DISABLE;
 
-        if(InvMoveConfig.MOVEMENT.TEXT_FIELD_DISABLES.get()) {
+        if (!recipeBookAllowMovement.get()) {
+            //? if >=1.21.2 {
+            if (screen instanceof AbstractRecipeBookScreen<?>) {
+                //?} else
+                /*if (screen instanceof RecipeUpdateListener) {*/
+                try {
+                    //? if >=1.21.2 {
+                    RecipeBookComponent<?> cmp = ((AbstractRecipeBookScreenAccessor) screen).getRecipeBookComponent();
+                    //?} else
+                    /*RecipeBookComponent cmp = ((RecipeUpdateListener) screen).getRecipeBookComponent();*/
+                    if (cmp.isVisible())
+                        return Movement.SUGGEST_DISABLE;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        if(InvMoveConfig.MOVEMENT.TEXT_FIELD_DISABLES.get() && recipeBookAllowMovement.get()) {
             // don't allow movement when focused on an active textfield
 
             // search all fields and superclass fields for a EditBox
