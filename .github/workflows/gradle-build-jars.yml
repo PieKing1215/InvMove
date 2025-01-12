@@ -27,7 +27,7 @@ jobs:
       - run: chmod +x ./gradlew
 
       - name: chiseledBuild
-        run: ./gradlew chiseledBuild
+        run: ./gradlew chiseledBuild --no-daemon
 
       - name: Prep files
         run: |
