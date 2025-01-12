@@ -27,18 +27,38 @@ publishMods {
     changelog = providers.environmentVariable("RELEASE_CHANGELOG").orElse("TEST")
     type = providers.environmentVariable("RELEASE_TYPE").orElse("ALPHA").map(ReleaseType::of)
 
-    github {
-        accessToken = providers.environmentVariable("GITHUB_TOKEN")
-        repository = repo.replace("https://github.com/", "")
-        commitish = "main"
-        tagName = "v$rootProject.version"
-        displayName = "v$rootProject.version"
+    var dry = providers.environmentVariable("DRY_RUN").getOrElse("true").toBoolean()
+    var gh = providers.environmentVariable("RELEASE_GITHUB").getOrElse("false").toBoolean()
+    var mr = providers.environmentVariable("RELEASE_MODRINTH").getOrElse("false").toBoolean()
 
-        // files added by subprojects
-        allowEmptyFiles = true
+    println("DRY_RUN = $dry")
+    println("RELEASE_GITHUB = $gh")
+    println("RELEASE_MODRINTH = $mr")
+
+    if (gh) {
+        if (!providers.environmentVariable("GITHUB_TOKEN").isPresent()) {
+            throw new GradleException('Missing GITHUB_TOKEN')
+        }
+
+        github {
+            accessToken = providers.environmentVariable("GITHUB_TOKEN").get()
+            repository = repo.replace("https://github.com/", "")
+            commitish = "main"
+            tagName = "v$rootProject.version"
+            displayName = "v$rootProject.version"
+
+            // files added by subprojects
+            allowEmptyFiles = true
+        }
     }
 
-    dryRun = true
+    if (mr) {
+        if (!providers.environmentVariable("MODRINTH_API_KEY").isPresent()) {
+            throw new GradleException('Missing MODRINTH_API_KEY')
+        }
+    }
+
+    dryRun = providers.environmentVariable("DRY_RUN").getOrElse("true").toBoolean()
 }
 
 subprojects {
@@ -58,12 +78,14 @@ subprojects {
             return rootProject.project(stonecutter.current.project).property(prop)
         }
 
+        var modid = rootProject.id
+
         group = "$maven_group.$parent.name"
 
         loom {
             silentMojangMappingsLicense()
 
-            accessWidenerPath = project(":common").file("src/main/resources/invmove.accesswidener")
+            accessWidenerPath = project(":common").file("src/main/resources/${modid}.accesswidener")
 
             runs {
                 remove server
@@ -169,27 +191,33 @@ subprojects {
                 changelog = rootProject.publishMods.changelog
                 type = rootProject.publishMods.type
 
-                github {
-                    parent rootProject.tasks.named("publishGithub")
+                if (providers.environmentVariable("RELEASE_GITHUB").getOrElse("false").toBoolean()) {
+                    github {
+                        accessToken = providers.environmentVariable("GITHUB_TOKEN").get()
+
+                        parent rootProject.tasks.named("publishGithub")
+                    }
                 }
 
-                modrinth {
-                    accessToken = providers.environmentVariable("MODRINTH_API_KEY")
-                    projectId = modrinth_project
+                if (providers.environmentVariable("RELEASE_MODRINTH").getOrElse("false").toBoolean()) {
+                    modrinth {
+                        accessToken = providers.environmentVariable("MODRINTH_API_KEY").get()
+                        projectId = modrinth_project
 
-                    displayName = "$rootProject.version for ${parent.name.replaceAll('f', 'F').replaceAll('n', 'N')} ${get("display_mc_version")}"
-                    version = "$rootProject.version+$project.name-$parent.name"
+                        displayName = "$rootProject.version for ${parent.name.replaceAll('f', 'F').replaceAll('n', 'N')} ${get("display_mc_version")}"
+                        version = "$rootProject.version+$project.name-$parent.name"
 
-                    minecraftVersionRange {
-                        start = get("minecraft_min")
-                        end = project.name
-                    }
+                        minecraftVersionRange {
+                            start = get("minecraft_min")
+                            end = project.name
+                        }
 
-                    requires "cloth-config"
-                    optional "invmovecompats"
+                        requires "cloth-config"
+                        optional "invmovecompats"
 
-                    if (parent.name == "fabric") {
-                        optional "modmenu"
+                        if (parent.name == "fabric") {
+                            optional "modmenu"
+                        }
                     }
                 }
 
