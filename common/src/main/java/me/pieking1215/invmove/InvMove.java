@@ -36,6 +36,7 @@ import net.minecraft.resources.ResourceLocation;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.util.*;
+import java.util.function.Supplier;
 
 public abstract class InvMove {
     public static final String MOD_ID = "invmove";
@@ -487,6 +488,14 @@ public abstract class InvMove {
 
     public boolean shouldForceRawKeyDown() {
         return forceRawKeyDown;
+    }
+
+    public <T> T withRawKeyDown(Supplier<T> r) {
+        boolean was = forceRawKeyDown;
+        forceRawKeyDown = true;
+        T v = r.get();
+        forceRawKeyDown = was;
+        return v;
     }
 
     /**

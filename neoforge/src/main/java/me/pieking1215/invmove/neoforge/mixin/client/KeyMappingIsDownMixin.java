@@ -2,25 +2,22 @@ package me.pieking1215.invmove.neoforge.mixin.client;
 
 import me.pieking1215.invmove.InvMove;
 import net.minecraft.client.KeyMapping;
-import net.minecraft.client.ToggleKeyMapping;
+import net.neoforged.neoforge.client.extensions.IKeyMappingExtension;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(
-        value = {KeyMapping.class, ToggleKeyMapping.class}
-)
-public class KeyMappingIsDownMixin {
-    @Inject(
-            method = "isDown",
-            at = @At("HEAD"),
-            cancellable = true
-    )
-    private void overrideIsDown(CallbackInfoReturnable<Boolean> cir) {
+// normally I would just @Inject into the head of IForgeKeyMapping::isConflictContextAndModifierActive
+// but only Fabric mixin supports injecting into default fns in interfaces
+@Mixin(KeyMapping.class)
+public abstract class KeyMappingIsDownMixin implements IKeyMappingExtension {
+    @Override
+    public boolean isConflictContextAndModifierActive() {
+        // (neo)forge does extra checks that make some keys not work in inventories
+        // I don't really know/care how it works since Fabric doesn't have this
+        // so when the mod needs raw key down, skip the extra check
         if (InvMove.instance().shouldForceRawKeyDown()) {
-            cir.setReturnValue(((KeyMapping)(Object)this).isDown);
+            return true;
+        } else {
+            return IKeyMappingExtension.super.isConflictContextAndModifierActive();
         }
     }
 }

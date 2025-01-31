@@ -22,10 +22,10 @@ import net.minecraftforge.fml.loading.FMLPaths;
 //? if >=1.20.5 {
 import net.minecraftforge.client.gui.IConfigScreenFactory;
 //?} else if >=1.19 {
-/*import net.minecraftforge.client.ConfigScreenHandler;*/
-//?} else if >=1.18 {
-/*import net.minecraftforge.client.ConfigGuiHandler;*/
-//?} else if >=1.17
+/*import net.minecraftforge.client.ConfigScreenHandler;
+*///?} else if >=1.18 {
+/*import net.minecraftforge.client.ConfigGuiHandler;
+*///?} else if >=1.17
 /*import net.minecraftforge.fmlclient.ConfigGuiHandler;*/
 
 //? if >=1.18 {

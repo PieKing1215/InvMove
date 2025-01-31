@@ -1,5 +1,6 @@
 package me.pieking1215.invmove.forge.mixin.client;
 
+import me.pieking1215.invmove.InvMove;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.player.LocalPlayer;
 import org.spongepowered.asm.mixin.Mixin;
@@ -13,6 +14,7 @@ public class SprintKeyDownMixin {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/KeyMapping;isDown()Z")
     )
     private boolean isDown(KeyMapping self) {
-        return self.isDown; // forge does extra checks that make it not work in inventories
+        // (neo)forge does extra checks that make it not work in inventories
+        return InvMove.instance().withRawKeyDown(self::isDown);
     }
 }
