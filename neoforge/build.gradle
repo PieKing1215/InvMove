@@ -59,6 +59,7 @@ processResources {
             // NOTE: underscore on neoforge
             "cloth_id"        : stonecutter.eval(stonecutter.current.project, ">=1.18") ? "cloth_config" : "cloth_config2",
             "cloth_min"       : get("cloth_min"),
+            "compat_min"      : rootProject.compat_min,
     ]
 
     inputs.properties props

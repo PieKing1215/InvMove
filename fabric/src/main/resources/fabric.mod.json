@@ -32,5 +32,8 @@
     "fabricloader": "*",
     "minecraft": ">=${minecraft_min}",
     "${cloth_id}": ">=${cloth_min}"
+  },
+  "breaks": {
+    "invmove_compat": "<${compat_min}"
   }
 }

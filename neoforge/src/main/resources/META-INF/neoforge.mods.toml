@@ -33,6 +33,13 @@ versionRange = "[${cloth_min},)"
 ordering = "NONE"
 side = "CLIENT"
 
+[[dependencies.${id}]]
+modId = "invmove_compat"
+type = "optional"
+versionRange = "[${compat_min},)"
+ordering = "NONE"
+side = "CLIENT"
+
 [[mixins]]
 config = "invmove.mixins.json"
 [[mixins]]
