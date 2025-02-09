@@ -226,3 +226,9 @@ subprojects {
         }
     }
 }
+
+rootProject.tasks.register("publishCurrentToMavenLocal") {
+    group = "publishing"
+    dependsOn(project(":common:$stonecutter.current.project").tasks.named("publishToMavenLocal"))
+    dependsOn(project(":fabric:$stonecutter.current.project").tasks.named("publishToMavenLocal"))
+}

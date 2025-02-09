@@ -1,3 +1,4 @@
+apply plugin: "maven-publish"
 
 architectury {
     common get("enabled_platforms").split(',')
@@ -13,5 +14,19 @@ dependencies {
     modApi("me.shedaniel.cloth:cloth-config:${get("cloth_version")}"){
         exclude(group: "net.fabricmc")
         exclude(group: "net.fabricmc.fabric-api")
+    }
+}
+
+publishing {
+    publications {
+        mavenCommon(MavenPublication) {
+            artifactId = rootProject.maven_artifact_id
+            from components.java
+        }
+    }
+
+    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
+    repositories {
+        // Add repositories to publish to here.
     }
 }

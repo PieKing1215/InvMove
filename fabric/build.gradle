@@ -2,6 +2,8 @@ plugins {
     id 'com.github.johnrengelman.shadow'
 }
 
+apply plugin: "maven-publish"
+
 architectury {
     platformSetupLoomIde()
     fabric()
@@ -70,4 +72,18 @@ shadowJar {
 
 remapJar {
     input.set shadowJar.archiveFile
+}
+
+publishing {
+    publications {
+        mavenCommon(MavenPublication) {
+            artifactId = rootProject.maven_artifact_id
+            from components.java
+        }
+    }
+
+    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
+    repositories {
+        // Add repositories to publish to here.
+    }
 }
