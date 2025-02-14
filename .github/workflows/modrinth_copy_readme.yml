@@ -12,11 +12,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Run a multi-line script
         env:
-          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_API_KEY }}
         run: |
           sed 's/"/\\"/g' README.md > README_work.md
           sed -E ':a;N;$!ba;s/\r{0,1}\n/\\n/g' README_work.md > README_work2.md

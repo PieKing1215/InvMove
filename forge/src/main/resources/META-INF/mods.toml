@@ -1,0 +1,34 @@
+modLoader = "javafml"
+loaderVersion = "[${forge_min},)"
+issueTrackerURL = "${repo}/issues"
+license = "${license}"
+
+[[mods]]
+modId = "${id}"
+version = "${version}"
+displayName = "${name}"
+authors = "${author}"
+description = "${description}"
+logoFile = "icon.png"
+displayTest="IGNORE_ALL_VERSION"
+
+[[dependencies.${id}]]
+modId = "forge"
+mandatory = true
+versionRange = "[${forge_min},)"
+ordering = "NONE"
+side = "CLIENT"
+
+[[dependencies.${id}]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[${minecraft_min},)"
+ordering = "NONE"
+side = "CLIENT"
+
+#[[dependencies.${id}]]
+#modId = "${cloth_id}"
+#mandatory = true
+#versionRange = "[${cloth_min},)"
+#ordering = "NONE"
+#side = "CLIENT"

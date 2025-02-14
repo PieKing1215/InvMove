@@ -1,0 +1,46 @@
+modLoader = "javafml"
+loaderVersion = "[4,)"
+issueTrackerURL = "${repo}/issues"
+license = "${license}"
+
+[[mods]]
+modId = "${id}"
+version = "${version}"
+displayName = "${name}"
+authors = "${author}"
+description = "${description}"
+logoFile = "icon.png"
+displayTest="IGNORE_ALL_VERSION"
+
+[[dependencies.${id}]]
+modId = "neoforge"
+type = "required"
+versionRange = "[${neoforge_min},)"
+ordering = "NONE"
+side = "CLIENT"
+
+[[dependencies.${id}]]
+modId = "minecraft"
+type = "required"
+versionRange = "[${minecraft_min},)"
+ordering = "NONE"
+side = "CLIENT"
+
+[[dependencies.${id}]]
+modId = "${cloth_id}"
+type = "required"
+versionRange = "[${cloth_min},)"
+ordering = "NONE"
+side = "CLIENT"
+
+[[dependencies.${id}]]
+modId = "invmove_compat"
+type = "optional"
+versionRange = "[${compat_min},)"
+ordering = "NONE"
+side = "CLIENT"
+
+[[mixins]]
+config = "invmove.mixins.json"
+[[mixins]]
+config = "invmove-neoforge.mixins.json"

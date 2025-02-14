@@ -1,0 +1,234 @@
+import me.modmuss50.mpp.ReleaseType
+
+plugins {
+    id "dev.kikugie.stonecutter"
+    id 'dev.architectury.loom' version '1.7-SNAPSHOT' apply false
+    id 'architectury-plugin' version '3.4-SNAPSHOT' apply false
+    id 'com.github.johnrengelman.shadow' version '8.1.1' apply false
+    id 'me.modmuss50.mod-publish-plugin' version '0.7.4'
+}
+
+// I was getting weird caching issues and I think this disables caching
+stonecutter.debug = true
+
+stonecutter.active "1.21.4" /* [SC] DO NOT EDIT */
+
+stonecutter.registerChiseled tasks.register("chiseledBuild", stonecutter.chiseled) { 
+    setGroup "project"
+    ofTask "buildAndCollect"
+}
+
+stonecutter.registerChiseled tasks.register("chiseledPublishMods", stonecutter.chiseled) {
+    setGroup "project"
+    ofTask "publishAndCollect"
+}
+
+publishMods {
+    changelog = providers.environmentVariable("RELEASE_CHANGELOG").orElse("TEST")
+    type = providers.environmentVariable("RELEASE_TYPE").orElse("ALPHA").map(ReleaseType::of)
+
+    var dry = providers.environmentVariable("DRY_RUN").getOrElse("true").toBoolean()
+    var gh = providers.environmentVariable("RELEASE_GITHUB").getOrElse("false").toBoolean()
+    var mr = providers.environmentVariable("RELEASE_MODRINTH").getOrElse("false").toBoolean()
+
+    println("DRY_RUN = $dry")
+    println("RELEASE_GITHUB = $gh")
+    println("RELEASE_MODRINTH = $mr")
+
+    if (gh) {
+        if (!providers.environmentVariable("GITHUB_TOKEN").isPresent()) {
+            throw new GradleException('Missing GITHUB_TOKEN')
+        }
+
+        github {
+            accessToken = providers.environmentVariable("GITHUB_TOKEN").get()
+            repository = repo.replace("https://github.com/", "")
+            commitish = "main"
+            tagName = "v$rootProject.version"
+            displayName = "v$rootProject.version"
+
+            // files added by subprojects
+            allowEmptyFiles = true
+        }
+    }
+
+    if (mr) {
+        if (!providers.environmentVariable("MODRINTH_API_KEY").isPresent()) {
+            throw new GradleException('Missing MODRINTH_API_KEY')
+        }
+    }
+
+    dryRun = providers.environmentVariable("DRY_RUN").getOrElse("true").toBoolean()
+}
+
+subprojects {
+    if (parent != rootProject) {
+        apply plugin: "java"
+        apply plugin: 'architectury-plugin'
+        apply plugin: 'dev.architectury.loom'
+        apply plugin: 'me.modmuss50.mod-publish-plugin'
+
+        stonecutter {
+            swap("Input", eval(stonecutter.current.version, ">=1.21.2") ? "ClientInput" : "Input")
+        }
+
+        archivesBaseName = "$rootProject.display_name-$project.name"
+
+        ext.get = prop -> {
+            return rootProject.project(stonecutter.current.project).property(prop)
+        }
+
+        var modid = rootProject.id
+
+        group = "$maven_group.$parent.name"
+
+        loom {
+            silentMojangMappingsLicense()
+
+            accessWidenerPath = project(":common").file("src/main/resources/${modid}.accesswidener")
+
+            runs {
+                remove server
+            }
+
+            runConfigs.all {
+                ideConfigGenerated = false
+                runDir "../../../run"
+            }
+        }
+
+        dependencies {
+            minecraft "net.minecraft:minecraft:$stonecutter.current.project"
+            mappings loom.officialMojangMappings()
+        }
+
+        java {
+            withSourcesJar()
+
+            sourceCompatibility = JavaVersion.VERSION_1_8
+            targetCompatibility = JavaVersion.toVersion(get("java"))
+        }
+
+        tasks.withType(JavaCompile).tap {
+            configureEach {
+                options.encoding = "UTF-8"
+                options.release.set Integer.parseInt(get("java"))
+            }
+        }
+
+        repositories {
+            maven { url "https://maven.shedaniel.me/" }
+            maven { url "https://maven.terraformersmc.com" }
+            maven { url "https://maven.fabricmc.net/" }
+            maven { url "https://maven.architectury.dev/" }
+            maven { url "https://files.minecraftforge.net/maven/" }
+        }
+
+        processResources {
+            if (parent.name != "common") {
+                // need to manually copy resources from common when running in dev
+                // but doing this when building to jar results in mixin refmap not being included
+                if (project.gradle.startParameter.taskNames.getFirst().containsIgnoreCase("run")) {
+                    from(project(":common:$stonecutter.current.project").sourceSets["main"].resources)
+                }
+            }
+        }
+
+        if (stonecutter.current.isActive && parent.name != "common") {
+            rootProject.tasks.register("Run Active ${parent.name.capitalize()}") {
+                group = "project"
+                dependsOn(tasks.named("runClient"))
+            }
+        }
+
+        tasks.register("collectFile") {
+            group = "build"
+            mustRunAfter("build")
+
+            doLast {
+                def platproj = parent
+                if(platproj.name.matches("fabric|forge|neoforge")) {
+                    copy {
+                        from file("build/libs/${display_name}-${project.name}-${version}.jar")
+                        into rootProject.file("build/libs")
+                        rename(".+", "${display_name}-${version}+${project.name}-${platproj.name.replaceAll('f', 'F').replaceAll('n', 'N')}.jar")
+                    }
+                }
+            }
+        }
+
+        tasks.register("buildAndCollect") {
+            group = "build"
+            dependsOn(tasks.named("build"), tasks.named("collectFile"))
+        }
+
+        if (parent.name != "common") {
+            tasks.register("collectPublish") {
+                group = "publishing"
+                mustRunAfter("publishMods")
+
+                doLast {
+                    def platproj = parent
+                    if(platproj.name.matches("fabric|forge|neoforge")) {
+                        copy {
+                            from file("build/publishMods/")
+                            into rootProject.file("build/publishMods/${project.name}/${platproj.name}")
+                        }
+//                        delete "build/publishMods/"
+                    }
+                }
+            }
+
+            tasks.register("publishAndCollect") {
+                group = "publishing"
+                dependsOn(tasks.named("publishMods"), tasks.named("collectPublish"))
+            }
+
+            publishMods {
+                file = rootProject.file("build/libs/${display_name}-${rootProject.version}+${project.name}-${parent.name.replaceAll('f', 'F').replaceAll('n', 'N')}.jar")
+                modLoaders.add(parent.name)
+
+                changelog = rootProject.publishMods.changelog
+                type = rootProject.publishMods.type
+
+                if (providers.environmentVariable("RELEASE_GITHUB").getOrElse("false").toBoolean()) {
+                    github {
+                        accessToken = providers.environmentVariable("GITHUB_TOKEN").get()
+
+                        parent rootProject.tasks.named("publishGithub")
+                    }
+                }
+
+                if (providers.environmentVariable("RELEASE_MODRINTH").getOrElse("false").toBoolean()) {
+                    modrinth {
+                        accessToken = providers.environmentVariable("MODRINTH_API_KEY").get()
+                        projectId = modrinth_project
+
+                        displayName = "$rootProject.version for ${parent.name.replaceAll('f', 'F').replaceAll('n', 'N')} ${get("display_mc_version")}"
+                        version = "$rootProject.version+$project.name-$parent.name"
+
+                        minecraftVersionRange {
+                            start = get("minecraft_min")
+                            end = project.name
+                        }
+
+                        requires "cloth-config"
+                        optional "invmovecompats"
+
+                        if (parent.name == "fabric") {
+                            optional "modmenu"
+                        }
+                    }
+                }
+
+                dryRun = rootProject.publishMods.dryRun
+            }
+        }
+    }
+}
+
+rootProject.tasks.register("publishCurrentToMavenLocal") {
+    group = "publishing"
+    dependsOn(project(":common:$stonecutter.current.project").tasks.named("publishToMavenLocal"))
+    dependsOn(project(":fabric:$stonecutter.current.project").tasks.named("publishToMavenLocal"))
+}

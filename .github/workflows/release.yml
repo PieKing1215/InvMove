@@ -1,38 +1,99 @@
-# This is a basic workflow to help you get started with Actions
-
 name: Release
 
-# Controls when the workflow will run
-on: 
-  # Allows you to run this workflow manually from the Actions tab
+on:
   workflow_dispatch:
+    inputs:
+#      title:
+#        description: 'Release Title'
+#        required: true
+#        type: string
+#      tag:
+#        description: 'Release Tag'
+#        required: true
+#        type: string
+      changelog:
+        description: 'Release Changelog'
+        required: true
+        type: string
+      type:
+        type: choice
+        description: 'Release Type'
+        required: true
+        options:
+          - ALPHA
+          - BETA
+          - STABLE
+      dry_run:
+        type: boolean
+        description: 'Dry Run'
+        required: true
+        default: true
+      release_github:
+        type: boolean
+        description: 'Github Release'
+        required: true
+        default: false
+      release_modrinth:
+        type: boolean
+        description: 'Modrinth Release'
+        required: true
+        default: false
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-        
-      - name: Download previous build
-        uses: dawidd6/action-download-artifact@v2
-        with:
-          workflow: gradle-build-jars.yml
-          workflow_conclusion: success
-          check_artifacts: true
+      - uses: benjlevesque/short-sha@v1.2
+        id: short-sha
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
-          ls .
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
+          settings-path: ${{ github.workspace }} # location for the settings.xml file
+
+      - run: chmod +x ./gradlew
+
+      - name: chiseledBuild
+        run: ./gradlew chiseledBuild --no-daemon
+
+#      - name: Find jars
+#        id: find_jars
+#        run: |
+#          {
+#            echo 'jar_files<<EOF'
+#            find build/libs -name "*.jar"
+#            echo EOF
+#          } >> "$GITHUB_OUTPUT"
+#
+#      - name: Draft Release
+#        uses: softprops/action-gh-release@c95fe1489396fe8a9eb87c0abf8aa5b2ef267fda # v2.2.1
+#        with:
+#          draft: true
+#          name: ${{ inputs.title }}
+#          tag_name: ${{ inputs.tag }}
+#          body: ${{ inputs.changelog }}
+#          files: ${{ steps.find_jars.outputs.jar_files }}
+#          prerelease: ${{ inputs.type == 'ALPHA' }}
+
+      - name: chiseledPublishMods
+        env:
+          RELEASE_CHANGELOG: ${{ inputs.changelog }}
+          RELEASE_TYPE: ${{ inputs.type }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MODRINTH_API_KEY: ${{ secrets.MODRINTH_API_KEY }}
+          RELEASE_GITHUB: ${{ inputs.release_github }}
+          RELEASE_MODRINTH: ${{ inputs.release_modrinth }}
+          DRY_RUN: ${{ inputs.dry_run }}
+        run: ./gradlew chiseledPublishMods --no-daemon
+
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: "publishMods"
+          path: ./build/publishMods
