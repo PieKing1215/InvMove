@@ -3,7 +3,7 @@ name: Copy README.md to Modrinth
 on:
   push:
     branches: 
-      - 'master'
+      - 'main'
     paths:
       - 'README.md'
 
