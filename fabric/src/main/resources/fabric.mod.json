@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "id": "${id}",
+  "version": "${version}",
+  "name": "${name}",
+  "description": "${description}",
+  "authors": [
+    "${author}"
+  ],
+  "contact": {
+    "homepage": "${repo}",
+    "sources": "${repo}",
+    "issues": "${repo}/issues"
+  },
+  "license": "${license}",
+  "icon": "icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "me.pieking1215.invmove.fabric.InvMoveFabric"
+    ],
+    "modmenu": [
+      "me.pieking1215.invmove.fabric.InvMoveModMenuIntegration"
+    ]
+  },
+  "mixins": [
+    "invmove-fabric.mixins.json",
+    "invmove.mixins.json"
+  ],
+  "accessWidener" : "${id}.accesswidener",
+  "depends": {
+    "fabricloader": "*",
+    "minecraft": ">=${minecraft_min}",
+    "${cloth_id}": ">=${cloth_min}"
+  },
+  "breaks": {
+    "invmove_compat": "<${compat_min}"
+  }
+}

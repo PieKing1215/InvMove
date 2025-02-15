@@ -2,49 +2,56 @@ pluginManagement {
     repositories {
         maven { url "https://maven.fabricmc.net/" }
         maven { url "https://maven.architectury.dev/" }
-        maven { url "https://maven.minecraftforge.net/" }
+        maven { url "https://files.minecraftforge.net/maven/" }
+        maven { url "https://maven.kikugie.dev/snapshots" }
         gradlePluginPortal()
     }
 }
 
-include("crossversion:common")
-
-if (startParameter.projectProperties.getOrDefault("disableAllBut", "mc1.21") == "mc1.21") {
-    include("mc1.21:common")
-    include("mc1.21:fabric-like")
-    include("mc1.21:fabric")
-    include("mc1.21:quilt")
-    include("mc1.21:forge")
+plugins {
+    id "dev.kikugie.stonecutter" version "0.5"
 }
 
-if (startParameter.projectProperties.getOrDefault("disableAllBut", "mc1.20") == "mc1.20") {
-    include("mc1.20:common")
-    include("mc1.20:fabric-like")
-    include("mc1.20:fabric")
-    include("mc1.20:quilt")
-    include("mc1.20:forge")
+def platformVersionMap = [:]
+
+static def getEnabledPlatforms(file) {
+    Properties props = new Properties()
+    file.withInputStream { stream ->
+        props.load(stream)
+    }
+    def platforms = props['enabled_platforms']?.split(',')?.collect { it.trim() }
+    return platforms ?: []
 }
 
-if (startParameter.projectProperties.getOrDefault("disableAllBut", "mc1.19") == "mc1.19") {
-    include("mc1.19:common")
-    include("mc1.19:fabric-like")
-    include("mc1.19:fabric")
-    include("mc1.19:quilt")
-    include("mc1.19:forge")
+fileTree(dir: file('versions'), include: '**/gradle.properties').each { propFile ->
+    def version = propFile.parentFile.name
+    def platforms = getEnabledPlatforms(propFile)
+
+    platforms.each { platform ->
+        if (platformVersionMap.containsKey(platform)) {
+            platformVersionMap[platform] << version
+        } else {
+            platformVersionMap[platform] = [version]
+        }
+    }
 }
 
-if (startParameter.projectProperties.getOrDefault("disableAllBut", "mc1.18") == "mc1.18") {
-    include("mc1.18:common")
-    include("mc1.18:fabric-like")
-    include("mc1.18:fabric")
-    include("mc1.18:quilt")
-    include("mc1.18:forge")
+stonecutter {
+    create(rootProject) {
+        versions "1.16.5", "1.17.1", "1.18.2", "1.19.4", "1.20.1", "1.20.4", "1.20.6", "1.21.1", "1.21.3", "1.21.4"
+        vcsVersion = "1.21.4"
+        branch "common"
+
+        platformVersionMap.each { platform, versions ->
+            branch(platform, b -> {
+                b.versions(versions as String[])
+            })
+        }
+    }
 }
 
-if (startParameter.projectProperties.getOrDefault("disableAllBut", "mc1.16") == "mc1.16") {
-    include("mc1.16:common")
-    include("mc1.16:fabric")
-    include("mc1.16:forge")
-}
+rootProject.name = 'InvMove'
 
-rootProject.name = "InvMove"
+include 'common'
+include 'fabric'
+include 'neoforge'
