@@ -1,0 +1,46 @@
+{
+  "config.invmove.title": "InvMove Config",
+  "key.invmove.category.general": "Общие",
+  "key.invmove.category.movement": "Движение UI",
+  "key.invmove.category.background": "Фон UI",
+
+  "config.invmove.general.enable": "Включить мод",
+  "tooltip.config.invmove.general.enable": "Включить весь мод",
+  "config.invmove.general.debugDisplay": "Отображение отладки",
+  "tooltip.config.invmove.general.debugDisplay": "Включить отображение отладки.",
+
+  "config.invmove.movement.enable": "Переместить запасы",
+  "tooltip.config.invmove.movement.enable": "Включите движение, находясь внутри инвентаря.\nВы можете вручную отключить некоторые инвентари ниже.\nДля этого можно настроить привязку клавиш.",
+  "config.invmove.movement.sneak": "Режим скрытности",
+  "tooltip.config.invmove.movement.sneak": "Как справиться с подкрадыванием внутри инвентаря:\nВыкл. = Не подкрадываться\nMaintain = Продолжать красться, если вы были там, когда инвентарь открыт\nНажата = Красться только, удерживая кнопку подкрадывания\n(Нажатие может отвлекать при нажатии клавиши Shift)\n( При использовании переключателя скрытности нажатие позволяет переключаться, а оба других режима сохраняются)",
+  "config.invmove.movement.jump": "Разрешить прыжки",
+  "tooltip.config.invmove.movement.jump": "Разрешить прыжки внутри инвентаря.",
+  "config.invmove.movement.dismount": "Разрешить спешивание",
+  "tooltip.config.invmove.movement.dismount": "Разрешить спешивание внутри инвентаря.",
+  "config.invmove.movement.textFieldDisables": "Текстовое поле блокирует движение",
+  "tooltip.config.invmove.movement.textFieldDisables": "Отключить перемещение в инвентарях, когда текстовое поле находится в фокусе.",
+  "config.invmove.movement.unrecognizedScreenDefault": "Нераспознанные экраны по умолчанию",
+  "tooltip.config.invmove.movement.unrecognizedScreenDefault": "Состояние по умолчанию для новых нераспознанных интерфейсов.",
+
+  "config.invmove.background.enable": "Скрыть фон инвентаря",
+  "tooltip.config.invmove.background.enable": "Скрывает оттенок фона внутри инвентаря.\nВы можете вручную отключить некоторые инвентари ниже.",
+  "config.invmove.background.hideOnPause": "Фон экрана паузы",
+  "tooltip.config.invmove.background.hideOnPause": "Как обрабатывать экраны, которые приостанавливают игру:\nShow = Всегда показывать фон\nShowSP = Показывать фон в одиночной игре, в противном случае разрешить скрытие\nAllowHide = Разрешить скрытие фона",
+  "config.invmove.background.unrecognizedScreenDefault": "Нераспознанные экраны по умолчанию",
+  "tooltip.config.invmove.background.unrecognizedScreenDefault": "Состояние по умолчанию для новых нераспознанных интерфейсов.",
+
+  "key.invmove.module.nooptions": "В этом модуле нет опций.",
+
+  "key.invmove.unrecognized": "Нераспознанные типы пользовательского интерфейса",
+  "key.invmove.unrecognized.desc": "Нераспознанные графические интерфейсы отображаются здесь после взаимодействия с ними..",
+
+  "keycategory.invmove": "InvMove",
+  "keybind.invmove.toggleMove": "Переключить движение UI",
+
+  "key.invmove.module.vanilla": "Ванила",
+
+  "config.invmove.vanilla.movement.horseInventory": "Инвентарь лошади",
+  "config.invmove.vanilla.backgroundHide.horseInventory": "Инвентарь лошади",
+  "tooltip.gui.advancements": "Это меню представляет собой экран паузы, поэтому эту опцию можно переопределить.",
+  "tooltip.item.minecraft.book": "Это меню представляет собой экран паузы, поэтому эту опцию можно переопределить."
+}
