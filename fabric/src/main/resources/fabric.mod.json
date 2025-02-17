@@ -29,6 +29,7 @@
   ],
   "accessWidener" : "${id}.accesswidener",
   "depends": {
+    "fabric-key-binding-api-v1": "*",
     "fabricloader": "*",
     "minecraft": ">=${minecraft_min}",
     "${cloth_id}": ">=${cloth_min}"
