@@ -15,6 +15,8 @@
   "tooltip.config.invmove.movement.sneak": "How to handle sneaking while inside inventories:\nOff = No sneaking\nMaintain = Keep sneaking if you were when the inventory opened\nPressed = Sneak only while holding the sneak button\n(Pressed can be distracting when shift-clicking)\n(If using toggle sneak, Pressed allows toggling and both other modes maintain)",
   "config.invmove.movement.sneak_disallowed": "Sneak Mode When Disallowed",
   "tooltip.config.invmove.movement.sneak_disallowed": "Determines sneaking behavior inside inventories that have movement disabled.\nOff = Automatically unsneak (Vanilla behavior)\nMaintain = Keep sneaking if you were when you opened the inventory\nPressed = Sneak only while holding the sneak button\n(Pressed can be distracting when shift-clicking)\n(If using toggle sneak, Pressed allows toggling and both other modes maintain)",
+  "config.invmove.movement.sneak_flying": "Sneak Mode When Creative Flying",
+  "tooltip.config.invmove.movement.sneak_flying": "Determines sneaking behavior inside inventories that have movement enabled while creative flying.\nOff = Automatically unsneak (Vanilla behavior)\nMaintain = Keep sneaking if you were when you opened the inventory\nPressed = Sneak only while holding the sneak button\n(Pressed can be distracting when shift-clicking)\n(If using toggle sneak, Pressed allows toggling and both other modes maintain)",
   "config.invmove.movement.jump": "Allow Jumping",
   "tooltip.config.invmove.movement.jump": "Allow jumping while inside inventories.",
   "config.invmove.movement.dismount": "Allow Dismounting",
@@ -38,6 +40,7 @@
 
   "key.invmove.unrecognized": "Unrecognized UI Types",
   "key.invmove.unrecognized.desc": "Unrecognized GUIs show up here once they have been interacted with.",
+  "key.invmove.unrecognized.nomod": "Unknown",
 
   "keycategory.invmove": "InvMove",
   "keybind.invmove.toggleMove": "Toggle UI Movement",

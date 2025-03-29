@@ -281,7 +281,15 @@ public abstract class InvMove {
                 if (Minecraft.getInstance().player != null && Minecraft.getInstance().player.isPassenger()) {
                     Minecraft.getInstance().options.keyShift.setDown(InvMoveConfig.MOVEMENT.DISMOUNT.get() && Minecraft.getInstance().options.keyShift.isDown);
                 } else {
-                    boolean sneakKey = shouldSneak(InvMoveConfig.MOVEMENT.SNEAK.get(), shiftIsDown);
+                    //? if >=1.17 {
+                    boolean isCreativeFlying = Minecraft.getInstance().player != null && Minecraft.getInstance().player.getAbilities().flying;
+                    //?} else {
+                    /*boolean isCreativeFlying = Minecraft.getInstance().player != null && Minecraft.getInstance().player.abilities.flying;
+                    *///?}
+                    InvMoveConfig.Movement.SneakMode mode = isCreativeFlying
+                            ? InvMoveConfig.MOVEMENT.SNEAK_FLYING.get()
+                            : InvMoveConfig.MOVEMENT.SNEAK.get();
+                    boolean sneakKey = shouldSneak(mode, shiftIsDown);
                     Minecraft.getInstance().options.keyShift.setDown(sneakKey);
                 }
             }
@@ -318,7 +326,15 @@ public abstract class InvMove {
                     // since normally we don't tick keys if movement is disabled
                     tickKeybind(Minecraft.getInstance().options.keyShift);
                     boolean shiftIsDown = Minecraft.getInstance().options.keyShift.isDown;
-                    boolean sneakKey = shouldSneak(InvMoveConfig.MOVEMENT.SNEAK_DISALLOWED.get(), shiftIsDown);
+                    //? if >=1.17 {
+                    boolean isCreativeFlying = Minecraft.getInstance().player != null && Minecraft.getInstance().player.getAbilities().flying;
+                    //?} else {
+                    /*boolean isCreativeFlying = Minecraft.getInstance().player != null && Minecraft.getInstance().player.abilities.flying;
+                    *///?}
+                    InvMoveConfig.Movement.SneakMode mode = isCreativeFlying
+                            ? InvMoveConfig.Movement.SneakMode.Off
+                            : InvMoveConfig.MOVEMENT.SNEAK_DISALLOWED.get();
+                    boolean sneakKey = shouldSneak(mode, shiftIsDown);
                     Minecraft.getInstance().options.keyShift.setDown(sneakKey);
 
                     //? if >=1.21.2 {

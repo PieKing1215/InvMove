@@ -58,6 +58,8 @@ public class InvMoveConfig {
 
         public final ConfigEnum<SneakMode> SNEAK_DISALLOWED = cfg.addEnum("sneak_disallowed", SneakMode.Maintain);
 
+        public final ConfigEnum<SneakMode> SNEAK_FLYING = cfg.addEnum("sneak_flying", SneakMode.Pressed);
+
         public final ConfigBool DISMOUNT = cfg.bool("dismount", false);
 
         public final ConfigBool TEXT_FIELD_DISABLES = cfg.bool("textFieldDisables", true);
