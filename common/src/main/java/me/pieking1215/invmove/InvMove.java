@@ -221,21 +221,18 @@ public abstract class InvMove {
     }
 
     private boolean shouldSneak(InvMoveConfig.Movement.SneakMode sneakMode, boolean shiftIsDown) {
-        boolean sneakKey = false;
         switch (sneakMode) {
             case Off:
-                break;
+                return false;
             case MaintainWhilePressed:
                 if (!shiftIsDown) wasSneaking = false;
                 // Fall-through
             case Maintain:
-                sneakKey = wasSneaking;
-                break;
+                return wasSneaking;
             case Pressed:
-                sneakKey = shiftIsDown;
-                break;
+                return shiftIsDown;
         }
-        return sneakKey;
+        return false;
     }
 
     public void onInputUpdate(/*$ Input {*/ClientInput/*$}*/ input
@@ -262,17 +259,18 @@ public abstract class InvMove {
             wasSneaking = input.keyPresses.shift();
             //?} else
             /*wasSneaking = input.shiftKeyDown;*/
-        } else {
-            // tick keybinds (since opening the ui unpresses all keys)
-            tickKeybinds();
         }
-        boolean shiftIsDown = Minecraft.getInstance().options.keyShift.isDown;
 
         boolean canMove = allowMovementInScreen(Minecraft.getInstance().screen);
         canMove = handleToggleMovementKey(Minecraft.getInstance().screen, canMove);
 
         if(canMove){
             wasMovementDisallowed = false;
+
+            // tick keybinds (since opening the ui unpresses all keys)
+            tickKeybinds();
+
+            boolean shiftIsDown = Minecraft.getInstance().options.keyShift.isDown;
 
 //            Minecraft.getInstance().screen.passEvents = true;
 
@@ -316,6 +314,10 @@ public abstract class InvMove {
             // special handling for sneaking
             if (InvMoveConfig.GENERAL.ENABLED.get() && !optionToggleCrouch()) {
                 if (Minecraft.getInstance().player == null || !Minecraft.getInstance().player.isPassenger()) {
+                    // need to tick the sneak key in order to do maintain sneak logic
+                    // since normally we don't tick keys if movement is disabled
+                    tickKeybind(Minecraft.getInstance().options.keyShift);
+                    boolean shiftIsDown = Minecraft.getInstance().options.keyShift.isDown;
                     boolean sneakKey = shouldSneak(InvMoveConfig.MOVEMENT.SNEAK_DISALLOWED.get(), shiftIsDown);
                     Minecraft.getInstance().options.keyShift.setDown(sneakKey);
 
@@ -345,34 +347,38 @@ public abstract class InvMove {
             if (!allowKey(k))
                 continue;
 
-            if (k.key.getType() == InputConstants.Type.KEYSYM && k.key.getValue() != InputConstants.UNKNOWN.getValue()) {
+            tickKeybind(k);
+        }
+    }
 
-                boolean raw = InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), k.key.getValue());
+    private void tickKeybind(KeyMapping k) {
+        if (k.key.getType() == InputConstants.Type.KEYSYM && k.key.getValue() != InputConstants.UNKNOWN.getValue()) {
 
-                // if is a toggle key in toggle mode
-                if (k instanceof ToggleKeyMapping && ((ToggleKeyMapping)k).needsToggle.getAsBoolean()) {
-                    // special handling for toggle keys
+            boolean raw = InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), k.key.getValue());
 
-                    // manually handle toggling
-                    if (wasToggleKeyDown.containsKey(k)) {
-                        if (!wasToggleKeyDown.get(k) && raw) {
-                            // TODO: add a "boolean allowKey(KeyBinding);" method to Module instead of hardcoding only for sneak
-                            if (k == Minecraft.getInstance().options.keyShift) {
-                                if (InvMoveConfig.MOVEMENT.SNEAK.get() == InvMoveConfig.Movement.SneakMode.Pressed) {
-                                    k.setDown(true);
-                                }
-                            } else {
+            // if is a toggle key in toggle mode
+            if (k instanceof ToggleKeyMapping && ((ToggleKeyMapping)k).needsToggle.getAsBoolean()) {
+                // special handling for toggle keys
+
+                // manually handle toggling
+                if (wasToggleKeyDown.containsKey(k)) {
+                    if (!wasToggleKeyDown.get(k) && raw) {
+                        // TODO: add a "boolean allowKey(KeyBinding);" method to Module instead of hardcoding only for sneak
+                        if (k == Minecraft.getInstance().options.keyShift) {
+                            if (InvMoveConfig.MOVEMENT.SNEAK.get() == InvMoveConfig.Movement.SneakMode.Pressed) {
                                 k.setDown(true);
                             }
+                        } else {
+                            k.setDown(true);
                         }
                     }
-
-                    wasToggleKeyDown.put((ToggleKeyMapping) k, raw);
-
-                } else {
-                    // normal setAll behavior
-                    k.setDown(raw);
                 }
+
+                wasToggleKeyDown.put((ToggleKeyMapping) k, raw);
+
+            } else {
+                // normal setAll behavior
+                k.setDown(raw);
             }
         }
     }
