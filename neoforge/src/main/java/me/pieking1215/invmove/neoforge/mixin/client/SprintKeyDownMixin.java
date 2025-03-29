@@ -12,6 +12,8 @@ public class SprintKeyDownMixin {
     @Redirect(
             method = "aiStep",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/KeyMapping;isDown()Z")
+            //? if >=1.21.5
+            , require = 0
     )
     private boolean isDown(KeyMapping self) {
         // (neo)forge does extra checks that make it not work in inventories
