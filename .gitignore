@@ -22,3 +22,6 @@ classes/
 publish_all.sh
 publish_curseforge_version.sh
 publish_modrinth_version.sh
+
+# Essentially macOS's equivalent of desktop.ini
+.DS_Store

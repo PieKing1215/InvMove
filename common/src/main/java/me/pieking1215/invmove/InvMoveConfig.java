@@ -52,9 +52,11 @@ public class InvMoveConfig {
         public final ConfigBool JUMP = cfg.bool("jump", true);
 
         public enum SneakMode {
-            Off, Maintain, Pressed
+            Off, Maintain, Pressed, MaintainWhilePressed
         }
         public final ConfigEnum<SneakMode> SNEAK = cfg.addEnum("sneak", SneakMode.Maintain).setMigrator(element -> GsonHelperFix.isBooleanValue(element) ? Optional.of(element.getAsBoolean() ? SneakMode.Pressed : SneakMode.Maintain) : Optional.empty());
+
+        public final ConfigEnum<SneakMode> SNEAK_DISALLOWED = cfg.addEnum("sneak_disallowed", SneakMode.Maintain);
 
         public final ConfigBool DISMOUNT = cfg.bool("dismount", false);
 
