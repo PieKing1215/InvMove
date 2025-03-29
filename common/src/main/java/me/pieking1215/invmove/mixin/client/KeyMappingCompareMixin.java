@@ -19,6 +19,9 @@ public class KeyMappingCompareMixin {
         // which can result in NPE in Integer.compareTo when we sort the keys stream in InvMoveConfig
         // (see https://github.com/PieKing1215/InvMove/issues/68#issuecomment-2593932606)
         Object order = original.call(instance, key);
-        return order == null ? 0 : order;
+        if (order == null) {
+            instance.put((String)key, instance.values().stream().max(Integer::compareTo).orElse(0) + 1);
+        }
+        return original.call(instance, key);
     }
 }
