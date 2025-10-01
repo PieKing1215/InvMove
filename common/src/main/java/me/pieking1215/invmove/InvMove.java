@@ -55,11 +55,17 @@ public abstract class InvMove {
         instance = newInstance;
     }
 
+    //? if >=1.21.9
+    private static final KeyMapping.Category KEYBINDING_CATEGORY = KeyMapping.Category.register(ResourceLocation.fromNamespaceAndPath(MOD_ID, "keycategory"));
+
     private static final KeyMapping TOGGLE_MOVEMENT_KEY = new KeyMapping(
             "keybind.invmove.toggleMove",
             InputConstants.Type.KEYSYM,
             InputConstants.UNKNOWN.getValue(),
-            "keycategory.invmove"
+            //? if >=1.21.9 {
+            KEYBINDING_CATEGORY
+            //?} else
+            /*"keycategory.invmove"*/
     );
 
     private static final List<Module> addonModules = new ArrayList<>();
@@ -183,7 +189,12 @@ public abstract class InvMove {
         if (TOGGLE_MOVEMENT_KEY.isUnbound()) return couldMove;
 
         // .key here is accessWidened
-        TOGGLE_MOVEMENT_KEY.setDown(InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), TOGGLE_MOVEMENT_KEY.key.getValue()));
+        TOGGLE_MOVEMENT_KEY.setDown(InputConstants.isKeyDown(
+                //? if >=1.21.9 {
+                Minecraft.getInstance().getWindow(),
+                //?} else
+                /*Minecraft.getInstance().getWindow().getWindow(),*/
+                TOGGLE_MOVEMENT_KEY.key.getValue()));
         boolean before = wasToggleMovementPressed;
         wasToggleMovementPressed = TOGGLE_MOVEMENT_KEY.isDown;
 
@@ -370,7 +381,12 @@ public abstract class InvMove {
     private void tickKeybind(KeyMapping k) {
         if (k.key.getType() == InputConstants.Type.KEYSYM && k.key.getValue() != InputConstants.UNKNOWN.getValue()) {
 
-            boolean raw = InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), k.key.getValue());
+            boolean raw = InputConstants.isKeyDown(
+                    //? if >=1.21.9 {
+                    Minecraft.getInstance().getWindow(),
+                    //?} else
+                    /*Minecraft.getInstance().getWindow().getWindow(),*/
+                    k.key.getValue());
 
             // if is a toggle key in toggle mode
             if (k instanceof ToggleKeyMapping && ((ToggleKeyMapping)k).needsToggle.getAsBoolean()) {

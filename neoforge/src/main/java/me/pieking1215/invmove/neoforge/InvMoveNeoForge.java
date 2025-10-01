@@ -14,7 +14,10 @@ public class InvMoveNeoForge {
     }
 
     private void imProcess(InterModProcessEvent evt) {
-        if (FMLEnvironment.dist.isClient()) {
+        //? if >=1.21.9 {
+        if (FMLEnvironment.getDist().isClient()) {
+        //?} else
+        /*if (FMLEnvironment.dist.isClient()) {*/
             InvMoveNeoForgeClient.finishInit();
         }
     }

@@ -12,8 +12,27 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(AbstractButton.class)
 public class ButtonJumpKeyFixMixin {
-
+    //? if >=1.21.9 {
     @Inject(
+            method = "keyPressed",
+            at = @At("HEAD"),
+            cancellable = true
+    )
+    private void keyPressed(net.minecraft.client.input.KeyEvent event, CallbackInfoReturnable<Boolean> cir) {
+        // if button received space key it normally clicks the button
+        // but if the player can jump in this inventory we cancel that
+        // (fix for https://github.com/PieKing1215/InvMove/issues/2)
+        if (event.isSelection() && Minecraft.getInstance().options.keyJump.matches(event) && InvMoveConfig.GENERAL.ENABLED.get() && InvMoveConfig.MOVEMENT.ENABLED.get() && InvMoveConfig.MOVEMENT.JUMP.get()) {
+            // TODO: consider doing this a better way
+            if(!((AbstractButton)(Object)this instanceof MerchantScreen.TradeOfferButton)) {
+                if (InvMove.instance().allowMovementInScreen(Minecraft.getInstance().screen)) {
+                    cir.setReturnValue(false);
+                }
+            }
+        }
+    }
+    //?} else {
+    /*@Inject(
             method = "keyPressed",
             at = @At("HEAD"),
             cancellable = true
@@ -31,5 +50,5 @@ public class ButtonJumpKeyFixMixin {
             }
         }
     }
-
+    *///?}
 }

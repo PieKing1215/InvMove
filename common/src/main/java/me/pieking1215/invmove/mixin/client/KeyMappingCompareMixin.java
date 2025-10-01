@@ -10,7 +10,9 @@ import java.util.Map;
 
 @Mixin(KeyMapping.class)
 public class KeyMappingCompareMixin {
-    @WrapOperation(
+    // not needed in 1.21.9+ since they changed SORT_ORDER to a List and use indexOf, which returns -1 instead of NPE
+    //? if <1.21.9 {
+    /*@WrapOperation(
             method = "compareTo(Lnet/minecraft/client/KeyMapping;)I",
             at = @At(value = "INVOKE", target = "Ljava/util/Map;get(Ljava/lang/Object;)Ljava/lang/Object;")
     )
@@ -24,4 +26,5 @@ public class KeyMappingCompareMixin {
         }
         return original.call(instance, key);
     }
+    *///?}
 }

@@ -41,7 +41,8 @@ public class VanillaModule extends ModuleImpl {
             WinScreen.class,
             ProgressScreen.class,
             LevelLoadingScreen.class,
-            ReceivingLevelScreen.class,
+            //? if <1.21.9
+            /*ReceivingLevelScreen.class,*/
             //? if >=1.20.5 {
             GenericMessageScreen.class,
             //?} else
