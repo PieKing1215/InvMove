@@ -42,7 +42,7 @@
   "key.invmove.unrecognized.desc": "Unrecognized GUIs show up here once they have been interacted with.",
   "key.invmove.unrecognized.nomod": "Unknown",
 
-  "keycategory.invmove": "InvMove",
+  "key.category.invmove.main": "InvMove",
   "keybind.invmove.toggleMove": "Toggle UI Movement",
 
   "key.invmove.modules": "Modules",

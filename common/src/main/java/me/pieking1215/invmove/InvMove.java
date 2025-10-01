@@ -56,7 +56,7 @@ public abstract class InvMove {
     }
 
     //? if >=1.21.9
-    private static final KeyMapping.Category KEYBINDING_CATEGORY = KeyMapping.Category.register(ResourceLocation.fromNamespaceAndPath(MOD_ID, "keycategory"));
+    private static final KeyMapping.Category KEYBINDING_CATEGORY = KeyMapping.Category.register(ResourceLocation.fromNamespaceAndPath(MOD_ID, "main"));
 
     private static final KeyMapping TOGGLE_MOVEMENT_KEY = new KeyMapping(
             "keybind.invmove.toggleMove",
@@ -65,7 +65,7 @@ public abstract class InvMove {
             //? if >=1.21.9 {
             KEYBINDING_CATEGORY
             //?} else
-            /*"keycategory.invmove"*/
+            /*"key.category.invmove.main"*/
     );
 
     private static final List<Module> addonModules = new ArrayList<>();
