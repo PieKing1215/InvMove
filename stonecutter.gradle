@@ -138,7 +138,7 @@ subprojects {
             }
         }
 
-        if (stonecutter.current.isActive && parent.name != "common") {
+        if (stonecutter.current.active && parent.name != "common") {
             rootProject.tasks.register("Run Active ${parent.name.capitalize()}") {
                 group = "project"
                 dependsOn(tasks.named("runClient"))
