@@ -30,10 +30,12 @@ publishMods {
     var dry = providers.environmentVariable("DRY_RUN").getOrElse("true").toBoolean()
     var gh = providers.environmentVariable("RELEASE_GITHUB").getOrElse("false").toBoolean()
     var mr = providers.environmentVariable("RELEASE_MODRINTH").getOrElse("false").toBoolean()
+    var cf = providers.environmentVariable("RELEASE_CURSEFORGE").getOrElse("false").toBoolean()
 
     println("DRY_RUN = $dry")
     println("RELEASE_GITHUB = $gh")
     println("RELEASE_MODRINTH = $mr")
+    println("RELEASE_CURSEFORGE = $cf")
 
     if (gh) {
         if (!providers.environmentVariable("GITHUB_TOKEN").isPresent()) {
@@ -55,6 +57,12 @@ publishMods {
     if (mr) {
         if (!providers.environmentVariable("MODRINTH_API_KEY").isPresent()) {
             throw new GradleException('Missing MODRINTH_API_KEY')
+        }
+    }
+
+    if (cf) {
+        if (!providers.environmentVariable("CURSEFORGE_API_KEY").isPresent()) {
+            throw new GradleException('Missing CURSEFORGE_API_KEY')
         }
     }
 
@@ -210,6 +218,31 @@ subprojects {
 
                         displayName = "$rootProject.version for ${parent.name.replaceAll('f', 'F').replaceAll('n', 'N')} ${get("display_mc_version")}"
                         version = "$rootProject.version+$project.name-$parent.name"
+
+                        minecraftVersionRange {
+                            start = get("minecraft_min")
+                            end = project.name
+                        }
+
+                        requires "cloth-config"
+                        optional "invmovecompats"
+
+                        if (parent.name == "fabric") {
+                            optional "modmenu"
+                        }
+                    }
+                }
+
+                if (providers.environmentVariable("RELEASE_CURSEFORGE").getOrElse("false").toBoolean()) {
+                    curseforge {
+                        accessToken = providers.environmentVariable("CURSEFORGE_API_KEY").get()
+                        projectId = curseforge_project
+
+                        displayName = "$rootProject.version for ${parent.name.replaceAll('f', 'F').replaceAll('n', 'N')} ${get("display_mc_version")}"
+                        version = "$rootProject.version+$project.name-$parent.name"
+
+                        clientRequired = true
+                        serverRequired = false
 
                         minecraftVersionRange {
                             start = get("minecraft_min")

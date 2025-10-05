@@ -38,6 +38,11 @@ on:
         description: 'Modrinth Release'
         required: true
         default: false
+      release_curseforge:
+        type: boolean
+        description: 'CurseForge Release'
+        required: true
+        default: false
 
 jobs:
   build:
@@ -87,8 +92,10 @@ jobs:
           RELEASE_TYPE: ${{ inputs.type }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           MODRINTH_API_KEY: ${{ secrets.MODRINTH_API_KEY }}
+          CURSEFORGE_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
           RELEASE_GITHUB: ${{ inputs.release_github }}
           RELEASE_MODRINTH: ${{ inputs.release_modrinth }}
+          RELEASE_CURSEFORGE: ${{ inputs.release_curseforge }}
           DRY_RUN: ${{ inputs.dry_run }}
         run: ./gradlew chiseledPublishMods --no-daemon
 
