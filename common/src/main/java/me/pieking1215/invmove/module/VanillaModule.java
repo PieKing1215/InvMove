@@ -100,7 +100,7 @@ public class VanillaModule extends ModuleImpl {
                 /*if (screen instanceof RecipeUpdateListener) {*/
                 try {
                     //? if >=1.21.2 {
-                    RecipeBookComponent<?> cmp = ((AbstractRecipeBookScreenAccessor) screen).getRecipeBookComponent();
+                    RecipeBookComponent<?> cmp = ((AbstractRecipeBookScreenAccessor) screen).invmove$getRecipeBookComponent();
                     //?} else
                     /*RecipeBookComponent cmp = ((RecipeUpdateListener) screen).getRecipeBookComponent();*/
                     if (cmp.isVisible())
@@ -136,7 +136,7 @@ public class VanillaModule extends ModuleImpl {
             /*if (screen instanceof RecipeUpdateListener) {*/
                 try {
                     //? if >=1.21.2 {
-                    RecipeBookComponent<?> cmp = ((AbstractRecipeBookScreenAccessor) screen).getRecipeBookComponent();
+                    RecipeBookComponent<?> cmp = ((AbstractRecipeBookScreenAccessor) screen).invmove$getRecipeBookComponent();
                     //?} else
                     /*RecipeBookComponent cmp = ((RecipeUpdateListener) screen).getRecipeBookComponent();*/
                     EditBox searchBar = ((RecipeBookComponentAccessor)cmp).getSearchBox();
