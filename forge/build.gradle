@@ -91,7 +91,8 @@ shadowJar {
 }
 
 remapJar {
-    input.set shadowJar.archiveFile
-
     injectAccessWidener = true
+    input.set shadowJar.archiveFile
+    archiveClassifier = null
+    dependsOn(tasks.shadowJar)
 }

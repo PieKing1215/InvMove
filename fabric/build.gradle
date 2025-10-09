@@ -72,6 +72,8 @@ shadowJar {
 
 remapJar {
     input.set shadowJar.archiveFile
+    archiveClassifier = null
+    dependsOn(tasks.shadowJar)
 }
 
 publishing {
