@@ -82,12 +82,16 @@ subprojects {
 
         archivesBaseName = "$rootProject.display_name-$project.name"
 
+        ext.hasProp = prop -> {
+            return rootProject.project(stonecutter.current.project).hasProperty(prop)
+        }
+
         ext.get = prop -> {
             return rootProject.project(stonecutter.current.project).property(prop)
         }
 
-        ext.getOr = (prop, defaultVal) -> {
-            return rootProject.project(stonecutter.current.project).hasProperty(prop) ? rootProject.project(stonecutter.current.project).property(prop) : defaultVal;
+        ext.getOr = (prop, defaultValue) -> {
+            return rootProject.project(stonecutter.current.project).findProperty(prop) ?: defaultValue
         }
 
         var modid = rootProject.id
@@ -110,7 +114,7 @@ subprojects {
         }
 
         dependencies {
-            minecraft "net.minecraft:minecraft:${getOr("minecraft_run", stonecutter.current.project)}"
+            minecraft "net.minecraft:minecraft:${getOr("minecraft_version", stonecutter.current.project)}"
             mappings loom.officialMojangMappings()
         }
 
