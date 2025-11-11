@@ -32,6 +32,8 @@ import net.minecraft.network.chat.MutableComponent;
 /*import net.minecraft.network.chat.TranslatableComponent;*/
 
 import net.minecraft.resources.ResourceLocation;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -40,6 +42,7 @@ import java.util.function.Supplier;
 
 public abstract class InvMove {
     public static final String MOD_ID = "invmove";
+    public static final Logger LOGGER = LogManager.getLogger();
 
     private static InvMove instance;
 
@@ -76,7 +79,7 @@ public abstract class InvMove {
      */
     @SuppressWarnings("unused")
     public static void registerModule(Module module) {
-        System.out.println("[InvMove] Registered Module: " + module);
+        LOGGER.info("Registered Module: {}", module);
         (instance != null ? instance.modules : addonModules).add(module);
     }
 
