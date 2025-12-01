@@ -78,6 +78,11 @@ subprojects {
 
         stonecutter {
             swap("Input", eval(stonecutter.current.version, ">=1.21.2") ? "ClientInput" : "Input")
+            replacement(
+                direction: eval(stonecutter.current.version, ">=1.17"),
+                source: "IForgeKeybinding",
+                target: "IForgeKeyMapping"
+            )
         }
 
         archivesBaseName = "$rootProject.display_name-$project.name"

@@ -1,7 +1,5 @@
 package me.pieking1215.invmove.forge.mixin.client;
 
-//? if >=1.17 {
-
 import me.pieking1215.invmove.InvMove;
 import net.minecraft.client.KeyMapping;
 import net.minecraftforge.client.extensions.IForgeKeyMapping;
@@ -23,15 +21,3 @@ public abstract class KeyMappingIsDownMixin implements IForgeKeyMapping {
         }
     }
 }
-
-//?} else {
-
-/*import net.minecraft.client.KeyMapping;
-import org.spongepowered.asm.mixin.Mixin;
-
-@Mixin(KeyMapping.class)
-public class KeyMappingIsDownMixin {
-    // don't need to do anything in 1.16
-}
-
-*///?}
