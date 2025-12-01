@@ -66,7 +66,12 @@ public class VanillaModule extends ModuleImpl {
         recipeBookAllowMovement = m_config.bool("Recipe Book", "recipeBook", true).textFn(InvMoveConfig.MOVEMENT_YES_NO_TEXT);
         register(InventoryScreen.class)                     .cfg("inventory").display("container.inventory").submit();
         register(HorseInventoryScreen.class)                .cfg("horseInventory").submit();
-        register(CreativeModeInventoryScreen.class)         .cfg("creative").display("key.categories.creative").submit();
+        //? if >= 1.21.10 {
+        // key was renamed in 1.21.10 but need to support both since our 1.21.10 config has minecraft_min 1.21.9
+        register(CreativeModeInventoryScreen.class)         .cfg("creative").display(net.minecraft.locale.Language.getInstance().has("key.categories.creative") ? "key.categories.creative" : "key.category.minecraft.creative").submit();
+        //?} else {
+        /*register(CreativeModeInventoryScreen.class)         .cfg("creative").display("key.categories.creative").submit();
+        *///?}
         register(CraftingScreen.class)                      .cfg("crafting").display("block.minecraft.crafting_table").submit();
         register(ContainerScreen.class)                     .cfg("chest").display("container.chest").submit();
         register(ShulkerBoxScreen.class)                    .cfg("shulker").display("container.shulkerBox").submit();
