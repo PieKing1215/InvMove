@@ -8,7 +8,8 @@
     "client.ButtonJumpKeyFixMixin",
     "client.MovementMixin",
     "client.RecipeBookComponentAccessor",
-    "client.KeyMappingCompareMixin"
+    "client.KeyMappingCompareMixin",
+    "client.ToggleKeyMappingMixin"
   ],
   "plugin": "me.pieking1215.invmove.mixin.InvMoveMixinPlugin",
   "mixins": [],
