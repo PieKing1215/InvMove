@@ -1,0 +1,46 @@
+{
+  "config.invmove.title": "InvMove 구성",
+  "key.invmove.category.general": "일반",
+  "key.invmove.category.movement": "UI 이동",
+  "key.invmove.category.background": "UI 배경",
+
+  "config.invmove.general.enable": "모드 활성화",
+  "tooltip.config.invmove.general.enable": "전체 모드를 활성화합니다",
+  "config.invmove.general.debugDisplay": "디버그 디스플레이",
+  "tooltip.config.invmove.general.debugDisplay": "디버그 디스플레이를 활성화합니다.",
+
+  "config.invmove.movement.enable": "인벤토리 내 이동",
+  "tooltip.config.invmove.movement.enable": "인벤토리 내에서 이동을 활성화합니다.\n아래에서 특정 인벤토리를 수동으로 끌 수 있습니다.\n이동을 전환할 수 있는 키 바인딩을 설정할 수 있습니다.",
+  "config.invmove.movement.sneak": "웅크리기 모드",
+  "tooltip.config.invmove.movement.sneak": "인벤토리 내에서 웅크리기를 처리하는 방법:\n꺼짐 = 웅크리기 없음\n유지 = 인벤토리가 열릴 때 웅크리기 중이었으면 유지\n눌림 = 웅크리기 버튼을 누르고 있는 동안에만 웅크리기\n(Shift 클릭 시 눌림은 방해가 될 수 있습니다)\n(토글 웅크리기를 사용하는 경우, 눌림은 토글을 허용하고 다른 두 모드는 유지합니다)",
+  "config.invmove.movement.jump": "점프 허용",
+  "tooltip.config.invmove.movement.jump": "인벤토리 내에서 점프를 허용합니다.",
+  "config.invmove.movement.dismount": "탈출 허용",
+  "tooltip.config.invmove.movement.dismount": "인벤토리 내에서 탈출을 허용합니다.",
+  "config.invmove.movement.textFieldDisables": "텍스트 필드의 이동 비활성화",
+  "tooltip.config.invmove.movement.textFieldDisables": "텍스트 필드가 포커스될 때 인벤토리 내에서 이동을 비활성화합니다.",
+  "config.invmove.movement.unrecognizedScreenDefault": "인식되지 않은 화면 기본값",
+  "tooltip.config.invmove.movement.unrecognizedScreenDefault": "새로운 인식되지 않은 UI의 기본 상태입니다.",
+
+  "config.invmove.background.enable": "인벤토리 배경 숨기기",
+  "tooltip.config.invmove.background.enable": "인벤토리 내에서 배경 틴트를 숨깁니다.\n아래에서 특정 인벤토리를 수동으로 끌 수 있습니다.",
+  "config.invmove.background.hideOnPause": "일시 중지 화면 배경",
+  "tooltip.config.invmove.background.hideOnPause": "게임을 일시 중지하는 화면을 처리하는 방법:\n표시 = 항상 배경 표시\n표시SP = 싱글 플레이어에서는 배경 표시, 그렇지 않으면 숨기기 허용\n숨기기 허용 = 배경을 숨기기 허용",
+  "config.invmove.background.unrecognizedScreenDefault": "인식되지 않은 화면 기본값",
+  "tooltip.config.invmove.background.unrecognizedScreenDefault": "새로운 인식되지 않은 UI의 기본 상태입니다.",
+
+  "key.invmove.module.nooptions": "이 모듈에는 옵션이 없습니다.",
+
+  "key.invmove.unrecognized": "인식되지 않은 UI 유형",
+  "key.invmove.unrecognized.desc": "인식되지 않은 GUI는 상호작용한 후 여기에 나타납니다.",
+
+  "keycategory.invmove": "InvMove",
+  "keybind.invmove.toggleMove": "UI 이동 전환",
+
+  "key.invmove.module.vanilla": "기본",
+
+  "config.invmove.vanilla.movement.horseInventory": "말 인벤토리",
+  "config.invmove.vanilla.backgroundHide.horseInventory": "말 인벤토리",
+  "tooltip.gui.advancements": "이 메뉴는 일시 중지 화면이므로 이 옵션이 재정의될 수 있습니다.",
+  "tooltip.item.minecraft.book": "이 메뉴는 일시 중지 화면이므로 이 옵션이 재정의될 수 있습니다."
+}
