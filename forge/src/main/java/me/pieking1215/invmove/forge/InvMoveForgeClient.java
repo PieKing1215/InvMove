@@ -59,7 +59,7 @@ public class InvMoveForgeClient {
             *///?} else
             /*GuiScreenEvent.DrawScreenEvent.Post*/
             event){
-        InvMove.instance().drawDebugOverlay();
+        InvMove.instance().drawDebugOverlay(/*? if >= 1.20 {*/event.getGuiGraphics()/*?}*/);
     }
 
     static void clientSetup(final FMLClientSetupEvent event) {

@@ -35,7 +35,7 @@ public class InvMoveNeoForgeClient {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onGUIDrawPost(ScreenEvent.Render.Post event){
-        InvMove.instance().drawDebugOverlay();
+        InvMove.instance().drawDebugOverlay(/*? if >= 1.20 {*/event.getGuiGraphics()/*?}*/);
     }
 
     static void clientSetup(final FMLClientSetupEvent event) {

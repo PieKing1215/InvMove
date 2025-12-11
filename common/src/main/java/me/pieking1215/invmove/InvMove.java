@@ -15,6 +15,8 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.ToggleKeyMapping;
 import net.minecraft.client.gui.Font;
+//? if >=1.20
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 
 import net.minecraft.client.player./*$ Input {*/ClientInput/*$}*/;
@@ -129,19 +131,6 @@ public abstract class InvMove {
         Minecraft.getInstance().options.toggleCrouch().set(toggleCrouch);
         //?} else
         /*Minecraft.getInstance().options.toggleCrouch = toggleCrouch;*/
-    }
-
-    protected void drawShadow(Font font, PoseStack poseStack, String string, float x, float y, int col){
-        //? if >=1.19 {
-        //? if >=1.21 {
-        var builder = new ByteBufferBuilder(786432);
-        //?} else
-        /*var builder = Tesselator.getInstance().getBuilder();*/
-        MultiBufferSource.BufferSource buffer = MultiBufferSource.immediate(builder);
-        font.drawInBatch(string, x, y, col, true, poseStack.last().pose(), buffer, Font.DisplayMode.NORMAL, 0, 15728880);
-        buffer.endBatch();
-        //?} else
-        /*font.draw(poseStack, string, x, y, col);*/
     }
 
     public ResourceLocation parseResource(String path){
@@ -613,7 +602,7 @@ public abstract class InvMove {
      * Draws the class name of the current `Screen` and its superclasses, along with their
      *   modid and their movement and background state.
      */
-    public void drawDebugOverlay() {
+    public void drawDebugOverlay(/*? if >= 1.20 {*/GuiGraphics guiGraphics/*?}*/) {
         if(InvMoveConfig.GENERAL.DEBUG_DISPLAY.get()) {
             Screen screen = Minecraft.getInstance().screen;
             if(screen == null) return;
@@ -636,7 +625,16 @@ public abstract class InvMove {
                 if (allowMovementInScreen(screen)) {
                     className = "M" + className;
                 }
-                drawShadow(Minecraft.getInstance().font, new PoseStack(), className, 4, 4 + 10 * i, 0xffffffff);
+
+                //? if >=1.20 {
+                guiGraphics.drawString(Minecraft.getInstance().font, className, 4, 4 + 10 * i, 0xffffffff);
+                //?} else if >=1.19 {
+                /*var builder = Tesselator.getInstance().getBuilder();
+                MultiBufferSource.BufferSource buffer = MultiBufferSource.immediate(builder);
+                Minecraft.getInstance().font.drawInBatch(className, 4, 4 + 10 * i, 0xffffffff, true, new PoseStack().last().pose(), buffer, Font.DisplayMode.NORMAL, 0, 15728880);
+                buffer.endBatch();
+                *///?} else
+                /*Minecraft.getInstance().font.draw(new PoseStack(), className, 4, 4 + 10 * i, 0xffffffff);*/
 
                 i++;
                 cl = cl.getSuperclass();
