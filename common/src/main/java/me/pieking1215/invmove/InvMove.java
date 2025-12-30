@@ -390,10 +390,10 @@ public abstract class InvMove {
                         // TODO: add a "boolean allowKey(KeyBinding);" method to Module instead of hardcoding only for sneak
                         if (k == Minecraft.getInstance().options.keyShift) {
                             if (InvMoveConfig.MOVEMENT.SNEAK.get() == InvMoveConfig.Movement.SneakMode.Pressed) {
-                                k.setDown(true);
+                                withRawKeyDown(() -> k.setDown(true));
                             }
                         } else {
-                            k.setDown(true);
+                            withRawKeyDown(() -> k.setDown(true));
                         }
                     }
                 }
@@ -527,6 +527,13 @@ public abstract class InvMove {
         T v = r.get();
         forceRawKeyDown = was;
         return v;
+    }
+
+    public void withRawKeyDown(Runnable r) {
+        boolean was = forceRawKeyDown;
+        forceRawKeyDown = true;
+        r.run();
+        forceRawKeyDown = was;
     }
 
     /**
