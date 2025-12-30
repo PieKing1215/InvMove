@@ -2,7 +2,7 @@ import me.modmuss50.mpp.ReleaseType
 
 plugins {
     id "dev.kikugie.stonecutter"
-    id 'dev.architectury.loom' version '1.11-SNAPSHOT' apply false
+    id 'dev.architectury.loom' version '1.13-SNAPSHOT' apply false
     id 'architectury-plugin' version '3.4-SNAPSHOT' apply false
     id 'com.github.johnrengelman.shadow' version '8.1.1' apply false
     id 'me.modmuss50.mod-publish-plugin' version '0.7.4'
@@ -11,7 +11,7 @@ plugins {
 // I was getting weird caching issues and I think this disables caching
 stonecutter.debug = true
 
-stonecutter.active "1.21.10" /* [SC] DO NOT EDIT */
+stonecutter.active "1.21.11" /* [SC] DO NOT EDIT */
 
 stonecutter.registerChiseled tasks.register("chiseledBuild", stonecutter.chiseled) { 
     setGroup "project"
@@ -82,6 +82,11 @@ subprojects {
                 direction: eval(stonecutter.current.version, ">=1.17"),
                 source: "IForgeKeybinding",
                 target: "IForgeKeyMapping"
+            )
+            replacement(
+                    direction: eval(stonecutter.current.version, ">=1.21.11"),
+                    source: "ResourceLocation",
+                    target: "Identifier"
             )
         }
 

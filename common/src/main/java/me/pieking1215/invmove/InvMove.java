@@ -33,7 +33,7 @@ import net.minecraft.network.chat.MutableComponent;
 //? if <1.19
 /*import net.minecraft.network.chat.TranslatableComponent;*/
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -61,7 +61,7 @@ public abstract class InvMove {
     }
 
     //? if >=1.21.9
-    private static final KeyMapping.Category KEYBINDING_CATEGORY = KeyMapping.Category.register(ResourceLocation.fromNamespaceAndPath(MOD_ID, "main"));
+    private static final KeyMapping.Category KEYBINDING_CATEGORY = KeyMapping.Category.register(Identifier.fromNamespaceAndPath(MOD_ID, "main"));
 
     private static final KeyMapping TOGGLE_MOVEMENT_KEY = new KeyMapping(
             "keybind.invmove.toggleMove",
@@ -133,11 +133,11 @@ public abstract class InvMove {
         /*Minecraft.getInstance().options.toggleCrouch = toggleCrouch;*/
     }
 
-    public ResourceLocation parseResource(String path){
+    public Identifier parseResource(String path){
         //? if >=1.21 {
-        return ResourceLocation.parse(path);
+        return Identifier.parse(path);
         //?} else
-        /*return new ResourceLocation(path);*/
+        /*return new Identifier(path);*/
     }
 
     // implementation
