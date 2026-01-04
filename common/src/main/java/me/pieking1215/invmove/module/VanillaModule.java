@@ -71,7 +71,7 @@ public class VanillaModule extends ModuleImpl {
                 "key.category.minecraft.creative"
                 //?} else if >= 1.21.9 {
                 /*// key was renamed in 1.21.10 but need to support both since our 1.21.10 config has minecraft_min 1.21.9
-                net.minecraft.locale.Language.getInstance().has("key.categories.creative") ? "key.categories.creative" : "key.category.minecraft.creative"
+                net.minecraft.locale.Language.getInstance().has("key.category.minecraft.creative") ? "key.category.minecraft.creative" : "key.categories.creative"
                 *///?} else {
                 /*"key.categories.creative"
                 *///?}
