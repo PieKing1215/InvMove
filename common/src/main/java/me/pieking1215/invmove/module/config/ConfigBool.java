@@ -27,7 +27,8 @@ public class ConfigBool extends ConfigEntry<Boolean> {
 
     @Override
     public void addTo(ConfigCategory category, ConfigEntryBuilder eb, String id) {
-        BooleanToggleBuilder b = eb.startBooleanToggle(InvMove.instance().translatableComponent(id), get()).setDefaultValue(getDefault()).setSaveConsumer(this::set);
+        // explicit cast to boolean required for cloth config 5.x (1.17)
+        BooleanToggleBuilder b = eb.startBooleanToggle(InvMove.instance().translatableComponent(id), get()).setDefaultValue((boolean)getDefault()).setSaveConsumer(this::set);
         if (Language.getInstance().has("tooltip." + id)) {
             b.setTooltip(InvMove.instance().translatableComponent("tooltip." + id));
         }
@@ -39,7 +40,8 @@ public class ConfigBool extends ConfigEntry<Boolean> {
 
     @Override
     public void addTo(SubCategoryBuilder category, ConfigEntryBuilder eb, String id) {
-        BooleanToggleBuilder b = eb.startBooleanToggle(InvMove.instance().translatableComponent(id), get()).setDefaultValue(getDefault()).setSaveConsumer(this::set);
+        // explicit cast to boolean required for cloth config 5.x (1.17)
+        BooleanToggleBuilder b = eb.startBooleanToggle(InvMove.instance().translatableComponent(id), get()).setDefaultValue((boolean)getDefault()).setSaveConsumer(this::set);
         if (Language.getInstance().has("tooltip." + id)) {
             b.setTooltip(InvMove.instance().translatableComponent("tooltip." + id));
         }
