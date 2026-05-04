@@ -8,20 +8,7 @@ plugins {
     id 'me.modmuss50.mod-publish-plugin' version '0.7.4'
 }
 
-// I was getting weird caching issues and I think this disables caching
-stonecutter.debug = true
-
 stonecutter.active "1.21.11" /* [SC] DO NOT EDIT */
-
-stonecutter.registerChiseled tasks.register("chiseledBuild", stonecutter.chiseled) { 
-    setGroup "project"
-    ofTask "buildAndCollect"
-}
-
-stonecutter.registerChiseled tasks.register("chiseledPublishMods", stonecutter.chiseled) {
-    setGroup "project"
-    ofTask "publishAndCollect"
-}
 
 publishMods {
     changelog = providers.environmentVariable("RELEASE_CHANGELOG").orElse("TEST")
@@ -77,17 +64,15 @@ subprojects {
         apply plugin: 'me.modmuss50.mod-publish-plugin'
 
         stonecutter {
-            swap("Input", eval(stonecutter.current.version, ">=1.21.2") ? "ClientInput" : "Input")
-            replacement(
-                direction: eval(stonecutter.current.version, ">=1.17"),
-                source: "IForgeKeybinding",
-                target: "IForgeKeyMapping"
-            )
-            replacement(
-                    direction: eval(stonecutter.current.version, ">=1.21.11"),
-                    source: "ResourceLocation",
-                    target: "Identifier"
-            )
+            swaps["Input"] = eval(current.version, '>=1.21.2')
+                    ? 'ClientInput'
+                    : 'Input'
+            replacements.string(current.parsed >= "1.17") {
+                replace("IForgeKeybinding", "IForgeKeyMapping")
+            }
+            replacements.string(current.parsed >= "1.21.11") {
+                replace("ResourceLocation", "Identifier")
+            }
         }
 
         base {

@@ -61,8 +61,8 @@ jobs:
 
       - run: chmod +x ./gradlew
 
-      - name: chiseledBuild
-        run: ./gradlew chiseledBuild --no-daemon
+      - name: buildAndCollect
+        run: ./gradlew buildAndCollect --no-daemon
 
 #      - name: Find jars
 #        id: find_jars
@@ -83,7 +83,7 @@ jobs:
 #          files: ${{ steps.find_jars.outputs.jar_files }}
 #          prerelease: ${{ inputs.type == 'ALPHA' }}
 
-      - name: chiseledPublishMods
+      - name: publishAndCollect
         env:
           RELEASE_CHANGELOG: ${{ inputs.changelog }}
           RELEASE_TYPE: ${{ inputs.type }}
@@ -94,7 +94,7 @@ jobs:
           RELEASE_MODRINTH: ${{ inputs.release_modrinth }}
           RELEASE_CURSEFORGE: ${{ inputs.release_curseforge }}
           DRY_RUN: ${{ inputs.dry_run }}
-        run: ./gradlew chiseledPublishMods --no-daemon
+        run: ./gradlew publishAndCollect --no-daemon
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2

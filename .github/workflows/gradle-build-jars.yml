@@ -30,8 +30,8 @@ jobs:
 
       - run: chmod +x ./gradlew
 
-      - name: chiseledBuild
-        run: ./gradlew chiseledBuild --no-daemon
+      - name: buildAndCollect
+        run: ./gradlew buildAndCollect --no-daemon
 
       - name: Prep files
         run: |
