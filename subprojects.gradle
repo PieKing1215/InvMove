@@ -1,0 +1,27 @@
+loom {
+//    silentMojangMappingsLicense()
+
+//            if (unobf)
+//                accessWidenerPath = project(":common").file("src/main/resources/${id}.unobf.accesswidener")
+//            else
+//            accessWidenerPath = project(":common").file("src/main/resources/${id}.accesswidener")
+
+    def awFile = project(":common").file("src/main/resources/${id}.accesswidener")
+    accessWidenerPath = sc.process awFile, 'build/processed.aw'
+
+    runs {
+        remove server
+    }
+
+    runConfigs.all {
+        ideConfigGenerated = false
+        runDir "../../../run"
+    }
+}
+
+dependencies {
+    minecraft "net.minecraft:minecraft:${getOr("minecraft_version", stonecutter.current.project)}"
+    if (!unobf)
+        mappings loom.officialMojangMappings()
+}
+

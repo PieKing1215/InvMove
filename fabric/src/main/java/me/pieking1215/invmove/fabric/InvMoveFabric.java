@@ -2,7 +2,7 @@ package me.pieking1215.invmove.fabric;
 
 import me.pieking1215.invmove.InvMove;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.client.KeyMapping;
@@ -46,7 +46,7 @@ public class InvMoveFabric implements ClientModInitializer {
 
             @Override
             protected void registerKeybind(KeyMapping key) {
-                KeyBindingHelper.registerKeyBinding(key);
+                KeyMappingHelper.registerKeyMapping(key);
             }
         });
 

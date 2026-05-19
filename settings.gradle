@@ -10,6 +10,8 @@ pluginManagement {
 
 plugins {
     id "dev.kikugie.stonecutter" version "0.9.3"
+//    id 'dev.architectury.loom-remap' version '1.14-SNAPSHOT' apply false
+//    id "net.fabricmc.fabric-loom" version "1.17.0-alpha.8" apply false
 }
 
 def platformVersionMap = [:]
@@ -20,11 +22,15 @@ static def getEnabledPlatforms(file) {
         props.load(stream)
     }
     def platforms = props['enabled_platforms']?.split(',')?.collect { it.trim() }
+    platforms.add("common")
     return platforms ?: []
 }
 
 fileTree(dir: file('versions'), include: '**/gradle.properties').each { propFile ->
     def version = propFile.parentFile.name
+    // temp
+    if (version != "26.1")
+        return
     def platforms = getEnabledPlatforms(propFile)
 
     platforms.each { platform ->
@@ -38,13 +44,13 @@ fileTree(dir: file('versions'), include: '**/gradle.properties').each { propFile
 
 stonecutter {
     create(rootProject) {
-        versions "1.16.5", "1.17.1", "1.18.2", "1.19.4", "1.20.1", "1.20.4", "1.20.6", "1.21.1", "1.21.3", "1.21.8", "1.21.10", "1.21.11"
-        vcsVersion = "1.21.11"
-        branch "common"
+        versions "26.1" // temp
+        vcsVersion = "26.1"
 
         platformVersionMap.each { platform, versions ->
             branch(platform, b -> {
-                b.versions(versions as String[])
+//                b.versions((versions as String[]).findAll { it.startsWith('1') }.toArray() as String[]).buildscript("build.obf.gradle")
+                b.versions((versions as String[]).findAll { !it.startsWith('1') }.toArray() as String[]).buildscript("build.unobf.gradle")
             })
         }
     }

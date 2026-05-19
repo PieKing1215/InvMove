@@ -1,0 +1,7 @@
+plugins {
+    id 'dev.architectury.loom-remap' version '1.14-SNAPSHOT'
+    id 'architectury-plugin' version '3.5-SNAPSHOT'
+    id 'com.gradleup.shadow' version '9.4.1'
+}
+
+apply from: rootProject.file("fabric/build.gradle")

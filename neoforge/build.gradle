@@ -1,6 +1,4 @@
-plugins {
-    id 'com.gradleup.shadow'
-}
+apply from: rootProject.file("subprojects.gradle")
 
 architectury {
     platformSetupLoomIde()
@@ -39,10 +37,15 @@ dependencies {
         implementation(include("io.github.llamalad7:mixinextras-neoforge:${mixin_extras_version}"))
     }
 
-    modApi "me.shedaniel.cloth:cloth-config-neoforge:${get("cloth_version")}"
+    api "me.shedaniel.cloth:cloth-config-neoforge:${get("cloth_version")}"
 
-    common(project(path: ":common:$stonecutter.current.project", configuration: 'namedElements')) { transitive false }
-    shadowBundle project(path: ":common:$stonecutter.current.project", configuration: 'transformProductionNeoForge')
+    if (unobf) {
+        common(project(path: ":common:$stonecutter.current.project")) { transitive false }
+        shadowBundle project(path: ":common:$stonecutter.current.project", configuration: 'transformProductionNeoForge')
+    } else {
+        common(project(path: ":common:$stonecutter.current.project", configuration: 'namedElements')) { transitive false }
+        shadowBundle project(path: ":common:$stonecutter.current.project", configuration: 'transformProductionNeoForge')
+    }
 }
 
 processResources {
@@ -68,15 +71,33 @@ processResources {
     filesMatching("META-INF/neoforge.mods.toml") { expand props }
 }
 
-shadowJar {
-    configurations = [project.configurations.shadowBundle]
-    archiveClassifier = 'dev-shadow'
-}
+if (unobf) {
+    jar {
+        archiveClassifier = "raw"
+    }
 
-remapJar {
-    injectAccessWidener = true
-    atAccessWideners.add("${id}.accesswidener")
-    input.set shadowJar.archiveFile
-    archiveClassifier = null
-    dependsOn(tasks.shadowJar)
+    shadowJar {
+        dependsOn(jar)
+        mainSpec.sourcePaths.clear()       // Remove default source set inclusion
+        from(zipTree(jar.archiveFile))     // Unpack jar output (preserves Loom modifications)
+
+        configurations = [project.configurations.shadowBundle]
+        archiveClassifier = null           // shadowJar becomes the main artifact
+        from rootProject.file("LICENSE.md")
+    }
+} else {
+    shadowJar {
+        configurations = [project.configurations.shadowBundle]
+        archiveClassifier = 'dev-shadow'
+    }
+
+    remapJar {
+        injectAccessWidener = true
+
+        def awFile = project(":common").file("src/main/resources/${id}.accesswidener")
+        atAccessWideners.add(sc.process awFile, 'build/processed.aw')
+        input.set shadowJar.archiveFile
+        archiveClassifier = null
+        dependsOn(tasks.shadowJar)
+    }
 }

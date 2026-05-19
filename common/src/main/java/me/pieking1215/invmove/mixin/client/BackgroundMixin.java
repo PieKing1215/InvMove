@@ -10,8 +10,24 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Screen.class)
 public class BackgroundMixin {
-    //? >=1.19 {
+    //? >=26 {
     @Inject(
+            method = {
+                    "extractTransparentBackground"
+            },
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;fillGradient(IIIIII)V"),
+            cancellable = true,
+            require = 0
+    )
+    @Group(min = 1)
+    private void onRenderTransparentBackground(CallbackInfo ci) {
+        //noinspection ConstantConditions
+        if (InvMove.instance().shouldDisableScreenBackground((Screen) (Object) this)) {
+            ci.cancel();
+        }
+    }
+    //? } else if >=1.19 {
+    /*@Inject(
             method = {
                     "renderTransparentBackground"
             },
@@ -26,11 +42,14 @@ public class BackgroundMixin {
             ci.cancel();
         }
     }
-    //?}
+    *///?}
 
     @Inject(
         method = {
-            "renderBackground*"
+            //? if >=26 {
+            "extractBackground*"
+            //? } else
+            //"renderBackground*"
         },
         at = @At(value = "HEAD"),
         cancellable = true,

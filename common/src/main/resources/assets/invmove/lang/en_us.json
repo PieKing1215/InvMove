@@ -7,7 +7,7 @@
   "config.invmove.general.enable": "Enable Mod",
   "tooltip.config.invmove.general.enable": "Enable the entire mod",
   "config.invmove.general.debugDisplay": "Debug Display",
-  "tooltip.config.invmove.general.debugDisplay": "Enable debug display.",
+  "tooltip.config.invmove.general.debugDisplay": "Enable debug display.\n(not supported on 26.x yet)",
 
   "config.invmove.movement.enable": "Move In Inventories",
   "tooltip.config.invmove.movement.enable": "Enable movement while inside inventories.\nYou can manually turn off certain inventories below.\nThere is a keybind you can set to toggle this.",

@@ -1,14 +1,21 @@
 import me.modmuss50.mpp.ReleaseType
 
+// fix for `AssertionError (GSON 2.8.6): java.lang.IllegalAccessException: Can not set final java.util.Map field net.fabricmc.loom.configuration.providers.minecraft.VersionsManifest.latest to com.google.gson.internal.LinkedTreeMap`
+buildscript {
+    dependencies {
+        classpath 'com.google.code.gson:gson:2.10.1'
+    }
+}
+
 plugins {
     id "dev.kikugie.stonecutter"
-    id 'dev.architectury.loom' version '1.13-SNAPSHOT' apply false
-    id 'architectury-plugin' version '3.4-SNAPSHOT' apply false
-    id 'com.gradleup.shadow' version '9.4.1' apply false
+//    id 'dev.architectury.loom-remap' version '1.14-SNAPSHOT' apply false
+    id 'dev.architectury.loom-no-remap' version '1.14-SNAPSHOT' apply false
+    id 'architectury-plugin' version '3.5-SNAPSHOT' apply false
     id 'me.modmuss50.mod-publish-plugin' version '0.7.4'
 }
 
-stonecutter.active "1.21.11" /* [SC] DO NOT EDIT */
+stonecutter.active "26.1" /* [SC] DO NOT EDIT */
 
 publishMods {
     changelog = providers.environmentVariable("RELEASE_CHANGELOG").orElse("TEST")
@@ -58,20 +65,31 @@ publishMods {
 
 subprojects {
     if (parent != rootProject) {
+        ext.unobf = stonecutter.eval(stonecutter.current.version, '>=26')
+
         apply plugin: "java"
-        apply plugin: 'architectury-plugin'
-        apply plugin: 'dev.architectury.loom'
         apply plugin: 'me.modmuss50.mod-publish-plugin'
 
         stonecutter {
             swaps["Input"] = eval(current.version, '>=1.21.2')
                     ? 'ClientInput'
                     : 'Input'
-            replacements.string(current.parsed >= "1.17") {
-                replace("IForgeKeybinding", "IForgeKeyMapping")
-            }
-            replacements.string(current.parsed >= "1.21.11") {
-                replace("ResourceLocation", "Identifier")
+            replacements {
+                string(current.parsed >= "1.17") {
+                    replace("IForgeKeybinding", "IForgeKeyMapping")
+                }
+                string(current.parsed >= "1.21.11") {
+                    replace("ResourceLocation", "Identifier")
+                }
+                string(current.parsed >= "26") {
+                    replace("accessWidener v2 named", "accessWidener v2 official")
+                }
+                string(current.parsed >= "26") {
+                    replace("fabric-key-binding-api-v1", "fabric-key-mapping-api-v1")
+                    replace("net.fabricmc.fabric.api.client.keybinding", "net.fabricmc.fabric.api.client.keymapping")
+                    replace("KeyBindingHelper", "KeyMappingHelper")
+                    replace("registerKeyBinding", "registerKeyMapping")
+                }
             }
         }
 
@@ -94,26 +112,6 @@ subprojects {
         var modid = rootProject.id
 
         group = "$maven_group.$parent.name"
-
-        loom {
-            silentMojangMappingsLicense()
-
-            accessWidenerPath = project(":common").file("src/main/resources/${modid}.accesswidener")
-
-            runs {
-                remove server
-            }
-
-            runConfigs.all {
-                ideConfigGenerated = false
-                runDir "../../../run"
-            }
-        }
-
-        dependencies {
-            minecraft "net.minecraft:minecraft:${getOr("minecraft_version", stonecutter.current.project)}"
-            mappings loom.officialMojangMappings()
-        }
 
         java {
             withSourcesJar()

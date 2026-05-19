@@ -29,6 +29,11 @@ public class ConfigBool extends ConfigEntry<Boolean> {
     public void addTo(ConfigCategory category, ConfigEntryBuilder eb, String id) {
         // explicit cast to boolean required for cloth config 5.x (1.17)
         BooleanToggleBuilder b = eb.startBooleanToggle(InvMove.instance().translatableComponent(id), get()).setDefaultValue((boolean)getDefault()).setSaveConsumer(this::set);
+
+        // temp
+        //? if >=26
+        if (id.contains("debugDisplay")) b.setRequirement(() -> false);
+
         if (Language.getInstance().has("tooltip." + id)) {
             b.setTooltip(InvMove.instance().translatableComponent("tooltip." + id));
         }

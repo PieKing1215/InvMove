@@ -1,8 +1,6 @@
-plugins {
-    id 'com.gradleup.shadow'
-}
-
 apply plugin: "maven-publish"
+
+apply from: rootProject.file("subprojects.gradle")
 
 architectury {
     platformSetupLoomIde()
@@ -27,20 +25,25 @@ configurations {
 }
 
 dependencies {
-    modImplementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
+    implementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
 
     // Fabric API. This is technically optional, but you probably want it anyway.
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${get("fabric_api")}"
+    implementation "net.fabricmc.fabric-api:fabric-api:${get("fabric_api")}"
 
-    modImplementation "com.terraformersmc:modmenu:${get("modmenu_version")}"
+    implementation "com.terraformersmc:modmenu:${get("modmenu_version")}"
 
-    modImplementation("me.shedaniel.cloth:cloth-config-fabric:${get("cloth_version")}") {
+    implementation("me.shedaniel.cloth:cloth-config-fabric:${get("cloth_version")}") {
         exclude(group: "net.fabricmc")
         exclude(group: "net.fabricmc.fabric-api")
     }
 
-    common(project(path: ":common:$stonecutter.current.project", configuration: 'namedElements')) { transitive false }
-    shadowBundle project(path: ":common:$stonecutter.current.project", configuration: 'transformProductionFabric')
+    if (unobf) {
+        common(project(path: ":common:$stonecutter.current.project")) { transitive false }
+        shadowBundle project(path: ":common:$stonecutter.current.project", configuration: 'transformProductionFabric')
+    } else {
+        common(project(path: ":common:$stonecutter.current.project", configuration: 'namedElements')) { transitive false }
+        shadowBundle project(path: ":common:$stonecutter.current.project", configuration: 'transformProductionFabric')
+    }
 }
 
 processResources {
@@ -59,22 +62,40 @@ processResources {
             "cloth_id"        : stonecutter.eval(stonecutter.current.project, ">=1.18") ? "cloth-config" : "cloth-config2",
             "cloth_min"       : get("cloth_min"),
             "compat_min"      : rootProject.compat_min,
+            "binding"         : stonecutter.eval(stonecutter.current.version, '>=26') ? "mapping" : "binding",
     ]
 
     inputs.properties props
     filesMatching("fabric.mod.json") { expand props }
 }
 
-shadowJar {
-    configurations = [project.configurations.shadowBundle]
-    archiveClassifier = 'dev-shadow'
+if (unobf) {
+    jar {
+        archiveClassifier = "raw"
+    }
+
+    shadowJar {
+        dependsOn(jar)
+        mainSpec.sourcePaths.clear()       // Remove default source set inclusion
+        from(zipTree(jar.archiveFile))     // Unpack jar output (preserves Loom modifications)
+
+        configurations = [project.configurations.shadowBundle]
+        archiveClassifier = null           // shadowJar becomes the main artifact
+        from rootProject.file("LICENSE.md")
+    }
+} else {
+    shadowJar {
+        configurations = [project.configurations.shadowBundle]
+        archiveClassifier = 'dev-shadow'
+    }
+
+    remapJar {
+        input.set shadowJar.archiveFile
+        archiveClassifier = null
+        dependsOn(tasks.shadowJar)
+    }
 }
 
-remapJar {
-    input.set shadowJar.archiveFile
-    archiveClassifier = null
-    dependsOn(tasks.shadowJar)
-}
 
 publishing {
     publications {
