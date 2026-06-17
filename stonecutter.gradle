@@ -227,6 +227,7 @@ subprojects {
                         optional "invmovecompats"
 
                         if (parent.name == "fabric") {
+                            optional "fabric-api"
                             optional "modmenu"
                         }
                     }
@@ -252,6 +253,7 @@ subprojects {
                         optional "invmovecompats"
 
                         if (parent.name == "fabric") {
+                            optional "fabric-api"
                             optional "modmenu"
                         }
                     }

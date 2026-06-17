@@ -29,12 +29,14 @@
   ],
   "accessWidener" : "${id}.accesswidener",
   "depends": {
-    "fabric-key-${binding}-api-v1": "*",
     "fabricloader": "*",
     "minecraft": ">=${minecraft_min}",
     "${cloth_id}": ">=${cloth_min}"
   },
   "breaks": {
     "invmove_compat": "<${compat_min}"
+  },
+  "recommends": {
+    "fabric-key-${binding}-api-v1": "*"
   }
 }

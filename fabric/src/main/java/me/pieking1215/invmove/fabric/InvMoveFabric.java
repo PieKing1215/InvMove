@@ -2,7 +2,6 @@ package me.pieking1215.invmove.fabric;
 
 import me.pieking1215.invmove.InvMove;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.client.KeyMapping;
@@ -46,7 +45,10 @@ public class InvMoveFabric implements ClientModInitializer {
 
             @Override
             protected void registerKeybind(KeyMapping key) {
-                KeyMappingHelper.registerKeyMapping(key);
+                if (FabricLoader.getInstance().isModLoaded("fabric-key-mapping-api-v1")) {
+                    // (doing this instead of import doesn't actually change anything, the class only loads when this line runs)
+                    net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper.registerKeyMapping(key);
+                }
             }
         });
 
