@@ -24,7 +24,9 @@ import net.minecraft.client.player./*$ Input {*/ClientInput/*$}*/;
 import net.minecraft.world.entity.player.Input;
 
 import net.minecraft.client.player.KeyboardInput;
-import net.minecraft.client.renderer.MultiBufferSource;
+// temp
+//? if <26
+//import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 
@@ -138,6 +140,13 @@ public abstract class InvMove {
         return Identifier.parse(path);
         //?} else
         /*return new Identifier(path);*/
+    }
+
+    public static Screen screen() {
+        //? if >=26.2 {
+        return Minecraft.getInstance().gui.screen();
+        //?} else
+        //return Minecraft.getInstance().screen;
     }
 
     // implementation
@@ -257,15 +266,15 @@ public abstract class InvMove {
             return;
         }
 
-        if(Minecraft.getInstance().screen == null) {
+        if(InvMove.screen() == null) {
             //? if >=1.21.2 {
             wasSneaking = input.keyPresses.shift();
             //?} else
             /*wasSneaking = input.shiftKeyDown;*/
         }
 
-        boolean canMove = allowMovementInScreen(Minecraft.getInstance().screen);
-        canMove = handleToggleMovementKey(Minecraft.getInstance().screen, canMove);
+        boolean canMove = allowMovementInScreen(InvMove.screen());
+        canMove = handleToggleMovementKey(InvMove.screen(), canMove);
 
         if(canMove){
             wasMovementDisallowed = false;
@@ -307,7 +316,7 @@ public abstract class InvMove {
             /*inputTickRaw(input, sneaking);
             *///?}
 
-        }else if(Minecraft.getInstance().screen != null){
+        }else if(InvMove.screen() != null){
             // we are in a screen that we can't move in
 
             // this used to be KeyMapping.releaseAll() but it caused issues with other mods (ItemSwapper + Amecs)

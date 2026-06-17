@@ -29,7 +29,7 @@ static def getEnabledPlatforms(file) {
 fileTree(dir: file('versions'), include: '**/gradle.properties').each { propFile ->
     def version = propFile.parentFile.name
     // temp
-    if (version != "26.1")
+    if (version != "26.1.2" && version != "26.2")
         return
     def platforms = getEnabledPlatforms(propFile)
 
@@ -44,8 +44,8 @@ fileTree(dir: file('versions'), include: '**/gradle.properties').each { propFile
 
 stonecutter {
     create(rootProject) {
-        versions "26.1" // temp
-        vcsVersion = "26.1"
+        versions "26.1.2", "26.2" // temp
+        vcsVersion = "26.2"
 
         platformVersionMap.each { platform, versions ->
             branch(platform, b -> {

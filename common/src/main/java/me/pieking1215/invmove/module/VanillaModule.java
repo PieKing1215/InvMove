@@ -36,7 +36,8 @@ public class VanillaModule extends ModuleImpl {
         super();
         register(
             DeathScreen.class,
-            ShareToLanScreen.class,
+            //? if <26.2
+            //ShareToLanScreen.class,
             StatsScreen.class,
             WinScreen.class,
             ProgressScreen.class,

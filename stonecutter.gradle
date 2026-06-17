@@ -15,7 +15,7 @@ plugins {
     id 'me.modmuss50.mod-publish-plugin' version '0.7.4'
 }
 
-stonecutter.active "26.1" /* [SC] DO NOT EDIT */
+stonecutter.active "26.2" /* [SC] DO NOT EDIT */
 
 publishMods {
     changelog = providers.environmentVariable("RELEASE_CHANGELOG").orElse("TEST")

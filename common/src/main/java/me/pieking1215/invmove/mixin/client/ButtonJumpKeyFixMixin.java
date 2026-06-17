@@ -25,7 +25,7 @@ public class ButtonJumpKeyFixMixin {
         if (event.isSelection() && Minecraft.getInstance().options.keyJump.matches(event) && InvMoveConfig.GENERAL.ENABLED.get() && InvMoveConfig.MOVEMENT.ENABLED.get() && InvMoveConfig.MOVEMENT.JUMP.get()) {
             // TODO: consider doing this a better way
             if(!((AbstractButton)(Object)this instanceof MerchantScreen.TradeOfferButton)) {
-                if (InvMove.instance().allowMovementInScreen(Minecraft.getInstance().screen)) {
+                if (InvMove.instance().allowMovementInScreen(InvMove.screen())) {
                     cir.setReturnValue(false);
                 }
             }
