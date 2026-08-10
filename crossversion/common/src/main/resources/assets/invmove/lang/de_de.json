@@ -1,0 +1,46 @@
+{
+  "config.invmove.title": "InvMove Konfiguration",
+  "key.invmove.category.general": "Allgemein",
+  "key.invmove.category.movement": "UI-Bewegung",
+  "key.invmove.category.background": "UI-Hintergrund",
+
+  "config.invmove.general.enable": "Mod aktivieren",
+  "tooltip.config.invmove.general.enable": "Aktiviere die gesamten Mod",
+  "config.invmove.general.debugDisplay": "Debug-Ansicht",
+  "tooltip.config.invmove.general.debugDisplay": "Aktiviere die Debug-Ansicht.",
+
+  "config.invmove.movement.enable": "Bewegung innerhalb vom Inventar",
+  "tooltip.config.invmove.movement.enable": "Aktiviere die Bewegung innerhalb von Inventaren.\nDu kannst bestimmte Inventare unten manuell ausschalten.\nEs gibt eine Tastenbelegung, die du einstellen kannst, um dies zu ändern.",
+  "config.invmove.movement.sneak": "Schleich-Modus",
+  "tooltip.config.invmove.movement.sneak": "Wie wird das Schleichen in Inventaren gehandhabt:\nAus = Kein Schleichen\nBehalten = Schleichen wie beim Öffnen des Inventars beibehalten\nGedrückt = Schleichen nur bei gedrückter Schleichtaste\n(Gedrückt kann beim Umschalt-Klicken stören)\n(Bei Umschalt-Schleichen erlaubt Gedrückt das Umschalten und beide anderen Modi bleiben erhalten)",
+  "config.invmove.movement.jump": "Springen erlauben",
+  "tooltip.config.invmove.movement.jump": "Erlaubt das Springen innerhalb des Inventars.",
+  "config.invmove.movement.dismount": "Absteigen erlauben",
+  "tooltip.config.invmove.movement.dismount": "Erlaubt das Absteigen innerhalb des Inventars.",
+  "config.invmove.movement.textFieldDisables": "Textfeld deaktiviert die Bewegung",
+  "tooltip.config.invmove.movement.textFieldDisables": "Deaktiviert die Bewegung im Inventar, wenn ein Textfeld fokussiert ist.",
+  "config.invmove.movement.unrecognizedScreenDefault": "Unbekannte Benutzeroberflächen Standard",
+  "tooltip.config.invmove.movement.unrecognizedScreenDefault": "Standardstatus für neue, nicht erkannte Benutzeroberflächen.",
+
+  "config.invmove.background.enable": "Inventar-Hintergründe ausblenden",
+  "tooltip.config.invmove.background.enable": "Blendet die Hintergrundfärbung innerhalb von Inventaren aus.\nBestimmte Inventare können unten manuell deaktiviert werden.",
+  "config.invmove.background.hideOnPause": "Pause Bildschirme Hintergrund",
+  "tooltip.config.invmove.background.hideOnPause": "Umgang mit Benutzeroberflächen, die das Spiel pausieren:\nZeigen = Hintergrund immer anzeigen\nZeigenSP = Hintergrund im Einzelspielermodus anzeigen, sonst ausblenden\nErlaube-Verstecken = Ausblenden des Hintergrunds zulassen",
+  "config.invmove.background.unrecognizedScreenDefault": "Unbekannte Benutzeroberflächen Standard",
+  "tooltip.config.invmove.background.unrecognizedScreenDefault": "Standardstatus für neue, nicht erkannte Benutzeroberflächen.",
+
+  "key.invmove.module.nooptions": "Dieses Modul hat keine Optionen.",
+
+  "key.invmove.unrecognized": "Nicht erkannte UI-Typen",
+  "key.invmove.unrecognized.desc": "Nicht erkannte GUI's werden hier angezeigt, sobald mit ihnen interagiert wurde.",
+
+  "keycategory.invmove": "InvMove",
+  "keybind.invmove.toggleMove": "UI-Bewegung ein-/ausschalten",
+
+  "key.invmove.module.vanilla": "Vanilla",
+
+  "config.invmove.vanilla.movement.horseInventory": "Pferde-Inventar",
+  "config.invmove.vanilla.backgroundHide.horseInventory": "Pferde-Inventar",
+  "tooltip.gui.advancements": "Dieses Menü ist ein Pausenbildschirm, so dass diese Option möglicherweise außer Kraft gesetzt wird.",
+  "tooltip.item.minecraft.book": "Dieses Menü ist ein Pausenbildschirm, so dass diese Option möglicherweise außer Kraft gesetzt wird."
+}
