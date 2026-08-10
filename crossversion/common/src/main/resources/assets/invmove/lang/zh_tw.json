@@ -1,0 +1,46 @@
+{
+  "config.invmove.title": "InvMove 設定",
+  "key.invmove.category.general": "一般",
+  "key.invmove.category.movement": "介面移動",
+  "key.invmove.category.background": "介面背景",
+
+  "config.invmove.general.enable": "啟用模組",
+  "tooltip.config.invmove.general.enable": "啟用整個模組",
+  "config.invmove.general.debugDisplay": "除錯顯示",
+  "tooltip.config.invmove.general.debugDisplay": "啟用除錯顯示。",
+
+  "config.invmove.movement.enable": "在物品欄中移動",
+  "tooltip.config.invmove.movement.enable": "啟用在物品欄中移動的功能。\n您可以在下方手動關閉某些物品欄。\n您可以設定一個按鍵綁定來切換此功能。",
+  "config.invmove.movement.sneak": "潛行模式",
+  "tooltip.config.invmove.movement.sneak": "如何在物品欄中處理潛行：\n關閉 = 不潛行\n維持 = 如果您在開啟物品欄時正在潛行，則保持潛行\n按下 = 僅在按住潛行按鈕時潛行\n（按下時可能會在 Shift 點擊時造成干擾）\n（如果使用切換潛行，按下允許切換，其他兩種模式則維持）",
+  "config.invmove.movement.jump": "允許跳躍",
+  "tooltip.config.invmove.movement.jump": "允許在物品欄中跳躍。",
+  "config.invmove.movement.dismount": "允許卸下",
+  "tooltip.config.invmove.movement.dismount": "允許在物品欄中卸下。",
+  "config.invmove.movement.textFieldDisables": "文字欄位停用移動",
+  "tooltip.config.invmove.movement.textFieldDisables": "當文字欄位獲得焦點時，停用物品欄中的移動。",
+  "config.invmove.movement.unrecognizedScreenDefault": "未辨識畫面的預設值",
+  "tooltip.config.invmove.movement.unrecognizedScreenDefault": "新的未辨識介面的預設狀態。",
+
+  "config.invmove.background.enable": "隱藏物品欄背景",
+  "tooltip.config.invmove.background.enable": "隱藏在物品欄中的背景色調。\n您可以在下方手動關閉某些物品欄。",
+  "config.invmove.background.hideOnPause": "暫停畫面背景",
+  "tooltip.config.invmove.background.hideOnPause": "如何處理暫停遊戲的畫面：\n顯示 = 永遠顯示背景\n顯示單人 = 在單人遊戲中顯示背景，否則允許隱藏\n允許隱藏 = 允許隱藏背景",
+  "config.invmove.background.unrecognizedScreenDefault": "未辨識畫面的預設值",
+  "tooltip.config.invmove.background.unrecognizedScreenDefault": "新的未辨識介面的預設狀態。",
+
+  "key.invmove.module.nooptions": "此模組沒有任何選項。",
+
+  "key.invmove.unrecognized": "未辨識的介面類型",
+  "key.invmove.unrecognized.desc": "未辨識的介面在互動後會顯示在這裡。",
+
+  "keycategory.invmove": "InvMove",
+  "keybind.invmove.toggleMove": "切換介面移動",
+
+  "key.invmove.module.vanilla": "原版",
+
+  "config.invmove.vanilla.movement.horseInventory": "馬的物品欄",
+  "config.invmove.vanilla.backgroundHide.horseInventory": "馬的物品欄",
+  "tooltip.gui.advancements": "此選單是一個暫停畫面，因此此選項可能會被覆寫。",
+  "tooltip.item.minecraft.book": "此選單是一個暫停畫面，因此此選項可能會被覆寫。"
+}
