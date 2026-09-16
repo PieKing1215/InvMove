@@ -22,7 +22,7 @@ public class ButtonJumpKeyFixMixin {
         // if button received space key it normally clicks the button
         // but if the player can jump in this inventory we cancel that
         // (fix for https://github.com/PieKing1215/InvMove/issues/2)
-        if (event.isSelection() && Minecraft.getInstance().options.keyJump.matches(event) && InvMoveConfig.GENERAL.ENABLED.get() && InvMoveConfig.MOVEMENT.ENABLED.get() && InvMoveConfig.MOVEMENT.JUMP.get()) {
+        if (event.isSelection() && InvMoveConfig.GENERAL.ENABLED.get() && InvMoveConfig.MOVEMENT.ENABLED.get() && Minecraft.getInstance().options.keyJump.matches(event) && InvMove.instance().allowKey(Minecraft.getInstance().options.keyJump)) {
             // TODO: consider doing this a better way
             if(!((AbstractButton)(Object)this instanceof MerchantScreen.TradeOfferButton)) {
                 if (InvMove.instance().allowMovementInScreen(InvMove.screen())) {
@@ -41,7 +41,7 @@ public class ButtonJumpKeyFixMixin {
         // if button received space key it normally clicks the button
         // but if the player can jump in this inventory we cancel that
         // (fix for https://github.com/PieKing1215/InvMove/issues/2)
-        if (i == 32 && InvMoveConfig.GENERAL.ENABLED.get() && InvMoveConfig.MOVEMENT.ENABLED.get() && InvMoveConfig.MOVEMENT.JUMP.get()) {
+        if (i == 32 && InvMoveConfig.GENERAL.ENABLED.get() && InvMoveConfig.MOVEMENT.ENABLED.get() && Minecraft.getInstance().options.keyJump.matches(event) && InvMove.instance().allowKey(Minecraft.getInstance().options.keyJump)) {
             // TODO: consider doing this a better way
             if(!((AbstractButton)(Object)this instanceof MerchantScreen.TradeOfferButton)) {
                 if (InvMove.instance().allowMovementInScreen(Minecraft.getInstance().screen)) {

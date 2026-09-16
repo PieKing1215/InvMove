@@ -15,6 +15,7 @@ import java.util.function.Function;
 public class ConfigBool extends ConfigEntry<Boolean> {
 
     Function<Boolean, Component> textFn = null;
+    boolean hidden = false;
 
     public ConfigBool(boolean defaultVal) {
         super(defaultVal);
@@ -25,12 +26,20 @@ public class ConfigBool extends ConfigEntry<Boolean> {
         return this;
     }
 
+    public ConfigBool hide() {
+        this.hidden = true;
+        return this;
+    }
+
     @Override
     public void addTo(ConfigCategory category, ConfigEntryBuilder eb, String id) {
+        if (hidden)
+            return;
+
         // explicit cast to boolean required for cloth config 5.x (1.17)
         BooleanToggleBuilder b = eb.startBooleanToggle(InvMove.instance().translatableComponent(id), get()).setDefaultValue((boolean)getDefault()).setSaveConsumer(this::set);
 
-        // temp
+        // TODO: temp
         //? if >=26
         if (id.contains("debugDisplay")) b.setRequirement(() -> false);
 

@@ -22,7 +22,7 @@ public abstract class ConfigEntry<T> {
         this.value = v;
     }
 
-    T getDefault() {
+    public T getDefault() {
         return defaultValue;
     }
 

@@ -50,7 +50,8 @@ public class InvMoveConfig {
 
         public final ConfigBool ENABLED = cfg.bool("enable", true);
 
-        public final ConfigBool JUMP = cfg.bool("jump", true);
+        @Deprecated
+        public final ConfigBool JUMP = cfg.bool("jump", true).hide();
 
         public enum SneakMode {
             Off, Maintain, Pressed, MaintainWhilePressed
@@ -425,6 +426,14 @@ public class InvMoveConfig {
                 for (Map.Entry<String, JsonElement> entry : allowedKeys.entrySet()) {
                     MOVEMENT.allowedKeys.put(entry.getKey(), entry.getValue().getAsBoolean());
                 }
+            }
+
+            // migrate old "Allow Jumping" setting (that didn't work) to general Allow Keys system
+            if (!MOVEMENT.allowedKeys.containsKey("key.jump") && MOVEMENT.JUMP.get() != MOVEMENT.JUMP.getDefault())
+            {
+                MOVEMENT.allowedKeys.put("key.jump", MOVEMENT.JUMP.get());
+                // reset old jump to default so it doesn't reapply every launch
+                MOVEMENT.JUMP.set(MOVEMENT.JUMP.getDefault());
             }
         }
     }
