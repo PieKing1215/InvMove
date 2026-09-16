@@ -17,6 +17,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import org.spongepowered.asm.mixin.throwables.ClassMetadataNotFoundException;
 
 import java.io.File;
 import java.io.FileReader;
@@ -506,7 +507,7 @@ public class InvMoveConfig {
                                 //noinspection unchecked
                                 hm.putIfAbsent((Class<? extends Screen>) cl, entry.getValue().getAsBoolean());
                             }
-                        } catch (ClassNotFoundException | NoClassDefFoundError ignored) {}
+                        } catch (ClassNotFoundException | NoClassDefFoundError | ClassMetadataNotFoundException ignored) {}
                     }
                 }
             }
@@ -527,7 +528,7 @@ public class InvMoveConfig {
                                 //noinspection unchecked
                                 hm.putIfAbsent((Class<? extends Screen>) cl, entry.getValue().getAsBoolean());
                             }
-                        } catch (ClassNotFoundException | NoClassDefFoundError ignored) {}
+                        } catch (ClassNotFoundException | NoClassDefFoundError | ClassMetadataNotFoundException ignored) {}
                     }
                 }
             }
