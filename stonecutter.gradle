@@ -15,7 +15,7 @@ plugins {
     id 'me.modmuss50.mod-publish-plugin' version '0.7.4'
 }
 
-stonecutter.active "26.2" /* [SC] DO NOT EDIT */
+stonecutter.active "26.3" /* [SC] DO NOT EDIT */
 
 publishMods {
     changelog = providers.environmentVariable("RELEASE_CHANGELOG").orElse("TEST")
@@ -89,6 +89,9 @@ subprojects {
                     replace("net.fabricmc.fabric.api.client.keybinding", "net.fabricmc.fabric.api.client.keymapping")
                     replace("KeyBindingHelper", "KeyMappingHelper")
                     replace("registerKeyBinding", "registerKeyMapping")
+                }
+                string(current.parsed >= "26.3") {
+                    replace("InputConstants.Type.KEYSYM", "InputConstants.Type.KEYBOARD")
                 }
             }
         }

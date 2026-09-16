@@ -35,7 +35,7 @@ public class InvMoveMixinPlugin implements IMixinConfigPlugin {
         //? if >=1.21.2 {
         return List.of("client.AbstractRecipeBookScreenAccessor");
         //?} else
-        /*return null;*/
+        //return null;
     }
 
     @Override

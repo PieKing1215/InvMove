@@ -9,7 +9,8 @@ version = "${version}"
 displayName = "${name}"
 authors = "${author}"
 description = "${description}"
-logoFile = "icon.png"
+iconFile = "icon.png"
+logoFile = "icon.png" # ignored in 26.3+
 displayTest="IGNORE_ALL_VERSION"
 
 [[dependencies.${id}]]

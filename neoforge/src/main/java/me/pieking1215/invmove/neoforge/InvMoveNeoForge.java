@@ -17,7 +17,7 @@ public class InvMoveNeoForge {
         //? if >=1.21.9 {
         if (FMLEnvironment.getDist().isClient()) {
         //?} else
-        /*if (FMLEnvironment.dist.isClient()) {*/
+        //if (FMLEnvironment.dist.isClient()) {
             InvMoveNeoForgeClient.finishInit();
         }
     }

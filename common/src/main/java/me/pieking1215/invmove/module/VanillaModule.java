@@ -43,7 +43,7 @@ public class VanillaModule extends ModuleImpl {
             ProgressScreen.class,
             LevelLoadingScreen.class,
             //? if <1.21.9
-            /*ReceivingLevelScreen.class,*/
+            //ReceivingLevelScreen.class,
             //? if >=1.20.5 {
             GenericMessageScreen.class,
             //?} else
@@ -107,12 +107,12 @@ public class VanillaModule extends ModuleImpl {
             //? if >=1.21.2 {
             if (screen instanceof AbstractRecipeBookScreen<?>) {
                 //?} else
-                /*if (screen instanceof RecipeUpdateListener) {*/
+                //if (screen instanceof RecipeUpdateListener) {
                 try {
                     //? if >=1.21.2 {
                     RecipeBookComponent<?> cmp = ((AbstractRecipeBookScreenAccessor) screen).invmove$getRecipeBookComponent();
                     //?} else
-                    /*RecipeBookComponent cmp = ((RecipeUpdateListener) screen).getRecipeBookComponent();*/
+                    //RecipeBookComponent cmp = ((RecipeUpdateListener) screen).getRecipeBookComponent();
                     if (cmp.isVisible())
                         return Movement.SUGGEST_DISABLE;
                 } catch (Exception e) {
@@ -143,12 +143,12 @@ public class VanillaModule extends ModuleImpl {
             //? if >=1.21.2 {
             if (screen instanceof AbstractRecipeBookScreen<?>) {
             //?} else
-            /*if (screen instanceof RecipeUpdateListener) {*/
+            //if (screen instanceof RecipeUpdateListener) {
                 try {
                     //? if >=1.21.2 {
                     RecipeBookComponent<?> cmp = ((AbstractRecipeBookScreenAccessor) screen).invmove$getRecipeBookComponent();
                     //?} else
-                    /*RecipeBookComponent cmp = ((RecipeUpdateListener) screen).getRecipeBookComponent();*/
+                    //RecipeBookComponent cmp = ((RecipeUpdateListener) screen).getRecipeBookComponent();
                     EditBox searchBar = ((RecipeBookComponentAccessor)cmp).getSearchBox();
                     if (searchBar != null && searchBar.isVisible() && searchBar.active && searchBar.canConsumeInput())
                         return Movement.SUGGEST_DISABLE;

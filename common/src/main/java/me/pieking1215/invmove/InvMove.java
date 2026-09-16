@@ -67,12 +67,12 @@ public abstract class InvMove {
 
     private static final KeyMapping TOGGLE_MOVEMENT_KEY = new KeyMapping(
             "keybind.invmove.toggleMove",
-            InputConstants.Type.KEYSYM,
+            InputConstants.Type.KEYBOARD,
             InputConstants.UNKNOWN.getValue(),
             //? if >=1.21.9 {
             KEYBINDING_CATEGORY
             //?} else
-            /*"key.category.invmove.main"*/
+            //"key.category.invmove.main"
     );
 
     private static final List<Module> addonModules = new ArrayList<>();
@@ -191,10 +191,11 @@ public abstract class InvMove {
 
         // .key here is accessWidened
         TOGGLE_MOVEMENT_KEY.setDown(InputConstants.isKeyDown(
-                //? if >=1.21.9 {
-                Minecraft.getInstance().getWindow(),
-                //?} else
-                /*Minecraft.getInstance().getWindow().getWindow(),*/
+                //? if >=26.3 {
+                //?} else if >=1.21.9 {
+                /*Minecraft.getInstance().getWindow(),
+                *///?} else
+                //Minecraft.getInstance().getWindow().getWindow(),
                 TOGGLE_MOVEMENT_KEY.key.getValue()));
         boolean before = wasToggleMovementPressed;
         wasToggleMovementPressed = TOGGLE_MOVEMENT_KEY.isDown;
@@ -270,7 +271,7 @@ public abstract class InvMove {
             //? if >=1.21.2 {
             wasSneaking = input.keyPresses.shift();
             //?} else
-            /*wasSneaking = input.shiftKeyDown;*/
+            //wasSneaking = input.shiftKeyDown;
         }
 
         boolean canMove = allowMovementInScreen(InvMove.screen());
@@ -359,7 +360,7 @@ public abstract class InvMove {
                             sneakKey,
                             input.keyPresses.sprint());
                     //?} else
-                    /*input.shiftKeyDown = sneakKey;*/
+                    //input.shiftKeyDown = sneakKey;
                 }
             }
         } else {
@@ -380,13 +381,14 @@ public abstract class InvMove {
     }
 
     private void tickKeybind(KeyMapping k) {
-        if (k.key.getType() == InputConstants.Type.KEYSYM && k.key.getValue() != InputConstants.UNKNOWN.getValue()) {
+        if (k.key.getType() == InputConstants.Type.KEYBOARD && k.key.getValue() != InputConstants.UNKNOWN.getValue()) {
 
             boolean raw = InputConstants.isKeyDown(
-                    //? if >=1.21.9 {
-                    Minecraft.getInstance().getWindow(),
-                    //?} else
-                    /*Minecraft.getInstance().getWindow().getWindow(),*/
+                    //? if >=26.3 {
+                    //?} else if >=1.21.9 {
+                    /*Minecraft.getInstance().getWindow(),
+                    *///?} else
+                    //Minecraft.getInstance().getWindow().getWindow(),
                     k.key.getValue());
 
             // if is a toggle key in toggle mode
